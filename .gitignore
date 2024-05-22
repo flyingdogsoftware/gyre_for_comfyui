@@ -1,0 +1,5 @@
+/node_modules/
+/public/build/
+/gyre/
+.DS_Store
+*.pyc

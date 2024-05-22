@@ -1,0 +1,31 @@
+{
+    "default": {
+        "elements": [
+            {
+                "name": "number_images",
+                "type": "slider",
+                "label": "Number images",
+                "options": [],
+                "default": 1,
+                "min": 1,
+                "max": 4,
+                "step": 1
+            },
+            {
+                "name": "advanced_options",
+                "type": "advanced_options",
+                "label": "",
+                "options": [],
+                "default": ""
+            },
+            {
+                "name": "seed",
+                "type": "text",
+                "label": "Seed",
+                "options": [],
+                "default": "",
+                "placeholder": "Empty = Random"
+            }
+        ]
+    }
+}

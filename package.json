@@ -1,0 +1,27 @@
+{
+  "name": "svelte-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npm run copy:styles && rollup -c",
+    "dev": "npm run copy:styles && rollup -c -w",
+    "start": "sirv public --no-clear",
+    "copy:styles1": "powershell -command \"md -Force dist/build\" && powershell -command \"copy src/gyrestyles.css dist/build\"",
+    "copy:styles": "mkdir -p public/dist/build && mkdir -p dist/build && cp src/gyrestyles.css dist/build && cp src/gyrestyles.css public/dist/build"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "rollup": "^3.15.0",
+    "rollup-plugin-css-only": "^4.3.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.1.2",
+    "svelte": "^3.55.0"
+  },
+  "dependencies": {
+    "sirv-cli": "^2.0.0"
+  }
+}

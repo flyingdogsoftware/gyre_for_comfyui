@@ -1,0 +1,127 @@
+[
+    {
+        "name": "text",
+        "type": "text",
+        "label": "Text",
+        "default": "",
+        "placeholder": "one line text"
+    },
+    {
+        "name": "color",
+        "type": "color_picker",
+        "label": "Color",
+        "default": "",
+        "placeholder": "Select Color"
+    },    
+    {
+        "name": "textarea",
+        "type": "textarea",
+        "label": "Textarea",
+        "default": "",
+        "placeholder": "multiple line text input"
+    },
+    {
+        "name": "checkbox",
+        "type": "checkbox",
+        "label": "Checkbox Switch",
+        "default": false
+    },
+    {
+        "name": "dropdown",
+        "type": "dropdown",
+        "label": "Dropdown",
+        "options": [
+            {
+                "text": "Option 1",
+                "key": "1"
+            }
+        ],
+        "default": ""
+    },
+    {
+        "name": "model",
+        "type": "pre_filled_dropdown",
+        "label": "Model",
+        "default": ""
+    },
+    {
+        "name": "slider",
+        "type": "slider",
+        "label": "Slider",
+        "options": [],
+        "default": 1,
+        "min": 1,
+        "max": 20,
+        "step": 1
+    },
+    {
+        "name": "number",
+        "type": "number",
+        "label": "Number",
+        "options": [],
+        "default": 1,
+        "min": 1,
+        "max": 20,
+        "step": 1
+    },
+    {
+        "name": "my_layer",
+        "type": "layer_image"
+    },  
+    {
+        "name": "currentLayer",
+        "type": "layer_image",
+        "menu_type": "currentLayer"
+    },
+    {
+        "name": "dropLayer",
+        "label": "Drop Layer",
+        "num_layers": 1,
+        "type": "drop_layers",
+        "menu_type": "currentLayer"
+    },
+    {
+        "name": "preview",
+        "type": "checkbox",
+        "label": "Preview",
+        "default": "true",
+        "hidden": "true",
+        "menu_type": "Preview"
+
+    },
+    {
+        "name": "magnifier",
+        "type": "magnifier"
+    },    
+    {
+        "name": "newLayer",
+        "type": "checkbox",
+        "label": "New Layer",
+        "default": "true",
+        "hidden": "true",
+        "menu_type": "addLayer"
+    },
+    {
+        "name": "advanced_options",
+        "type": "advanced_options"
+    },
+    {
+        "name": "num_images",
+        "type": "slider",
+        "label": "Number Images",
+        "options": [],
+        "default": 1,
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "menu_type": "numberImages"
+    },
+    {
+        "name": "seed",
+        "type": "text",
+        "label": "Seed",
+        "default": "",
+        "placeholder": "Random if empty",
+        "menu_type": "Seed"
+    }    
+]
