@@ -533,11 +533,10 @@
         }
     }
     function duplicateWorkflow() {
-        debugger;
         name = 'Copy of '+name;
         $metadata.workflowid = (Math.random() + 1).toString(36).substring(2);
-        $metadata.tags = $metadata.tags.filter((el)=>el!='Defaultworkflow');
-        removeTag('Defaultworkflow');
+            $metadata.tags = $metadata.tags.filter((el) => el != 'Defaultworkflow');
+            removeTag('Defaultworkflow');
         duplicate = true;
         saveWorkflow();
     }
@@ -600,7 +599,7 @@
                 {:else}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <div on:click={(e) => {foldOut=true}} style="display:inline-block">{name}</div>
-                    {#if !$metadata.tags ||  ($metadata.tags && !$metadata.tags.includes('Defaultworkflow'))}
+                    {#if  !$metadata.tags ||  ($metadata.tags && !$metadata.tags.includes('Defaultworkflow'))}
                         <div style="display: inline-block" class="saveIcon">
                             <Icon name="save" on:click={(e) => {saveWorkflow()}} ></Icon>
                         </div>
