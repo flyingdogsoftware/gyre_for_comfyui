@@ -76,6 +76,10 @@ def get_my_debug_dir():
 def get_my_formdata_dir():
     return os.path.join(comfy_path, 'gyre_formdata')
 
+def get_my_deactivatedworkflows_dir():
+    return os.path.join(comfy_path, 'gyre_deactivatedworkflowslist')
+
+
 
 @server.PromptServer.instance.routes.post("/workspace/update_json_file")
 async def update_json_file(request):
@@ -147,6 +151,9 @@ async def readworkflowdir(request):
         path = get_my_debug_dir()
     elif  (type and type=='formdata'):
         path = get_my_formdata_dir()
+    elif  (type and type=='deactivatedworkflows'):
+        path = get_my_deactivatedworkflows_dir()
+
     elif  (type and type=='defaults'):
         path = get_my_default_workflows_dir()
     else:
@@ -163,8 +170,17 @@ async def readworkflowdir(request):
 @server.PromptServer.instance.routes.get("/workspace/readworkflowdir")
 async def readworkflowdir(request):
     path = get_my_workflows_dir()
+    pathdefault = get_my_default_workflows_dir()
+    deactivateddir = get_my_deactivatedworkflows_dir()
     fileList = folder_handle(path, [])
-    return web.Response(text=json.dumps(fileList), content_type='application/json')
+    fileListdefault = folder_handle(pathdefault, [])
+    deactivated = folder_handle(deactivateddir, [])
+
+    res = [fileList + fileListdefault + deactivated]
+    print(res)
+    return web.Response(text=json.dumps(res[0]), content_type='application/json')
+
+
 
 
 @server.PromptServer.instance.routes.post("/workspace/delete_workflow_file")
@@ -216,8 +232,12 @@ async def upload_log_json_file(request):
     if ('debugdir' in data): debug_dir = data['debugdir']
 
     def write_json_to_file(json_str,debug_dir):
+
         if debug_dir and debug_dir=='formdata':
             my_workflows_dir = get_my_formdata_dir()
+        elif debug_dir and debug_dir=='deactivatedworkflows':
+            my_workflows_dir = get_my_deactivatedworkflows_dir()
+
         elif debug_dir:
             my_workflows_dir = get_my_debug_dir()
         else:
@@ -404,6 +424,9 @@ def read_version_from_file(filename):
 
 
 
+
+
+
 def check_update_required():
         filename = 'version.pkl'
         # Send a GET request to the URL to get the content of package.json
@@ -429,5 +452,17 @@ def check_update_required():
                 print("Version property not found in package.json")
         else:
             print(f"Failed to fetch package.json. Status code: {response.status_code}")
+
+
+def write_json_to_file(json_str):
+        my_workflows_dir = get_my_workflows_dir()
+        full_path = os.path.join(my_workflows_dir, file_path)
+        # Create the directory if it doesn't exist
+        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+        with open(full_path, 'w', encoding='utf-8') as file:
+            file.write(json_str)
+
+
+
 
 download_and_extract_github_repo()

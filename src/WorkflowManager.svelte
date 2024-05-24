@@ -32,7 +32,9 @@
     let duplicate = false
     let debug=false
     let debugmode='errormode';
+    let actioniconclicked;
     let virtualNodes = [];
+    let deactivatedworkflows = [];
     function onMouseDown() {
         moving = true;
     }
@@ -122,6 +124,12 @@
         result = await scanLocalNewFiles('formdata');
         result = result.sort((a,b) => b.name.replace(/[^0-9]/g,"") - a.name.replace(/[^0-9]/g,""));
         workflowformList.set(result);
+
+        result = await scanLocalNewFiles('deactivatedworkflows');
+        console.log("result",result);
+        if(result.length){
+            deactivatedworkflows =  JSON.parse(result[0].json);
+        }
     }
 
 
@@ -135,9 +143,9 @@
         let result = await scanLocalNewFiles()
         let resultdefaults = await scanLocalNewFiles('defaults');
         resultdefaults = resultdefaults.map((el) => {
-                let jsn = JSON.parse(el.json);
-                jsn.extra.gyre.tags.push("Defaultworkflow");
-                el.json = JSON.stringify(jsn);
+            let jsn = JSON.parse(el.json);
+            jsn.extra.gyre.tags.push("Defaultworkflow");
+            el.json = JSON.stringify(jsn);
             let res = {defaultworkflow:true,...el}
             return res
         })
@@ -172,6 +180,28 @@
 
 
 
+
+    async function updateDeactivatedDefaultWorkflows() {
+        try {
+            const response = await fetch(`/workspace/upload_log_json_file`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    file_path: 'deactivatedworkflows.json',
+                    json_str: JSON.stringify(deactivatedworkflows),
+                    debugdir:'deactivatedworkflows'
+                }),
+            });
+        } catch (error) {
+            alert("Error saving workflow .json file: " + error);
+            console.error("Error saving workspace:", error);
+        }
+    }
+
+
+
     async function scanLocalNewFiles(type) {
         let existFlowIds = [];
         try {
@@ -188,7 +218,7 @@
             });
 
             let result = await response.json();
-            if(type!='logs' && type!='debugs' && type!='formdata') {
+            if(type!='logs' && type!='debugs' && type!='formdata' && type!='deactivatedworkflows') {
                 result = fixDatesFromServer(result);
                 if(type!='defaults'){
                     allworkflows = result;
@@ -233,9 +263,12 @@
     }
 
 
-    async function loadWorkflow(workflow) {
+    async function loadWorkflow(workflow,e) {
 
-
+      if(actioniconclicked){
+          actioniconclicked = false;
+          return;
+      }
         await loadList()
         if (!workflow) return
         if (!workflow.gyre) {
@@ -255,14 +288,18 @@
         let current = allworkflows.find((el) => {
             return el.name == workflow.name;
         })
-        debugger;
-        if(workflow.defaultworkflow && !globalThis.developerMode){
+
+        /*
+        if(workflow.defaultworkflow){
             $metadata.tags = $metadata.tags.filter((el)=>el!='Defaultworkflow');
             removeTag('Defaultworkflow');
             duplicateWorkflow();
+            debugger;
+            current
             state="properties"
             return;
         }
+        */
 
         if (state=="errorlogs"){
 
@@ -496,8 +533,11 @@
         }
     }
     function duplicateWorkflow() {
+        debugger;
         name = 'Copy of '+name;
         $metadata.workflowid = (Math.random() + 1).toString(36).substring(2);
+        $metadata.tags = $metadata.tags.filter((el)=>el!='Defaultworkflow');
+        removeTag('Defaultworkflow');
         duplicate = true;
         saveWorkflow();
     }
@@ -530,6 +570,19 @@
         let elem = $workflowformList.find((el)=>{return el.name=='formdata_'+element.name});
         download(elem.json);
     }
+    async function changeActiveDeafaultWorkflow(element,type){
+        console.log("element",element);
+        actioniconclicked = true;
+        if(type=='deactivate'){
+            deactivatedworkflows.push(element.gyre.workflowid);
+        } else {
+            deactivatedworkflows = deactivatedworkflows.filter((el)=>el!=element.gyre.workflowid);
+        }
+        await updateDeactivatedDefaultWorkflows();
+        $workflowList = $workflowList;
+    }
+
+
 
 </script>
 
@@ -547,9 +600,11 @@
                 {:else}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <div on:click={(e) => {foldOut=true}} style="display:inline-block">{name}</div>
-                    <div style="display: inline-block" class="saveIcon">
-                        <Icon name="save" on:click={(e) => {saveWorkflow()}} ></Icon>                
-                    </div>
+                    {#if !$metadata.tags ||  ($metadata.tags && !$metadata.tags.includes('Defaultworkflow'))}
+                        <div style="display: inline-block" class="saveIcon">
+                            <Icon name="save" on:click={(e) => {saveWorkflow()}} ></Icon>
+                        </div>
+                    {/if}
                 {/if}
             </div>
 
@@ -658,7 +713,7 @@
                     {#each $workflowList as workflow}
                         {#if isVisible(workflow)}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div style="position: relative" class="workflowEntry" on:click={loadWorkflow(workflow)}>
+                            <div style="position: relative" class="workflowEntry" on:click={(e)=>{loadWorkflow(workflow,e)}}>
                                 {workflow.name}
                                 <div class="last_changed">{workflow.lastModifiedReadable}</div>
                                 <div class="tags">
@@ -668,11 +723,29 @@
                                         {/each}
                                     {/if}
                                 </div>
-                                {#if !workflow.defaultworkflow || globalThis.developerMode}
+                                {#if !workflow.defaultworkflow}
                                     <div  class="deleteicon">
                                         <Icon name="delete" on:click={(e)=>{deleteWorkflow(workflow)}}></Icon>
                                     </div>
                                 {/if}
+
+                                {#if workflow.defaultworkflow}
+
+                                    {#if deactivatedworkflows.includes(workflow.gyre.workflowid)}
+                                        <div  class="deleteicon">
+                                            <Icon name="activateback" on:click={async (e) => {await changeActiveDeafaultWorkflow(workflow,"activate")}} ></Icon>
+                                        </div>
+                                        
+                                        {:else}
+                                        <div  class="deleteicon">
+                                            <Icon name="deactivated" on:click= {async (e) => {await changeActiveDeafaultWorkflow(workflow,"deactivate")}} ></Icon>
+                                        </div>
+
+                                    {/if}
+                                {/if}
+
+
+
                             </div>
                         {/if}
                     {/each}
