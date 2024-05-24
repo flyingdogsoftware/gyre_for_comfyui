@@ -64,7 +64,7 @@ def get_my_workflows_dir():
     return os.path.join(comfy_path, 'gyre_workflows')
 
 def get_my_default_workflows_dir():
-    return os.path.join(comfy_path, 'gyre_default_workflows')
+    return os.path.join(workspace_path, 'gyre_default_workflows')
 
 
 def get_my_log_dir():
@@ -175,9 +175,7 @@ async def readworkflowdir(request):
     fileList = folder_handle(path, [])
     fileListdefault = folder_handle(pathdefault, [])
     deactivated = folder_handle(deactivateddir, [])
-
     res = [fileList + fileListdefault + deactivated]
-    print(res)
     return web.Response(text=json.dumps(res[0]), content_type='application/json')
 
 
