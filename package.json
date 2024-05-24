@@ -5,6 +5,8 @@
   "scripts": {
     "build": "npm run copy:styles && rollup -c",
     "dev": "npm run copy:styles && rollup -c -w",
+    "buildl": "npm run copy:styles1 && rollup -c",
+    "devl": "npm run copy:styles1 && rollup -c -w",
     "start": "sirv public --no-clear",
     "copy:styles": "powershell -command \"md -Force dist/build\" && powershell -command \"copy src/gyrestyles.css dist/build\"",
     "copy:styles1": "mkdir -p public/dist/build && mkdir -p dist/build && cp src/gyrestyles.css dist/build && cp src/gyrestyles.css public/dist/build"
