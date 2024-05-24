@@ -21,7 +21,7 @@
     let foldOut = false
     let name = ""   // current loaded workflow name
     let state = "list"
-    let tags = ["Txt2Image", "Inpainting", "ControlNet", "LayerMenu", "Deactivated","Img2Img","Defaultworkflow"]
+    let tags = ["Txt2Image", "Inpainting", "ControlNet", "LayerMenu", "Deactivated","Img2Img","Default"]
     let workflowList = writable([])    // todo:load all workflow basic data (name, last changed and gyre object) from server via server request
     let workflowapiList= writable([]);
     let workflowdebugList= writable([]);
@@ -144,7 +144,7 @@
         let resultdefaults = await scanLocalNewFiles('defaults');
         resultdefaults = resultdefaults.map((el) => {
             let jsn = JSON.parse(el.json);
-            jsn.extra.gyre.tags.push("Defaultworkflow");
+            jsn.extra.gyre.tags.push("Default");
             el.json = JSON.stringify(jsn);
             let res = {defaultworkflow:true,...el}
             return res
@@ -535,8 +535,8 @@
     function duplicateWorkflow() {
         name = 'Copy of '+name;
         $metadata.workflowid = (Math.random() + 1).toString(36).substring(2);
-            $metadata.tags = $metadata.tags.filter((el) => el != 'Defaultworkflow');
-            removeTag('Defaultworkflow');
+            $metadata.tags = $metadata.tags.filter((el) => el != 'Default');
+            removeTag('Default');
         duplicate = true;
         saveWorkflow();
     }
@@ -599,7 +599,7 @@
                 {:else}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <div on:click={(e) => {foldOut=true}} style="display:inline-block">{name}</div>
-                    {#if  !$metadata.tags ||  ($metadata.tags && !$metadata.tags.includes('Defaultworkflow'))}
+                    {#if  !$metadata.tags ||  ($metadata.tags && !$metadata.tags.includes('Default'))}
                         <div style="display: inline-block" class="saveIcon">
                             <Icon name="save" on:click={(e) => {saveWorkflow()}} ></Icon>
                         </div>
