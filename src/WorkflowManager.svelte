@@ -35,6 +35,7 @@
     let actioniconclicked;
     let virtualNodes = [];
     let deactivatedworkflows = [];
+    let allworkflowswithdefaults ;
     function onMouseDown() {
         moving = true;
     }
@@ -157,6 +158,7 @@
             let gyre = null;
             if (el.json) gyre = JSON.parse(el.json).extra.gyre;
             res.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || "";
+            res.json = el.json;
             if (gyre) {
                 res.gyre = gyre;
                 res.gyre.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || "";
@@ -223,6 +225,7 @@
                 if(type!='defaults'){
                     allworkflows = result;
                 }
+                allworkflowswithdefaults = result;
             }
             return result;
         } catch (error) {
@@ -285,9 +288,14 @@
             return;
         }
         if (window.gyreClearAllComboValues) window.gyreClearAllComboValues()
-        let current = allworkflows.find((el) => {
+        console.log(workflowList)
+
+        let current = allworkflowswithdefaults.find((el) => {
             return el.name == workflow.name;
         })
+
+
+
 
         /*
         if(workflow.defaultworkflow){
@@ -327,7 +335,10 @@
         localStorage.setItem('lastgyreworkflowloaded',workflow.name);
         if (!loadedworkflow) {
             if (!current) {
-                window.app.loadGraphData(workflow);
+                let wf = JSON.parse(workflow.json);
+                if (!wf.name && name) wf.name = name;
+                window.app.loadGraphData(wf);
+                //window.app.loadGraphData(workflow);
             } else {
                 let wf = JSON.parse(current.json);
                 if (!wf.name && name) wf.name = name;
