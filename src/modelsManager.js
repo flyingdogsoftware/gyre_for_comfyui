@@ -11,7 +11,6 @@ export class modelsManager {
         if (!workflow.extra || !workflow.extra.gyre || !workflow.extra.gyre.models) return true
         if (!this.availableModels) return true
         let models=workflow.extra.gyre.models
-        console.log("models",models,this.availableModels)
         for(let i=0;i<models.length;i++) {
             let model=models[i]
             if (!this.availableModels.includes(model)) return false

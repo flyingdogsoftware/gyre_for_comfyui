@@ -38,10 +38,13 @@ function modelNotFound(model) {
     let comboValues = JSON.parse(JSON.stringify($metadata.selected_combo_values))
     let currentModels = $metadata.models
     let rules=$metadata.rules
-    for(let i=0;i<rules.length;i++) {
-        let rule=rules[i]
-        if (rule.actionType==="setValue" && rule.actionValue.includes(".")) comboValues.push(rule.actionValue)
+    if (rules) {
+        for(let i=0;i<rules.length;i++) {
+            let rule=rules[i]
+            if (rule.actionType==="setValue" && rule.actionValue.includes(".")) comboValues.push(rule.actionValue)
+        }        
     }
+
     for (let i=0;i<comboValues.length;i++) {
         let value=cleanValue(comboValues[i])
         availableModels.forEach(availableModel => {
