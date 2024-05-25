@@ -56,7 +56,7 @@ function modelNotFound(model) {
 
 <style>
 .not-found {
-  color: red;
+  color: #ff6e6e;
 }
 .modelEntry {
     list-style-type: none;

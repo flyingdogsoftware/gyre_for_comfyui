@@ -15,6 +15,9 @@
 
 }
 
+.missingNodesOrModels {
+    color: #ff6e6e;
+}
 
 .workflowManager .moveIcon {
     display: inline-block;

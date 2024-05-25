@@ -10,9 +10,8 @@
     import {metadata} from './stores/metadata'
     import Icon from './Icon.svelte'
     import { ComfyUIPreparser } from './ComfyUIPreparser.js'
-  import { component_subscribe } from "svelte/internal";
     import { mappingsHelper } from './mappingsHelper.js'
-
+    import { nodesManager } from './nodesManager.js'
     let allworkflows;
     let moving = false;
     let left = 10
@@ -160,16 +159,18 @@
 
         let data_workflow_list = result.map((el) => {
             let res = {name: el.name}
-            if(el.defaultworkflow)  res.defaultworkflow = true;
-            let gyre = null;
-            if (el.json) gyre = JSON.parse(el.json).extra.gyre;
-            res.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || "";
-            res.json = el.json;
+            if(el.defaultworkflow)  res.defaultworkflow = true
+            let gyre = null
+            if (el.json) gyre = JSON.parse(el.json).extra.gyre
+            res.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || ""
+            res.json = el.json
+            res.missingNodes=el.missingNodes
+            res.missingModels=el.missingModels
             if (gyre) {
-                res.gyre = gyre;
-                res.gyre.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || "";
-                res.gyre.lastModified = JSON.parse(el.json).extra.gyre?.lastModified || "";
-                if(!res.gyre.workflowid) res.gyre.workflowid =  (Math.random() + 1).toString(36).substring(2);
+                res.gyre = gyre
+                res.gyre.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || ""
+                res.gyre.lastModified = JSON.parse(el.json).extra.gyre?.lastModified || ""
+                if(!res.gyre.workflowid) res.gyre.workflowid =  (Math.random() + 1).toString(36).substring(2)
             }
             return res
         })
@@ -191,7 +192,7 @@
      async function getAllModels() {
         let res = await getListFromServer("/workspace/get_all_models")
         if (res) allModels=res.models
-        console.log("All models",allModels)
+ //       console.log("All models",allModels)
     }
 
 
@@ -237,8 +238,9 @@
                 result = fixDatesFromServer(result);
                 if(type!='defaults'){
                     allworkflows = result;
-                }
-                allworkflowswithdefaults = result;
+                }           
+                markWorkflowsWithMissingNodes(result)
+                allworkflowswithdefaults = result
             }
             return result;
         } catch (error) {
@@ -246,6 +248,17 @@
         }
     }
 
+    function markWorkflowsWithMissingNodes(list) {
+        let nm=new nodesManager()
+        for(let i=0;i<list.length;i++) {
+            let entry=list[i]
+            if (entry.json) {
+                let workflow=JSON.parse(entry.json)
+                let res=nm.checkMissingNodes(workflow)
+                if (!res) entry.missingNodes=true
+            }
+        }
+    }
     async function getListFromServer(endpoint="/workspace/collect_gyre_components") {
         try {
             const response = await fetch(endpoint, {
@@ -738,7 +751,7 @@
                         {#if isVisible(workflow)}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
                             <div style="position: relative" class="workflowEntry" on:click={(e)=>{loadWorkflow(workflow,e)}}>
-                                {workflow.name}
+                                <div class={(workflow.missingNodes || workflow.missingModels) ? 'missingNodesOrModels' : ''}> {workflow.name}</div>
                                 <div class="last_changed">{workflow.lastModifiedReadable}</div>
                                 <div class="tags">
                                     {#if workflow.gyre && workflow.gyre.tags}
