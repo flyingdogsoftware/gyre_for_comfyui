@@ -61,11 +61,15 @@
         if (widget.name==="image") return
         if(!$metadata.combo_values) $metadata.combo_values = {}
         $metadata.combo_values[widget.name]=widget.options.values //widget.options
+        let value=widget.value
+        if (!$metadata.selected_combo_values) $metadata.selected_combo_values=[]
+        if (!$metadata.selected_combo_values.includes(value)) $metadata.selected_combo_values.push(value)
     }
     window.gyreSetComboValues=gyreSetComboValues
 
     function gyreClearAllComboValues() {
         $metadata.combo_values = {}
+        $metadata.selected_combo_values=[]
     }
     window.gyreClearAllComboValues=gyreClearAllComboValues
 

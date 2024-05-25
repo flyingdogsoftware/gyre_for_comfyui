@@ -488,7 +488,7 @@ def get_all_model_files():
                 continue
             # only files with a . in name
             if '.' in file:
-                file_path = os.path.relpath(os.path.join(root, file), models_path)
+                file_path = os.path.relpath(os.path.join(root, file), models_path).replace('\\', '/')
                 files_with_dot.append(file_path)
     result = {"models": files_with_dot}
     return result

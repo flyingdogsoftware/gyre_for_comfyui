@@ -1,4 +1,7 @@
 <script>
+    /*
+        model list editor given a list of all installed models on server
+    */
     import { metadata} from './stores/metadata'
     import Icon from './Icon.svelte'
 
@@ -13,7 +16,7 @@ function addModel() {
     $metadata.models.push(selectedModel)
     $metadata.models=$metadata.models
     selectedModel = '' // Reset selected model after adding
-  }
+    }
 }
 
 // Function to remove a model
@@ -26,6 +29,24 @@ function removeModel(index) {
 function modelNotFound(model) {
   return !availableModels.includes(model)
 }
+  // Function to clean up keys by removing parenthetical content
+  function cleanValue(value) {
+    return value.replace(/\s*\(.*?\)\s*/g, '').trim();
+  }
+ // Function to add models from workflow
+ function addModelsFromWorkflow() {
+    const comboValues = $metadata.selected_combo_values
+    const currentModels = $metadata.models
+    for (let i=0;i<comboValues.length;i++) {
+        let value=cleanValue(comboValues[i])
+        availableModels.forEach(availableModel => {
+            if (availableModel.includes(value) && !currentModels.includes(availableModel)) {
+                $metadata.models.push(availableModel)
+            }
+        })
+    }
+    $metadata.models=$metadata.models
+  }
 </script>
 
 <style>
@@ -76,5 +97,7 @@ h1 {
     {/each}
   </select>
   <button on:click={addModel}>Add Model</button>
+  <button on:click={addModelsFromWorkflow}>From Workflow</button>
+
 </div>
 </div>
