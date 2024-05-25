@@ -9,6 +9,7 @@ export class nodesManager {
      * @returns {boolean} true if all is ok, false otherwise
      */
     checkMissingNodes(workflow) {
+        if (!workflow.nodes) return true
         for(let i=0;i<workflow.nodes.length;i++) {
             let type=workflow.nodes[i].type
             if (!this.allNodes[type]) {

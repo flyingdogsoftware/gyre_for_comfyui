@@ -12,6 +12,8 @@
     import { ComfyUIPreparser } from './ComfyUIPreparser.js'
     import { mappingsHelper } from './mappingsHelper.js'
     import { nodesManager } from './nodesManager.js'
+    import { modelsManager } from './modelsManager.js'
+
     let allworkflows;
     let moving = false;
     let left = 10
@@ -51,6 +53,8 @@
     }
 
     onMount(async () => {
+        await getAllModels()
+
         await loadList();
         await loadLogList();
         addExternalLoadListener();
@@ -62,7 +66,6 @@
 
             loadWorkflow(current)
             loadUIComponents()
-            getAllModels()
 
         }
 
@@ -239,7 +242,7 @@
                 if(type!='defaults'){
                     allworkflows = result;
                 }           
-                markWorkflowsWithMissingNodes(result)
+                markWorkflowsWithMissingNodesAndModels(result)
                 allworkflowswithdefaults = result
             }
             return result;
@@ -248,14 +251,17 @@
         }
     }
 
-    function markWorkflowsWithMissingNodes(list) {
+    function markWorkflowsWithMissingNodesAndModels(list) {
         let nm=new nodesManager()
+        let mm=new modelsManager(allModels)
         for(let i=0;i<list.length;i++) {
             let entry=list[i]
             if (entry.json) {
                 let workflow=JSON.parse(entry.json)
                 let res=nm.checkMissingNodes(workflow)
                 if (!res) entry.missingNodes=true
+                res=mm.checkMissingModels(workflow)
+                if (!res) entry.missingModels=true
             }
         }
     }
