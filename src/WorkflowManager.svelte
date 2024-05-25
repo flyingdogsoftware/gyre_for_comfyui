@@ -1,5 +1,7 @@
 <script>
     import FormBuilder from "./FormBuilder.svelte"
+    import EditModels from "./EditModels.svelte"
+
     import RuleEditor from "./RuleEditor.svelte"
     import Mappings from "./Mappings.svelte"
 
@@ -31,11 +33,13 @@
     let orginalname;
     let duplicate = false
     let debug=false
-    let debugmode='errormode';
-    let actioniconclicked;
-    let virtualNodes = [];
-    let deactivatedworkflows = [];
-    let allworkflowswithdefaults ;
+    let debugmode='errormode'
+    let actioniconclicked
+    let virtualNodes = []
+    let deactivatedworkflows = []
+    let allworkflowswithdefaults 
+
+    let allModels=[]
     function onMouseDown() {
         moving = true;
     }
@@ -59,6 +63,8 @@
 
             loadWorkflow(current)
             loadUIComponents()
+            getAllModels()
+
         }
 
     })
@@ -176,10 +182,17 @@
      * get list with all UI components
      */
     async function loadUIComponents() {
-        custom_ui_components = await scanUIComponents()
+        custom_ui_components = await getListFromServer()
        // console.log("COMPONENTS",custom_ui_components)
     }
-
+    /**
+     * get list of all installed models
+     */
+     async function getAllModels() {
+        let res = await getListFromServer("/workspace/get_all_models")
+        if (res) allModels=res.models
+        console.log("All models",allModels)
+    }
 
 
 
@@ -233,9 +246,9 @@
         }
     }
 
-    async function scanUIComponents() {
+    async function getListFromServer(endpoint="/workspace/collect_gyre_components") {
         try {
-            const response = await fetch("/workspace/collect_gyre_components", {
+            const response = await fetch(endpoint, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -248,7 +261,7 @@
             let result = await response.json();        
             return result;
         } catch (error) {
-            console.error("Error scan UI components:", error);
+            console.error("Error getListFromServer:",endpoint, error);
         }
     }
 
@@ -288,7 +301,6 @@
             return;
         }
         if (window.gyreClearAllComboValues) window.gyreClearAllComboValues()
-        console.log(workflowList)
 
         let current = allworkflowswithdefaults.find((el) => {
             return el.name == workflow.name;
@@ -696,6 +708,8 @@
                     <label for="category" style="vertical-align:top">Category (only layer menu):</label>
                     <input type="text" class="text_input" bind:value={$metadata.category}>                 
                 </div>
+                <EditModels availableModels={allModels}></EditModels>
+
             {/if}
             {#if state === "editForm"}
                 <div style="margin-top:10px"></div>
