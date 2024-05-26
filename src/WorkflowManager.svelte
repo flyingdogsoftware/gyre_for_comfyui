@@ -746,6 +746,16 @@
                         {$metadata.description}
                     {/if}
                 </div>
+
+                <div class="inputLine" >
+                    {#if  !$metadata.tags.includes('Default')}
+                    <label for="youtube" style="vertical-align:top">YouTube:</label>
+                         <input type="text" name="youtube" class="text_input" bind:value={$metadata.youtube}>          
+                    {:else if $metadata.youtube}
+                         <a href="{$metadata.youtube}" target="_blank">YouTube</a>"
+                    {/if}       
+                </div>                
+
                 <div class="inputLine" >
                     {#if  !$metadata.tags.includes('Default')}
                     <label for="category" style="vertical-align:top">Category (only layer menu):</label>
@@ -753,7 +763,7 @@
                     {:else if $metadata.category}
                         Layer menu category: {$metadata.category}
                     {/if}       
-                </div>
+                </div>                
                 <EditModels availableModels={allModels} no_edit={$metadata.tags.includes('Default')}></EditModels>
 
             {/if}
