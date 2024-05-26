@@ -625,7 +625,7 @@
     }
 
 
-
+    let searchQuery=""
 </script>
 
 <div id="workflowManager" class="workflowManager" style="left: {left}px; top: {top}px;">
@@ -780,7 +780,9 @@
                 {/if}
             {/if}
             {#if state === "list"}
-                <h1>Workflow List</h1>
+                <div class="header-container">
+                    <h1>Workflow List</h1> <input type="text" placeholder="Search" bind:value={searchQuery} class="searchQuery">
+                </div>
                 <div class="tags">
                     {#each tags as tag}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -791,42 +793,44 @@
                 </div>
                 {#if workflowList}
                     {#each $workflowList as workflow}
-                        {#if isVisible(workflow)}
-                            <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div style="position: relative" class="workflowEntry" on:click={(e)=>{loadWorkflow(workflow,e)}}>
-                                <div class={(workflow.missingNodes || workflow.missingModels) ? 'missingNodesOrModels' : ''}> {workflow.name}</div>
-                                <div class="last_changed">{workflow.lastModifiedReadable}</div>
-                                <div class="tags">
-                                    {#if workflow.gyre && workflow.gyre.tags}
-                                        {#each workflow.gyre.tags as tag}
-                                            <div class="tag">{tag}</div>
-                                        {/each}
-                                    {/if}
-                                </div>
-                                {#if !workflow.defaultworkflow}
-                                    <div  class="deleteicon">
-                                        <Icon name="delete" on:click={(e)=>{deleteWorkflow(workflow)}}></Icon>
+                        {#if !searchQuery || workflow.name.toLowerCase().includes(searchQuery.toLowerCase())}
+                            {#if isVisible(workflow)}
+                                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                <div style="position: relative" class="workflowEntry" on:click={(e)=>{loadWorkflow(workflow,e)}}>
+                                    <div class={(workflow.missingNodes || workflow.missingModels) ? 'missingNodesOrModels' : ''}> {workflow.name}</div>
+                                    <div class="last_changed">{workflow.lastModifiedReadable}</div>
+                                    <div class="tags">
+                                        {#if workflow.gyre && workflow.gyre.tags}
+                                            {#each workflow.gyre.tags as tag}
+                                                <div class="tag">{tag}</div>
+                                            {/each}
+                                        {/if}
                                     </div>
-                                {/if}
-
-                                {#if workflow.defaultworkflow}
-
-                                    {#if deactivatedworkflows.includes(workflow.gyre.workflowid)}
+                                    {#if !workflow.defaultworkflow}
                                         <div  class="deleteicon">
-                                            <Icon name="activateback" on:click={async (e) => {await changeActiveDeafaultWorkflow(workflow,"activate")}} ></Icon>
+                                            <Icon name="delete" on:click={(e)=>{deleteWorkflow(workflow)}}></Icon>
                                         </div>
-                                        
-                                        {:else}
-                                        <div  class="deleteicon">
-                                            <Icon name="deactivated" on:click= {async (e) => {await changeActiveDeafaultWorkflow(workflow,"deactivate")}} ></Icon>
-                                        </div>
-
                                     {/if}
-                                {/if}
+
+                                    {#if workflow.defaultworkflow}
+
+                                        {#if deactivatedworkflows.includes(workflow.gyre.workflowid)}
+                                            <div  class="deleteicon">
+                                                <Icon name="activateback" on:click={async (e) => {await changeActiveDeafaultWorkflow(workflow,"activate")}} ></Icon>
+                                            </div>
+                                            
+                                            {:else}
+                                            <div  class="deleteicon">
+                                                <Icon name="deactivated" on:click= {async (e) => {await changeActiveDeafaultWorkflow(workflow,"deactivate")}} ></Icon>
+                                            </div>
+
+                                        {/if}
+                                    {/if}
 
 
 
-                            </div>
+                                </div>
+                            {/if}
                         {/if}
                     {/each}
                 {/if}
