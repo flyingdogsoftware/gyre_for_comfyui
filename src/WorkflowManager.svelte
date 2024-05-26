@@ -377,6 +377,7 @@
             }
         state="properties"
         }
+
     }
 
 
@@ -641,7 +642,7 @@
                 {:else}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <div on:click={(e) => {foldOut=true}} style="display:inline-block">{name}</div>
-                    {#if  !$metadata.tags ||  ($metadata.tags && !$metadata.tags.includes('Default'))}
+                    {#if  !$metadata.tags.includes('Default')}
                         <div style="display: inline-block" class="saveIcon">
                             <Icon name="save" on:click={(e) => {saveWorkflow()}} ></Icon>
                         </div>
@@ -689,55 +690,81 @@
 
             {#if state === "properties"}
                 <h1>Workflow Properties</h1>
-                <label for="name">Name:</label><input name="name" type="text" bind:value={name} class="text_input">
+                
+                {#if  !$metadata.tags.includes('Default')}
+                    <label for="name">Name:</label>
+                    <input name="name" type="text" bind:value={name} class="text_input">
+                {:else}
+                    <div style="margin-bottom:10px"> {name} </div>
+                   
+                {/if}
                 {#if name}
                     <button on:click={(e) => { duplicateWorkflow()} }>Duplicate Workflow</button>
                 {/if}
                 <div class="tagedit">
-                    <div class="tagTitle">Click on a Tag to remove it</div>
+                    {#if  !$metadata.tags.includes('Default')}<div class="tagTitle">Click on a Tag to remove it</div>{/if}
                     <div class="tags">
                         {#if $metadata.tags}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
                             {#each $metadata.tags as tag}
-                                <div class="tag" on:click={(e) => {removeTag(tag)}}>{tag}</div>
+                                {#if  !$metadata.tags.includes('Default')}
+                                    <div class="tag" on:click={(e) => {removeTag(tag)}}>{tag}</div>
+                                {:else}
+                                    <div class="tag">{tag}</div>
+                                {/if}
                             {/each}
                         {/if}
                     </div>
-                    <select class="tagselect" bind:value={selectedTag} on:change={(e) => {addTag()}}>
-                        <option selected value="">Add Tag...</option>
-                        {#each tags as tag}
-                            {#if $metadata.tags && !$metadata.tags.includes(tag)}
-                                <option value="{tag}">{tag}</option>
-                            {/if}
-                        {/each}
+                    {#if  !$metadata.tags.includes('Default')}
+                        <select class="tagselect" bind:value={selectedTag} on:change={(e) => {addTag()}}>
+                            <option selected value="">Add Tag...</option>
+                            {#each tags as tag}
+                                {#if $metadata.tags && !$metadata.tags.includes(tag)}
+                                    <option value="{tag}">{tag}</option>
+                                {/if}
+                            {/each}
+                        </select>
+                    {/if}
+                </div>               
+                 {#if  !$metadata.tags.includes('Default')}
+
+                    <label for="license">License:</label>
+                    <select class="input license" name="license" bind:value={$metadata.license}>
+                        <option selected value="">Select...</option>
+                        <option selected value="yes_commercial">Commercial allowed</option>
+                        <option selected value="non_commercial">Non Commercial</option>
+                        <option selected value="needs_license">Needs license for Commercial use</option>
                     </select>
-                </div>
-                <label for="license">License:</label>
-                <select class="input license" name="license" bind:value={$metadata.license}>
-                    <option selected value="">Select...</option>
-                    <option selected value="yes_commercial">Commercial allowed</option>
-                    <option selected value="non_commercial">Non Commercial</option>
-                    <option selected value="needs_license">Needs license for Commercial use</option>
-                </select>
-                <div class="inputLine" >
+                {:else if $metadata.license}License: {$metadata.license}
+                {/if}
+                <div class="inputLine" >    
+                    {#if  !$metadata.tags.includes('Default')}
+                
                     <label for="description" style="vertical-align:top">Description:</label>
-                    <textarea class="text_input" bind:value={$metadata.description}></textarea>                    
+                       <textarea class="text_input" bind:value={$metadata.description}></textarea>                    
+                    {:else}
+                        {$metadata.description}
+                    {/if}
                 </div>
                 <div class="inputLine" >
+                    {#if  !$metadata.tags.includes('Default')}
                     <label for="category" style="vertical-align:top">Category (only layer menu):</label>
-                    <input type="text" class="text_input" bind:value={$metadata.category}>                 
+                         <input type="text" class="text_input" bind:value={$metadata.category}>          
+                    {:else if $metadata.category}
+                        Layer menu category: {$metadata.category}
+                    {/if}       
                 </div>
-                <EditModels availableModels={allModels}></EditModels>
+                <EditModels availableModels={allModels} no_edit={$metadata.tags.includes('Default')}></EditModels>
 
             {/if}
             {#if state === "editForm"}
                 <div style="margin-top:10px"></div>
-                <FormBuilder {refresh} {custom_ui_components} on:refreshTags={(e)=>{ refreshTags(e)}} posX={parseInt(left)} posY={parseInt(top)}></FormBuilder>
+                <FormBuilder {refresh} {custom_ui_components} on:refreshTags={(e)=>{ refreshTags(e)}} posX={parseInt(left)} posY={parseInt(top)} no_edit={$metadata.tags.includes('Default')}></FormBuilder>
             {/if}
             {#if state === "editRules"}
                 <div style="margin-top:10px"></div>
                 {#if $metadata.forms && $metadata.forms.default && $metadata.forms.default.elements}
-                    <RuleEditor></RuleEditor>
+                    <RuleEditor no_edit={$metadata.tags.includes('Default')}></RuleEditor>
                 {:else}
                     Please define a form first
                 {/if}

@@ -11,6 +11,8 @@
     const dispatch = createEventDispatcher()
     export let value
     export let readonly=""
+
+    export let no_edit=false
     let layers=[]
     if (element.type==="slider") {
         if (!value) value=element.min
@@ -188,7 +190,7 @@
         <label for={element.name}>{element.label}:</label>
         <input type="number" min={element.min} max={element.max}  readonly={readonly || element.readonly} step={element.step} {value} name="{element.name}" on:change={e => {changeValue(e.target.value)}}/>
     {/if}   
-    {#if readonly!=="readonly"}
+    {#if readonly!=="readonly" && !no_edit}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
      <div class="editElementButton" on:click={openProperties}>Edit</div>
     {/if} 

@@ -4,7 +4,7 @@
     */
     import { metadata} from './stores/metadata'
     import Icon from './Icon.svelte'
-
+    export let no_edit=false
     export let availableModels = []
     if (!$metadata.models) $metadata.models=[]
 // Writable store for selected model
@@ -90,22 +90,26 @@ h1 {
   {#each $metadata.models as model, index}
     <li class={modelNotFound(model) ? 'modelEntry not-found' : 'modelEntry'} >
       {model}
-      <div class="deleteIcon">
-      <Icon name="delete" on:click={(e)=>{removeModel(index)}} ></Icon>
-    </div>
+      {#if !no_edit}
+        <div class="deleteIcon">
+            <Icon name="delete" on:click={(e)=>{removeModel(index)}} ></Icon>
+        </div>
+        {/if}
     </li>
+    
   {/each}
 </ul>
 
-<div>
-  <select bind:value={selectedModel} class="input">
-    <option value="" disabled>Select a model</option>
-    {#each availableModels as model}
-      <option value={model}>{model}</option>
-    {/each}
-  </select>
-  <button on:click={addModel}>Add Model</button>
-  <button on:click={addModelsFromWorkflow}>From Workflow</button>
-
-</div>
+{#if !no_edit}
+    <div>
+    <select bind:value={selectedModel} class="input">
+        <option value="" disabled>Select a model</option>
+        {#each availableModels as model}
+        <option value={model}>{model}</option>
+        {/each}
+    </select>
+    <button on:click={addModel}>Add Model</button>
+    <button on:click={addModelsFromWorkflow}>From Workflow</button>
+    </div>
+{/if}
 </div>
