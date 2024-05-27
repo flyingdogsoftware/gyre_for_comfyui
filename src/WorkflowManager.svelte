@@ -567,6 +567,7 @@
             removeTag('Default');
         duplicate = true;
         saveWorkflow();
+        localStorage.setItem('lastgyreworkflowloaded',name);
     }
 
 
