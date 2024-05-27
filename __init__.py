@@ -349,7 +349,7 @@ if os.path.exists(my_path):
         web.static("/", my_path),
         #web.get('/', handler)
     ])
-server.PromptServer.instance.app.add_subapp("/gyre/", gyre_app)
+server.PromptServer.instance.app.add_subapp("/gyreapp/", gyre_app)
 
 
 
