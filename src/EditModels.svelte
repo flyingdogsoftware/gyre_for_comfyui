@@ -80,11 +80,14 @@ function modelNotFound(modelPath) {
 }
 .modelEntry {
     list-style-type: none;
-    height: 24px;
+    position: relative;
+    /*height: 24px;*/
 }
 .modelEntry .deleteIcon {
     display: none;
-    vertical-align: -8px;
+    top: 0px;
+    right: 0px;
+    position: absolute;
 }
 .modelEntry:hover .deleteIcon {
     display:inline-block;
@@ -99,6 +102,12 @@ h1 {
     font-size: 16px;
     margin-bottom: 30px;
 }    
+.inputURL {
+    background-color: transparent;
+    width: calc(100% - 30px);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 </style>
 
 <div>
@@ -108,6 +117,7 @@ h1 {
     <li class={modelNotFound(model.path) ? 'modelEntry not-found' : 'modelEntry'} >
       {model.path}
       {#if !no_edit}
+        <div><input type="text" placeholder="Source URL" bind:value={model.URL} class="input inputURL"></div>
         <div class="deleteIcon">
             <Icon name="delete" on:click={(e)=>{removeModel(index)}} ></Icon>
         </div>
