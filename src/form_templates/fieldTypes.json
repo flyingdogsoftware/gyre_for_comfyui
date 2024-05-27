@@ -65,6 +65,11 @@
         "step": 1
     },
     {
+        "name": "print",
+        "type": "text_output",
+        "html": ""
+    },    
+    {
         "name": "my_layer",
         "type": "layer_image"
     },  

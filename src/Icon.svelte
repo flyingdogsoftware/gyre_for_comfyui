@@ -35,6 +35,7 @@
             "form_advanced":{class:"default deactivate"}, 
             "form_colorpicker":{class:"default deactivate"}, 
             "form_magnifier":{class:"default deactivate"}, 
+            "form_text_output":{class:"default deactivate"}, 
 
         }
         let info
@@ -109,6 +110,13 @@
         <path xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1z"></path>
       </svg>
     {/if}
+
+    {#if name==="form_text_output"}
+    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"  viewBox="0 0 16 16">
+        <path d="M12.258 3h-8.51l-.083 2.46h.479c.26-1.544.758-1.783 2.693-1.845l.424-.013v7.827c0 .663-.144.82-1.3.923v.52h4.082v-.52c-1.162-.103-1.306-.26-1.306-.923V3.602l.431.013c1.934.062 2.434.301 2.693 1.846h.479z"/>
+      </svg>
+      {/if}
+
     {#if name==="form_textarea"}
         <svg  xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16"  fill="currentColor" ><path xmlns="http://www.w3.org/2000/svg" d="M0 4.5A2.5 2.5 0 0 1 2.5 2h11A2.5 2.5 0 0 1 16 4.5v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 11.5v-7zM2.5 3A1.5 1.5 0 0 0 1 4.5v7A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 13.5 3h-11zm10.854 4.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708l3-3a.5.5 0 0 1 .708 0zm0 2.5a.5.5 0 0 1 0 .708l-.5.5a.5.5 0 0 1-.708-.708l.5-.5a.5.5 0 0 1 .708 0z"></path></svg>
     {/if}

@@ -127,6 +127,10 @@
     <div class="field" on:click={(e) => { selectElement("color_picker")}}>
         <Icon name="form_colorpicker" ></Icon><span>Color Picker</span>
     </div>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="field" on:click={(e) => { selectElement("text_output")}}>
+        <Icon name="form_text_output" ></Icon><span>Text Output</span>
+    </div>    
     <h1>Special fields</h1>
     <!-- svelte-ignore a11y-click-events-have-key-events -->    
     <div class="field"  on:click={(e) => {selectElement("layer_image")}}>

@@ -465,5 +465,40 @@ def write_json_to_file(json_str):
 
 
 
+def get_all_model_files():
+    # Navigate up to the 'models' folder
+    current_path = os.path.abspath('./models')
+    while True:
+        parent_path, current_folder = os.path.split(current_path)
+        if current_folder == 'models':
+            models_path = current_path
+            break
+        elif parent_path == current_path:  # Root path reached
+            raise Exception("No 'models' folder found in the directory hierarchy.")
+        current_path = parent_path
+
+    files_with_dot = []
+    # Recursively scan for files with a dot in their name
+    for root, dirs, files in os.walk(models_path):
+        # Skip directories containing a README.md file
+        if 'README.md' in files:
+            dirs[:] = []  # Clear dirs to prevent os.walk from traversing further down this path
+            continue        
+        for file in files:
+            # Ignore YAML, JSON and more files files
+            if file.endswith(('.yaml', '.yml','.json','.py','.js','.me')):
+                continue
+            # only files with a . in name
+            if '.' in file:
+                file_path = os.path.relpath(os.path.join(root, file), models_path).replace('\\', '/')
+                files_with_dot.append(file_path)
+    result = {"models": files_with_dot}
+    return result
+
+@server.PromptServer.instance.routes.post("/workspace/get_all_models")
+async def get_all_models(request):
+    models_list=get_all_model_files()
+    return web.Response(text=json.dumps(models_list), content_type='application/json')
+
 
 download_and_extract_github_repo()

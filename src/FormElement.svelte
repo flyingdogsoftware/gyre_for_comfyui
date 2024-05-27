@@ -11,6 +11,8 @@
     const dispatch = createEventDispatcher()
     export let value
     export let readonly=""
+
+    export let no_edit=false
     let layers=[]
     if (element.type==="slider") {
         if (!value) value=element.min
@@ -146,6 +148,8 @@
     {#if element.type === 'text'}
         <label for={element.name}>{element.label}:</label>
         <input type="text" class="textInput" placeholder="{element.placeholder}" readonly={readonly || element.readonly}  {value} on:change={e => {changeValue(e.target.value)}}/>
+    {:else if element.type === 'text_output'}
+        {@html element.html}     
     {:else if element.type === 'textarea'}
         <label for={element.name} class="textarea_label">{element.label}:</label>
         <textarea class="textarea" placeholder="{element.placeholder}"  readonly={readonly || element.readonly} name="{element.name}" on:change={e => {changeValue(e.target.value)}}>{value}</textarea>
@@ -188,7 +192,7 @@
         <label for={element.name}>{element.label}:</label>
         <input type="number" min={element.min} max={element.max}  readonly={readonly || element.readonly} step={element.step} {value} name="{element.name}" on:change={e => {changeValue(e.target.value)}}/>
     {/if}   
-    {#if readonly!=="readonly"}
+    {#if readonly!=="readonly" && !no_edit}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
      <div class="editElementButton" on:click={openProperties}>Edit</div>
     {/if} 
@@ -197,7 +201,7 @@
 <div class="element-properties" >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="formClose" on:click={closeProperties}>X</div>
-    {#if element.type !== 'layer_image' &&  element.type!=="advanced_options"  && element.type!=="custom" && element.type!=="magnifier" && element.type!=="drop_layers"} 
+    {#if element.type !== 'layer_image' &&   element.type !== 'text_output' && element.type!=="advanced_options"  && element.type!=="custom" && element.type!=="magnifier" && element.type!=="drop_layers"} 
         <div class="formLine" >
             <label for="label">Label:</label>
             <input type="text" name="label" value={element.label} on:input={(e) => updateElement({ label: e.target.value })} />
@@ -252,6 +256,16 @@
         <input type="text" name="placeholder" value={element.placeholder} on:input={(e) => updateElement({ placeholder: e.target.value })} />
         </div>  
     {/if}
+    {#if element.type === 'text_output'}
+        <div class="formLine">
+            <label  for="name"> Name: </label>
+        <input type="text"  value={element.name} on:change={(e) => updateElement({ name: e.target.value }) } />
+        </div>    
+        <div class="formLine">
+            <label  for="html"> HTML/Text: </label>
+            <textarea  name="html" value={element.html} on:input={(e) => updateElement({ html: e.target.value })} />
+        </div>  
+    {/if}    
     {#if element.type === 'layer_image' }
         <div class="formLine">
             <label  for="name"> Name: </label>

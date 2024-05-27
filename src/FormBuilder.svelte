@@ -18,6 +18,8 @@
   export let refresh  
   export let posX,posY        // position of the parent dialog
   export let custom_ui_components
+  export let no_edit=false
+
   if (!$metadata.forms[form_key]) $metadata.forms[form_key]={elements:[]}
   if (!$metadata.forms[form_key].elements) $metadata.forms[form_key].elements=[]
   let formElements = $metadata.forms[form_key].elements
@@ -298,13 +300,16 @@ let selectWorkflowType=false
         on:delete={(e) => { removeElement(index) }}
         value={data[element.name]}
         on:change={e => { executeRules(element,e.detail.value); formElements=formElements; }}
-        showProperties={showPropertiesIdx===index}/>
+        showProperties={showPropertiesIdx===index}
+        {no_edit}
+        />
       </div>
   {/each}
 </div>
 <div>
- 
+ {#if !no_edit}
   <button on:click={(e) => fieldSelector.openDialog(e,posX,posY)}>+ Add Element</button>
+{/if}
 </div>
 </div>
 <style>

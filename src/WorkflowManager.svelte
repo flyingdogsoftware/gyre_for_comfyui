@@ -1,5 +1,7 @@
 <script>
     import FormBuilder from "./FormBuilder.svelte"
+    import EditModels from "./EditModels.svelte"
+
     import RuleEditor from "./RuleEditor.svelte"
     import Mappings from "./Mappings.svelte"
 
@@ -8,8 +10,9 @@
     import {metadata} from './stores/metadata'
     import Icon from './Icon.svelte'
     import { ComfyUIPreparser } from './ComfyUIPreparser.js'
-  import { component_subscribe } from "svelte/internal";
     import { mappingsHelper } from './mappingsHelper.js'
+    import { nodesManager } from './nodesManager.js'
+    import { modelsManager } from './modelsManager.js'
 
     let allworkflows;
     let moving = false;
@@ -31,11 +34,13 @@
     let orginalname;
     let duplicate = false
     let debug=false
-    let debugmode='errormode';
-    let actioniconclicked;
-    let virtualNodes = [];
-    let deactivatedworkflows = [];
-    let allworkflowswithdefaults ;
+    let debugmode='errormode'
+    let actioniconclicked
+    let virtualNodes = []
+    let deactivatedworkflows = []
+    let allworkflowswithdefaults 
+
+    let allModels=[]
     function onMouseDown() {
         moving = true;
     }
@@ -48,6 +53,8 @@
     }
 
     onMount(async () => {
+        await getAllModels()
+
         await loadList();
         await loadLogList();
         addExternalLoadListener();
@@ -59,6 +66,7 @@
 
             loadWorkflow(current)
             loadUIComponents()
+
         }
 
     })
@@ -154,16 +162,18 @@
 
         let data_workflow_list = result.map((el) => {
             let res = {name: el.name}
-            if(el.defaultworkflow)  res.defaultworkflow = true;
-            let gyre = null;
-            if (el.json) gyre = JSON.parse(el.json).extra.gyre;
-            res.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || "";
-            res.json = el.json;
+            if(el.defaultworkflow)  res.defaultworkflow = true
+            let gyre = null
+            if (el.json) gyre = JSON.parse(el.json).extra.gyre
+            res.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || ""
+            res.json = el.json
+            res.missingNodes=el.missingNodes
+            res.missingModels=el.missingModels
             if (gyre) {
-                res.gyre = gyre;
-                res.gyre.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || "";
-                res.gyre.lastModified = JSON.parse(el.json).extra.gyre?.lastModified || "";
-                if(!res.gyre.workflowid) res.gyre.workflowid =  (Math.random() + 1).toString(36).substring(2);
+                res.gyre = gyre
+                res.gyre.lastModifiedReadable = JSON.parse(el.json).extra.gyre?.lastModifiedReadable || ""
+                res.gyre.lastModified = JSON.parse(el.json).extra.gyre?.lastModified || ""
+                if(!res.gyre.workflowid) res.gyre.workflowid =  (Math.random() + 1).toString(36).substring(2)
             }
             return res
         })
@@ -176,10 +186,17 @@
      * get list with all UI components
      */
     async function loadUIComponents() {
-        custom_ui_components = await scanUIComponents()
+        custom_ui_components = await getListFromServer()
        // console.log("COMPONENTS",custom_ui_components)
     }
-
+    /**
+     * get list of all installed models
+     */
+     async function getAllModels() {
+        let res = await getListFromServer("/workspace/get_all_models")
+        if (res) allModels=res.models
+ //       console.log("All models",allModels)
+    }
 
 
 
@@ -224,8 +241,9 @@
                 result = fixDatesFromServer(result);
                 if(type!='defaults'){
                     allworkflows = result;
-                }
-                allworkflowswithdefaults = result;
+                }           
+                markWorkflowsWithMissingNodesAndModels(result)
+                allworkflowswithdefaults = result
             }
             return result;
         } catch (error) {
@@ -233,9 +251,23 @@
         }
     }
 
-    async function scanUIComponents() {
+    function markWorkflowsWithMissingNodesAndModels(list) {
+        let nm=new nodesManager()
+        let mm=new modelsManager(allModels)
+        for(let i=0;i<list.length;i++) {
+            let entry=list[i]
+            if (entry.json) {
+                let workflow=JSON.parse(entry.json)
+                let res=nm.checkMissingNodes(workflow)
+                if (!res) entry.missingNodes=true
+                res=mm.checkMissingModels(workflow)
+                if (!res) entry.missingModels=true
+            }
+        }
+    }
+    async function getListFromServer(endpoint="/workspace/collect_gyre_components") {
         try {
-            const response = await fetch("/workspace/collect_gyre_components", {
+            const response = await fetch(endpoint, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -248,7 +280,7 @@
             let result = await response.json();        
             return result;
         } catch (error) {
-            console.error("Error scan UI components:", error);
+            console.error("Error getListFromServer:",endpoint, error);
         }
     }
 
@@ -288,7 +320,6 @@
             return;
         }
         if (window.gyreClearAllComboValues) window.gyreClearAllComboValues()
-        console.log(workflowList)
 
         let current = allworkflowswithdefaults.find((el) => {
             return el.name == workflow.name;
@@ -346,6 +377,7 @@
             }
         state="properties"
         }
+
     }
 
 
@@ -593,7 +625,7 @@
     }
 
 
-
+    let searchQuery=""
 </script>
 
 <div id="workflowManager" class="workflowManager" style="left: {left}px; top: {top}px;">
@@ -610,7 +642,7 @@
                 {:else}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <div on:click={(e) => {foldOut=true}} style="display:inline-block">{name}</div>
-                    {#if  !$metadata.tags ||  ($metadata.tags && !$metadata.tags.includes('Default'))}
+                    {#if  !$metadata.tags.includes('Default')}
                         <div style="display: inline-block" class="saveIcon">
                             <Icon name="save" on:click={(e) => {saveWorkflow()}} ></Icon>
                         </div>
@@ -658,59 +690,99 @@
 
             {#if state === "properties"}
                 <h1>Workflow Properties</h1>
-                <label for="name">Name:</label><input name="name" type="text" bind:value={name} class="text_input">
+                
+                {#if  !$metadata.tags.includes('Default')}
+                    <label for="name">Name:</label>
+                    <input name="name" type="text" bind:value={name} class="text_input">
+                {:else}
+                    <div style="margin-bottom:10px"> {name} </div>
+                   
+                {/if}
                 {#if name}
                     <button on:click={(e) => { duplicateWorkflow()} }>Duplicate Workflow</button>
                 {/if}
                 <div class="tagedit">
-                    <div class="tagTitle">Click on a Tag to remove it</div>
+                    {#if  !$metadata.tags.includes('Default')}<div class="tagTitle">Click on a Tag to remove it</div>{/if}
                     <div class="tags">
                         {#if $metadata.tags}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
                             {#each $metadata.tags as tag}
-                                <div class="tag" on:click={(e) => {removeTag(tag)}}>{tag}</div>
+                                {#if  !$metadata.tags.includes('Default')}
+                                    <div class="tag" on:click={(e) => {removeTag(tag)}}>{tag}</div>
+                                {:else}
+                                    <div class="tag">{tag}</div>
+                                {/if}
                             {/each}
                         {/if}
                     </div>
-                    <select class="tagselect" bind:value={selectedTag} on:change={(e) => {addTag()}}>
-                        <option selected value="">Add Tag...</option>
-                        {#each tags as tag}
-                            {#if $metadata.tags && !$metadata.tags.includes(tag)}
-                                <option value="{tag}">{tag}</option>
-                            {/if}
-                        {/each}
+                    {#if  !$metadata.tags.includes('Default')}
+                        <select class="tagselect" bind:value={selectedTag} on:change={(e) => {addTag()}}>
+                            <option selected value="">Add Tag...</option>
+                            {#each tags as tag}
+                                {#if $metadata.tags && !$metadata.tags.includes(tag)}
+                                    <option value="{tag}">{tag}</option>
+                                {/if}
+                            {/each}
+                        </select>
+                    {/if}
+                </div>               
+                 {#if  !$metadata.tags.includes('Default')}
+
+                    <label for="license">License:</label>
+                    <select class="input license" name="license" bind:value={$metadata.license}>
+                        <option selected value="">Select...</option>
+                        <option selected value="yes_commercial">Commercial allowed</option>
+                        <option selected value="non_commercial">Non Commercial</option>
+                        <option selected value="needs_license">Needs license for Commercial use</option>
                     </select>
-                </div>
-                <label for="license">License:</label>
-                <select class="input license" name="license" bind:value={$metadata.license}>
-                    <option selected value="">Select...</option>
-                    <option selected value="yes_commercial">Commercial allowed</option>
-                    <option selected value="non_commercial">Non Commercial</option>
-                    <option selected value="needs_license">Needs license for Commercial use</option>
-                </select>
-                <div class="inputLine" >
+                {:else if $metadata.license}License: {$metadata.license}
+                {/if}
+                <div class="inputLine" >    
+                    {#if  !$metadata.tags.includes('Default')}
+                
                     <label for="description" style="vertical-align:top">Description:</label>
-                    <textarea class="text_input" bind:value={$metadata.description}></textarea>                    
+                       <textarea class="text_input" bind:value={$metadata.description}></textarea>                    
+                    {:else}
+                        {$metadata.description}
+                    {/if}
                 </div>
+
                 <div class="inputLine" >
+                    {#if  !$metadata.tags.includes('Default')}
+                    <label for="youtube" style="vertical-align:top">YouTube:</label>
+                         <input type="text" name="youtube" class="text_input" bind:value={$metadata.youtube}>          
+                    {:else if $metadata.youtube}
+                         <a href="{$metadata.youtube}" target="_blank">YouTube</a>"
+                    {/if}       
+                </div>                
+
+                <div class="inputLine" >
+                    {#if  !$metadata.tags.includes('Default')}
                     <label for="category" style="vertical-align:top">Category (only layer menu):</label>
-                    <input type="text" class="text_input" bind:value={$metadata.category}>                 
-                </div>
+                         <input type="text" class="text_input" bind:value={$metadata.category}>          
+                    {:else if $metadata.category}
+                        Layer menu category: {$metadata.category}
+                    {/if}       
+                </div>                
+                <EditModels availableModels={allModels} no_edit={$metadata.tags.includes('Default')}></EditModels>
+
             {/if}
             {#if state === "editForm"}
                 <div style="margin-top:10px"></div>
-                <FormBuilder {refresh} {custom_ui_components} on:refreshTags={(e)=>{ refreshTags(e)}} posX={parseInt(left)} posY={parseInt(top)}></FormBuilder>
+                <FormBuilder {refresh} {custom_ui_components} on:refreshTags={(e)=>{ refreshTags(e)}} posX={parseInt(left)} posY={parseInt(top)} no_edit={$metadata.tags.includes('Default')}></FormBuilder>
             {/if}
             {#if state === "editRules"}
                 <div style="margin-top:10px"></div>
                 {#if $metadata.forms && $metadata.forms.default && $metadata.forms.default.elements}
-                    <RuleEditor></RuleEditor>
+                    <RuleEditor no_edit={$metadata.tags.includes('Default')}></RuleEditor>
                 {:else}
                     Please define a form first
                 {/if}
             {/if}
             {#if state === "list"}
-                <h1>Workflow List</h1>
+                <div class="header-container">
+                    <h1>Workflow List</h1> <input type="text" placeholder="Search" bind:value={searchQuery} class="searchQuery">
+                </div>
                 <div class="tags">
                     {#each tags as tag}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -721,42 +793,44 @@
                 </div>
                 {#if workflowList}
                     {#each $workflowList as workflow}
-                        {#if isVisible(workflow)}
-                            <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div style="position: relative" class="workflowEntry" on:click={(e)=>{loadWorkflow(workflow,e)}}>
-                                {workflow.name}
-                                <div class="last_changed">{workflow.lastModifiedReadable}</div>
-                                <div class="tags">
-                                    {#if workflow.gyre && workflow.gyre.tags}
-                                        {#each workflow.gyre.tags as tag}
-                                            <div class="tag">{tag}</div>
-                                        {/each}
-                                    {/if}
-                                </div>
-                                {#if !workflow.defaultworkflow}
-                                    <div  class="deleteicon">
-                                        <Icon name="delete" on:click={(e)=>{deleteWorkflow(workflow)}}></Icon>
+                        {#if !searchQuery || workflow.name.toLowerCase().includes(searchQuery.toLowerCase())}
+                            {#if isVisible(workflow)}
+                                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                <div style="position: relative" class="workflowEntry" on:click={(e)=>{loadWorkflow(workflow,e)}}>
+                                    <div class={(workflow.missingNodes || workflow.missingModels) ? 'missingNodesOrModels' : ''}> {workflow.name}</div>
+                                    <div class="last_changed">{workflow.lastModifiedReadable}</div>
+                                    <div class="tags">
+                                        {#if workflow.gyre && workflow.gyre.tags}
+                                            {#each workflow.gyre.tags as tag}
+                                                <div class="tag">{tag}</div>
+                                            {/each}
+                                        {/if}
                                     </div>
-                                {/if}
-
-                                {#if workflow.defaultworkflow}
-
-                                    {#if deactivatedworkflows.includes(workflow.gyre.workflowid)}
+                                    {#if !workflow.defaultworkflow}
                                         <div  class="deleteicon">
-                                            <Icon name="activateback" on:click={async (e) => {await changeActiveDeafaultWorkflow(workflow,"activate")}} ></Icon>
+                                            <Icon name="delete" on:click={(e)=>{deleteWorkflow(workflow)}}></Icon>
                                         </div>
-                                        
-                                        {:else}
-                                        <div  class="deleteicon">
-                                            <Icon name="deactivated" on:click= {async (e) => {await changeActiveDeafaultWorkflow(workflow,"deactivate")}} ></Icon>
-                                        </div>
-
                                     {/if}
-                                {/if}
+
+                                    {#if workflow.defaultworkflow}
+
+                                        {#if deactivatedworkflows.includes(workflow.gyre.workflowid)}
+                                            <div  class="deleteicon">
+                                                <Icon name="activateback" on:click={async (e) => {await changeActiveDeafaultWorkflow(workflow,"activate")}} ></Icon>
+                                            </div>
+                                            
+                                            {:else}
+                                            <div  class="deleteicon">
+                                                <Icon name="deactivated" on:click= {async (e) => {await changeActiveDeafaultWorkflow(workflow,"deactivate")}} ></Icon>
+                                            </div>
+
+                                        {/if}
+                                    {/if}
 
 
 
-                            </div>
+                                </div>
+                            {/if}
                         {/if}
                     {/each}
                 {/if}

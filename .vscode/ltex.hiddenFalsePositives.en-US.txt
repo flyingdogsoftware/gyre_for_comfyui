@@ -1,0 +1,1 @@
+{"rule":"POSSESSIVE_APOSTROPHE","sentence":"^\\QClone this repo into the custom nodes folder.\\E$"}

@@ -6,6 +6,8 @@
     import InputCombo  from './InputCombo.svelte'
     import { onMount } from 'svelte';
     import { mappingsHelper } from './mappingsHelper.js'
+    export let no_edit=false
+
     let mH=new mappingsHelper()
 
     let MappingsCopmponent
@@ -223,7 +225,10 @@
 
       {:else}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <div class="edit-button" on:click={() => editRule(index)}>Edit</div>
+        {#if !no_edit}
+          <div class="edit-button" on:click={() => editRule(index)}>Edit</div>
+        {/if}
+
         <!-- Display Rule Summary -->
         <div> if {rule.fieldName} {rule.condition} {rule.rightValue}: 
           {#if rule.actionType==="setValue"}set {rule.targetField}={rule.actionValue}{/if}
@@ -236,5 +241,7 @@
       {/if}
     </div>
   {/each}
-  <button on:click={addRule}>Add Rule</button>
+  {#if !no_edit}
+      <button on:click={addRule}>Add Rule</button>
+  {/if}
 </div>
