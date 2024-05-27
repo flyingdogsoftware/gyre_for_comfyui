@@ -402,6 +402,8 @@ def download_and_extract_github_repo():
         print(f'Repository {url} downloaded and extracted to {gyre_path}')
         source_directory = os.path.join(gyre_path,"aistudio-main","dist")
         target_directory = os.path.join(source_directory, '..', '..', os.path.basename(source_directory))
+        if os.path.exists(target_directory) and os.path.isdir(target_directory):
+            shutil.rmtree(target_directory)
         shutil.move(source_directory, target_directory)
     else:
         print(f'Failed to download repository: {response.status_code}')
