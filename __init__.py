@@ -101,9 +101,13 @@ async def update_json_file(request):
 
 def file_handle(name, file, existFlowIds, fileList,lastmodified):
     json_data = json.load(file)
+    workflowid = None
+    if 'extra' in json_data and 'gyre' in json_data['extra'] and 'workflowid' in json_data['extra']['gyre']:
+        workflowid = json_data['extra']['gyre']['workflowid']
     fileInfo = {
         'json': json.dumps(json_data),
         'name': '.'.join(name.split('.')[:-1]),
+        'id': workflowid,
         'lastmodified':lastmodified
     }
     if 'extra' in json_data and 'workspace_info' in json_data['extra'] and 'id' in json_data['extra']['workspace_info']:
