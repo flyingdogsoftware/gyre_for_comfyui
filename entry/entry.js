@@ -162,7 +162,7 @@ class Gyre {
   init() {
     var script = document.createElement("script");
     script.async = false;
-    script.src = "/workspace/init_components.js";
+    script.src = "/gyre/init_components.js";
     document.head.appendChild(script);
   }
 }

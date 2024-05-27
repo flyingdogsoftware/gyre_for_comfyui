@@ -193,7 +193,7 @@
      * get list of all installed models
      */
      async function getAllModels() {
-        let res = await getListFromServer("/workspace/get_all_models")
+        let res = await getListFromServer("/gyre/get_all_models")
         if (res) allModels=res.models
  //       console.log("All models",allModels)
     }
@@ -202,7 +202,7 @@
 
     async function updateDeactivatedDefaultWorkflows() {
         try {
-            const response = await fetch(`/workspace/upload_log_json_file`, {
+            const response = await fetch(`/gyre/upload_log_json_file`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -224,7 +224,7 @@
     async function scanLocalNewFiles(type) {
         let existFlowIds = [];
         try {
-            const response = await fetch("/workspace/readworkflowdir", {
+            const response = await fetch("/gyre/readworkflowdir", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -265,7 +265,7 @@
             }
         }
     }
-    async function getListFromServer(endpoint="/workspace/collect_gyre_components") {
+    async function getListFromServer(endpoint="/gyre/collect_gyre_components") {
         try {
             const response = await fetch(endpoint, {
                 method: "POST",
@@ -471,7 +471,7 @@
 
     async function renameFile(file_path, new_file_path) {
         try {
-            const response = await fetch("/workspace/rename_workflowfile", {
+            const response = await fetch("/gyre/rename_workflowfile", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -491,7 +491,7 @@
 
     async function updateFile(file_path, jsonData) {
         try {
-            const response = await fetch("/workspace/update_json_file", {
+            const response = await fetch("/gyre/update_json_file", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -511,7 +511,7 @@
 
     async function deleteFile(file_path) {
         try {
-            const response = await fetch("/workspace/delete_workflow_file", {
+            const response = await fetch("/gyre/delete_workflow_file", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

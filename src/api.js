@@ -1,6 +1,6 @@
 export async function updateFile(file_path, jsonData) {
     try {
-        const response = await fetch("/workspace/update_file", {
+        const response = await fetch("/gyre/update_file", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

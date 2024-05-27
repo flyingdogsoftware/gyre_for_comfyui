@@ -81,7 +81,7 @@ def get_my_deactivatedworkflows_dir():
 
 
 
-@server.PromptServer.instance.routes.post("/workspace/update_json_file")
+@server.PromptServer.instance.routes.post("/gyre/update_json_file")
 async def update_json_file(request):
     data = await request.json()
     file_path = data['file_path']
@@ -143,7 +143,7 @@ def folder_handle(path, existFlowIds):
 # Scan all files and subfolders in the local save directory.
 # For files, compare the extra.workspace_info.id in the json format file with the flow of the current DB to determine whether it is a flow that needs to be added;
 # For subfolders, scan the json files in the subfolder and use the same processing method as the file to determine whether it is a flow that needs to be added;
-@server.PromptServer.instance.routes.post("/workspace/readworkflowdir")
+@server.PromptServer.instance.routes.post("/gyre/readworkflowdir")
 async def readworkflowdir(request):
     reqJson = await request.json()
     type = None
@@ -171,7 +171,7 @@ async def readworkflowdir(request):
 
 
 
-@server.PromptServer.instance.routes.get("/workspace/readworkflowdir")
+@server.PromptServer.instance.routes.get("/gyre/readworkflowdir")
 async def readworkflowdir(request):
     path = get_my_workflows_dir()
     pathdefault = get_my_default_workflows_dir()
@@ -185,7 +185,7 @@ async def readworkflowdir(request):
 
 
 
-@server.PromptServer.instance.routes.post("/workspace/delete_workflow_file")
+@server.PromptServer.instance.routes.post("/gyre/delete_workflow_file")
 async def delete_workflow_file(request):
     data = await request.json()
     file_path = data['file_path']
@@ -208,7 +208,7 @@ async def delete_workflow_file(request):
     else:
         return web.Response(text=response_text)
 
-@server.PromptServer.instance.routes.post("/workspace/rename_workflowfile")
+@server.PromptServer.instance.routes.post("/gyre/rename_workflowfile")
 async def rename_workflowfile(request):
     data = await request.json()
     file_path = data['file_path']
@@ -225,7 +225,7 @@ async def rename_workflowfile(request):
         return web.Response(text="Not found", status=404)
 
 
-@server.PromptServer.instance.routes.post("/workspace/upload_log_json_file")
+@server.PromptServer.instance.routes.post("/gyre/upload_log_json_file")
 async def upload_log_json_file(request):
     data = await request.json()
     file_path = data['file_path']
@@ -355,12 +355,12 @@ server.PromptServer.instance.app.add_subapp("/gyre/", gyre_app)
 
 
 
-@server.PromptServer.instance.routes.post("/workspace/collect_gyre_components")
+@server.PromptServer.instance.routes.post("/gyre/collect_gyre_components")
 async def collect_gyre_components_ws(request):
     components_list=collect_gyre_components()
     return web.Response(text=json.dumps(components_list), content_type='application/json')
 
-@server.PromptServer.instance.routes.get("/workspace/init_components.js")
+@server.PromptServer.instance.routes.get("/gyre/init_components.js")
 async def create_js_file(request):
     # Call the collect_gyre_components function to get the list of components
     components = collect_gyre_components()
@@ -499,7 +499,7 @@ def get_all_model_files():
     result = {"models": files_with_dot}
     return result
 
-@server.PromptServer.instance.routes.post("/workspace/get_all_models")
+@server.PromptServer.instance.routes.post("/gyre/get_all_models")
 async def get_all_models(request):
     models_list=get_all_model_files()
     return web.Response(text=json.dumps(models_list), content_type='application/json')
@@ -526,7 +526,7 @@ async def download_model(session, model):
                 downloaded_size += len(chunk)
                 progress[model["path"]] = downloaded_size / total_size * 100
 
-@server.PromptServer.instance.routes.get("/workspace/download_models")
+@server.PromptServer.instance.routes.get("/gyre/download_models")
 async def prepare_models_download(request):
     path = get_my_workflows_dir()
     pathdefault = get_my_default_workflows_dir()
@@ -569,11 +569,11 @@ async def prepare_models_download(request):
 
     return web.Response(text=json.dumps(res), content_type='application/json')
 
-@server.PromptServer.instance.routes.get("/workspace/download_progress")
+@server.PromptServer.instance.routes.get("/gyre/download_progress")
 async def download_progress(request):
     return web.Response(text=json.dumps(progress), content_type='application/json')
 
-@server.PromptServer.instance.routes.get("/workspace/clear_download_progress")
+@server.PromptServer.instance.routes.get("/gyre/clear_download_progress")
 async def clear_download_progress(request):
     global progress
     progress = {}

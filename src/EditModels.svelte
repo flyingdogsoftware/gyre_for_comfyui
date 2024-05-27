@@ -80,7 +80,7 @@ function modelNotFound(modelPath) {
 
 let downloadingNow=false
 async function downloadModels() {
-    let response=await fetch("/workspace/download_progress")
+    let response=await fetch("/gyre/download_progress")
     let res=await response.json()
     if (downloadingNow || Object.keys(res).length) {
         alert("Already downloading models")
@@ -89,7 +89,7 @@ async function downloadModels() {
     try {
         downloadingNow=true
         startProgress()
-        let response = await fetch("/workspace/download_models?id="+$metadata.workflowid)  
+        let response = await fetch("/gyre/download_models?id="+$metadata.workflowid)  
         let result = await response.json();            
         return result;
     } catch (error) {
@@ -104,7 +104,7 @@ async function startProgress() {
     if (intervalID) clearInterval(intervalID)
     
     intervalID = setInterval(async () => { 
-        let response=await fetch("/workspace/download_progress")
+        let response=await fetch("/gyre/download_progress")
         progress=await response.json()
         $metadata.models=$metadata.models   // refresh template
         if ( !Object.keys(progress).length) {
