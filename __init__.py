@@ -364,7 +364,6 @@ async def collect_gyre_components_ws(request):
 async def create_js_file(request):
     # Call the collect_gyre_components function to get the list of components
     components = collect_gyre_components()
-    print(request.url)
 
     # Set containing unique relative paths to 'gyre_init.js'
     unique_paths = set()
@@ -403,12 +402,13 @@ def download_and_extract_github_repo():
     if response.status_code == 200:
         with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
             zip_ref.extractall(gyre_path)
-        print(f'Repository {url} downloaded and extracted to {gyre_path}')
+        print(f'New version downloaded from {url}. Install it now to {gyre_path}. Please wait...')
         source_directory = os.path.join(gyre_path,"aistudio-main","dist")
         target_directory = os.path.join(source_directory, '..', '..', os.path.basename(source_directory))
         if os.path.exists(target_directory) and os.path.isdir(target_directory):
             shutil.rmtree(target_directory)
         shutil.move(source_directory, target_directory)
+        print('Update finished')
     else:
         print(f'Failed to download repository: {response.status_code}')
 
@@ -504,5 +504,79 @@ async def get_all_models(request):
     models_list=get_all_model_files()
     return web.Response(text=json.dumps(models_list), content_type='application/json')
 
+# Shared dictionary to store progress
+progress = {}
+async def download_model(session, model):
+    models_path = os.path.abspath('./models')
+    target_path = os.path.join(models_path,model["target_folder"], model["target_name"])
+    
+    os.makedirs(model["target_folder"], exist_ok=True)
+
+    async with session.get(model["source_url"]) as response:
+        response.raise_for_status()
+        total_size = int(response.headers.get('content-length', 0))
+        downloaded_size = 0
+
+        with open(target_path, "wb") as f:
+            while True:
+                chunk = await response.content.read(1024)
+                if not chunk:
+                    break
+                f.write(chunk)
+                downloaded_size += len(chunk)
+                progress[model["path"]] = downloaded_size / total_size * 100
+
+@server.PromptServer.instance.routes.get("/workspace/download_models")
+async def prepare_models_download(request):
+    path = get_my_workflows_dir()
+    pathdefault = get_my_default_workflows_dir()
+    deactivateddir = get_my_deactivatedworkflows_dir()
+    fileList = folder_handle(path, [])
+    fileListdefault = folder_handle(pathdefault, [])
+    deactivated = folder_handle(deactivateddir, [])
+    workflowList = [fileList + fileListdefault + deactivated][0]
+    id = request.query.get('id')
+    workflowInfo = None
+    modelList = None
+    models = []
+    for wf in workflowList:
+        if (wf['id']==id):
+            workflowInfo=wf
+    res={'message':"Not found"}
+    if workflowInfo:
+        res= {'id': id}
+        workflow = json.loads(workflowInfo['json'])    
+        if 'extra' in workflow and 'gyre' in workflow['extra'] and 'models' in workflow['extra']['gyre']:
+            modelList = workflow['extra']['gyre']['models']    
+    if not modelList:
+        res={'message':"No models found"}
+    else:
+        availableModels=get_all_model_files()["models"]
+        for modelInfo in modelList:
+            if modelInfo['path'] not in availableModels:
+                directory, filename = os.path.split(modelInfo['path'])
+                models.append({
+                    "path": modelInfo['path'],
+                    "target_folder": directory,
+                    "target_name": filename,
+                    "source_url": modelInfo['URL']
+                })                
+        async with aiohttp.ClientSession() as session:
+            tasks = [download_model(session, model) for model in models]
+            await asyncio.gather(*tasks)
+            global progress
+            progress = {}
+
+    return web.Response(text=json.dumps(res), content_type='application/json')
+
+@server.PromptServer.instance.routes.get("/workspace/download_progress")
+async def download_progress(request):
+    return web.Response(text=json.dumps(progress), content_type='application/json')
+
+@server.PromptServer.instance.routes.get("/workspace/clear_download_progress")
+async def clear_download_progress(request):
+    global progress
+    progress = {}
+    return web.Response(text=json.dumps({"status":"Progress cleared"}), content_type='application/json')
 
 download_and_extract_github_repo()

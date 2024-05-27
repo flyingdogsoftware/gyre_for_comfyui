@@ -325,21 +325,6 @@
             return el.name == workflow.name;
         })
 
-
-
-
-        /*
-        if(workflow.defaultworkflow){
-            $metadata.tags = $metadata.tags.filter((el)=>el!='Defaultworkflow');
-            removeTag('Defaultworkflow');
-            duplicateWorkflow();
-            debugger;
-            current
-            state="properties"
-            return;
-        }
-        */
-
         if (state=="errorlogs"){
 
 
@@ -725,7 +710,8 @@
                             {/each}
                         </select>
                     {/if}
-                </div>               
+                </div>      
+                         
                  {#if  !$metadata.tags.includes('Default')}
 
                     <label for="license">License:</label>
@@ -764,7 +750,8 @@
                         Layer menu category: {$metadata.category}
                     {/if}       
                 </div>                
-                <EditModels availableModels={allModels} no_edit={$metadata.tags.includes('Default')}></EditModels>
+                <EditModels availableModels={allModels} no_edit={$metadata.tags.includes('Default')} on:downloadFinished={getAllModels}></EditModels>
+                {#if $metadata.workflowid}ID: {$metadata.workflowid}{/if}
 
             {/if}
             {#if state === "editForm"}
