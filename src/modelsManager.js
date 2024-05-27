@@ -13,7 +13,11 @@ export class modelsManager {
         let models=workflow.extra.gyre.models
         for(let i=0;i<models.length;i++) {
             let model=models[i]
-            if (!this.availableModels.includes(model)) return false
+            if (typeof model === "string") {
+                let modelObj={path:model}
+                model=modelObj
+            }            
+            if (!this.availableModels.includes(model.path)) return false
         }
     
         return true

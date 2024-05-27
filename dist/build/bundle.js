@@ -10270,30 +10270,30 @@ var gyreapp = (function () {
     const file$4 = "src\\EditModels.svelte";
 
     function add_css$5(target) {
-    	append_styles(target, "svelte-qtbsik", ".not-found.svelte-qtbsik.svelte-qtbsik{color:#ff6e6e}.modelEntry.svelte-qtbsik.svelte-qtbsik{list-style-type:none;height:24px}.modelEntry.svelte-qtbsik .deleteIcon.svelte-qtbsik{display:none;vertical-align:-8px}.modelEntry.svelte-qtbsik:hover .deleteIcon.svelte-qtbsik{display:inline-block}.input.svelte-qtbsik.svelte-qtbsik{background-color:black;color:white;font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, Ubuntu, Cantarell, \"Noto Sans\", sans-serif, \"Segoe UI\", Helvetica, Arial;padding:3px}h1.svelte-qtbsik.svelte-qtbsik{font-size:16px;margin-bottom:30px}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRWRpdE1vZGVscy5zdmVsdGUiLCJzb3VyY2VzIjpbIkVkaXRNb2RlbHMuc3ZlbHRlIl0sInNvdXJjZXNDb250ZW50IjpbIjxzY3JpcHQ+XHJcbiAgICAvKlxyXG4gICAgICAgIG1vZGVsIGxpc3QgZWRpdG9yIGdpdmVuIGEgbGlzdCBvZiBhbGwgaW5zdGFsbGVkIG1vZGVscyBvbiBzZXJ2ZXJcclxuICAgICovXHJcbiAgICBpbXBvcnQgeyBtZXRhZGF0YX0gZnJvbSAnLi9zdG9yZXMvbWV0YWRhdGEnXHJcbiAgICBpbXBvcnQgSWNvbiBmcm9tICcuL0ljb24uc3ZlbHRlJ1xyXG4gICAgZXhwb3J0IGxldCBub19lZGl0PWZhbHNlXHJcbiAgICBleHBvcnQgbGV0IGF2YWlsYWJsZU1vZGVscyA9IFtdXHJcbiAgICBpZiAoISRtZXRhZGF0YS5tb2RlbHMpICRtZXRhZGF0YS5tb2RlbHM9W11cclxuLy8gV3JpdGFibGUgc3RvcmUgZm9yIHNlbGVjdGVkIG1vZGVsXHJcbmxldCBzZWxlY3RlZE1vZGVsID0gJyc7XHJcblxyXG4vLyBGdW5jdGlvbiB0byBhZGQgYSBtb2RlbFxyXG5mdW5jdGlvbiBhZGRNb2RlbCgpIHtcclxuICBpZiAoc2VsZWN0ZWRNb2RlbCAmJiAhJG1ldGFkYXRhLm1vZGVscy5pbmNsdWRlcyhzZWxlY3RlZE1vZGVsKSkge1xyXG4gICAgJG1ldGFkYXRhLm1vZGVscy5wdXNoKHNlbGVjdGVkTW9kZWwpXHJcbiAgICAkbWV0YWRhdGEubW9kZWxzPSRtZXRhZGF0YS5tb2RlbHNcclxuICAgIHNlbGVjdGVkTW9kZWwgPSAnJyAvLyBSZXNldCBzZWxlY3RlZCBtb2RlbCBhZnRlciBhZGRpbmdcclxuICAgIH1cclxufVxyXG5cclxuLy8gRnVuY3Rpb24gdG8gcmVtb3ZlIGEgbW9kZWxcclxuZnVuY3Rpb24gcmVtb3ZlTW9kZWwoaW5kZXgpIHtcclxuICAkbWV0YWRhdGEubW9kZWxzLnNwbGljZShpbmRleCwxKVxyXG4gICRtZXRhZGF0YS5tb2RlbHM9JG1ldGFkYXRhLm1vZGVsc1xyXG59XHJcblxyXG4vLyBGdW5jdGlvbiB0byBjaGVjayBpZiBhIG1vZGVsIGlzIG5vdCBmb3VuZCBpbiBhdmFpbGFibGVNb2RlbHNcclxuZnVuY3Rpb24gbW9kZWxOb3RGb3VuZChtb2RlbCkge1xyXG4gIHJldHVybiAhYXZhaWxhYmxlTW9kZWxzLmluY2x1ZGVzKG1vZGVsKVxyXG59XHJcbiAgLy8gRnVuY3Rpb24gdG8gY2xlYW4gdXAga2V5cyBieSByZW1vdmluZyBwYXJlbnRoZXRpY2FsIGNvbnRlbnRcclxuICBmdW5jdGlvbiBjbGVhblZhbHVlKHZhbHVlKSB7XHJcbiAgICByZXR1cm4gdmFsdWUucmVwbGFjZSgvXFxzKlxcKC4qP1xcKVxccyovZywgJycpLnRyaW0oKTtcclxuICB9XHJcbiAvLyBGdW5jdGlvbiB0byBhZGQgbW9kZWxzIGZyb20gd29ya2Zsb3dcclxuIGZ1bmN0aW9uIGFkZE1vZGVsc0Zyb21Xb3JrZmxvdygpIHtcclxuICAgIGxldCBjb21ib1ZhbHVlcyA9IEpTT04ucGFyc2UoSlNPTi5zdHJpbmdpZnkoJG1ldGFkYXRhLnNlbGVjdGVkX2NvbWJvX3ZhbHVlcykpXHJcbiAgICBsZXQgY3VycmVudE1vZGVscyA9ICRtZXRhZGF0YS5tb2RlbHNcclxuICAgIGxldCBydWxlcz0kbWV0YWRhdGEucnVsZXNcclxuICAgIGlmIChydWxlcykge1xyXG4gICAgICAgIGZvcihsZXQgaT0wO2k8cnVsZXMubGVuZ3RoO2krKykge1xyXG4gICAgICAgICAgICBsZXQgcnVsZT1ydWxlc1tpXVxyXG4gICAgICAgICAgICBpZiAocnVsZS5hY3Rpb25UeXBlPT09XCJzZXRWYWx1ZVwiICYmIHJ1bGUuYWN0aW9uVmFsdWUuaW5jbHVkZXMoXCIuXCIpKSBjb21ib1ZhbHVlcy5wdXNoKHJ1bGUuYWN0aW9uVmFsdWUpXHJcbiAgICAgICAgfSAgICAgICAgXHJcbiAgICB9XHJcblxyXG4gICAgZm9yIChsZXQgaT0wO2k8Y29tYm9WYWx1ZXMubGVuZ3RoO2krKykge1xyXG4gICAgICAgIGxldCB2YWx1ZT1jbGVhblZhbHVlKGNvbWJvVmFsdWVzW2ldKVxyXG4gICAgICAgIGF2YWlsYWJsZU1vZGVscy5mb3JFYWNoKGF2YWlsYWJsZU1vZGVsID0+IHtcclxuICAgICAgICAgICAgaWYgKGF2YWlsYWJsZU1vZGVsLmluY2x1ZGVzKHZhbHVlKSAmJiAhY3VycmVudE1vZGVscy5pbmNsdWRlcyhhdmFpbGFibGVNb2RlbCkpIHtcclxuICAgICAgICAgICAgICAgICRtZXRhZGF0YS5tb2RlbHMucHVzaChhdmFpbGFibGVNb2RlbClcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgIH0pXHJcbiAgICB9XHJcbiAgICAkbWV0YWRhdGEubW9kZWxzPSRtZXRhZGF0YS5tb2RlbHNcclxuICB9XHJcbjwvc2NyaXB0PlxyXG5cclxuPHN0eWxlPlxyXG4ubm90LWZvdW5kIHtcclxuICBjb2xvcjogI2ZmNmU2ZTtcclxufVxyXG4ubW9kZWxFbnRyeSB7XHJcbiAgICBsaXN0LXN0eWxlLXR5cGU6IG5vbmU7XHJcbiAgICBoZWlnaHQ6IDI0cHg7XHJcbn1cclxuLm1vZGVsRW50cnkgLmRlbGV0ZUljb24ge1xyXG4gICAgZGlzcGxheTogbm9uZTtcclxuICAgIHZlcnRpY2FsLWFsaWduOiAtOHB4O1xyXG59XHJcbi5tb2RlbEVudHJ5OmhvdmVyIC5kZWxldGVJY29uIHtcclxuICAgIGRpc3BsYXk6aW5saW5lLWJsb2NrO1xyXG59XHJcbi5pbnB1dCB7XHJcbiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogYmxhY2s7XHJcbiAgICAgICAgY29sb3I6IHdoaXRlO1xyXG4gICAgICAgIGZvbnQtZmFtaWx5OiBzeXN0ZW0tdWksIC1hcHBsZS1zeXN0ZW0sIFwiU2Vnb2UgVUlcIiwgUm9ib3RvLCBVYnVudHUsIENhbnRhcmVsbCwgXCJOb3RvIFNhbnNcIiwgc2Fucy1zZXJpZiwgXCJTZWdvZSBVSVwiLCBIZWx2ZXRpY2EsIEFyaWFsO1xyXG4gICAgICAgIHBhZGRpbmc6IDNweDtcclxuICAgIH1cclxuaDEge1xyXG4gICAgZm9udC1zaXplOiAxNnB4O1xyXG4gICAgbWFyZ2luLWJvdHRvbTogMzBweDtcclxufSAgICBcclxuPC9zdHlsZT5cclxuXHJcbjxkaXY+XHJcbjxoMT5Nb2RlbCBMaXN0PC9oMT5cclxuPHVsPlxyXG4gIHsjZWFjaCAkbWV0YWRhdGEubW9kZWxzIGFzIG1vZGVsLCBpbmRleH1cclxuICAgIDxsaSBjbGFzcz17bW9kZWxOb3RGb3VuZChtb2RlbCkgPyAnbW9kZWxFbnRyeSBub3QtZm91bmQnIDogJ21vZGVsRW50cnknfSA+XHJcbiAgICAgIHttb2RlbH1cclxuICAgICAgeyNpZiAhbm9fZWRpdH1cclxuICAgICAgICA8ZGl2IGNsYXNzPVwiZGVsZXRlSWNvblwiPlxyXG4gICAgICAgICAgICA8SWNvbiBuYW1lPVwiZGVsZXRlXCIgb246Y2xpY2s9eyhlKT0+e3JlbW92ZU1vZGVsKGluZGV4KX19ID48L0ljb24+XHJcbiAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgey9pZn1cclxuICAgIDwvbGk+XHJcbiAgICBcclxuICB7L2VhY2h9XHJcbjwvdWw+XHJcblxyXG57I2lmICFub19lZGl0fVxyXG4gICAgPGRpdj5cclxuICAgIDxzZWxlY3QgYmluZDp2YWx1ZT17c2VsZWN0ZWRNb2RlbH0gY2xhc3M9XCJpbnB1dFwiPlxyXG4gICAgICAgIDxvcHRpb24gdmFsdWU9XCJcIiBkaXNhYmxlZD5TZWxlY3QgYSBtb2RlbDwvb3B0aW9uPlxyXG4gICAgICAgIHsjZWFjaCBhdmFpbGFibGVNb2RlbHMgYXMgbW9kZWx9XHJcbiAgICAgICAgPG9wdGlvbiB2YWx1ZT17bW9kZWx9Pnttb2RlbH08L29wdGlvbj5cclxuICAgICAgICB7L2VhY2h9XHJcbiAgICA8L3NlbGVjdD5cclxuICAgIDxidXR0b24gb246Y2xpY2s9e2FkZE1vZGVsfT5BZGQgTW9kZWw8L2J1dHRvbj5cclxuICAgIDxidXR0b24gb246Y2xpY2s9e2FkZE1vZGVsc0Zyb21Xb3JrZmxvd30+RnJvbSBXb3JrZmxvdzwvYnV0dG9uPlxyXG4gICAgPC9kaXY+XHJcbnsvaWZ9XHJcbjwvZGl2PiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUE0REEsc0NBQVcsQ0FDVCxLQUFLLENBQUUsT0FDVCxDQUNBLHVDQUFZLENBQ1IsZUFBZSxDQUFFLElBQUksQ0FDckIsTUFBTSxDQUFFLElBQ1osQ0FDQSx5QkFBVyxDQUFDLHlCQUFZLENBQ3BCLE9BQU8sQ0FBRSxJQUFJLENBQ2IsY0FBYyxDQUFFLElBQ3BCLENBQ0EseUJBQVcsTUFBTSxDQUFDLHlCQUFZLENBQzFCLFFBQVEsWUFDWixDQUNBLGtDQUFPLENBQ0MsZ0JBQWdCLENBQUUsS0FBSyxDQUN2QixLQUFLLENBQUUsS0FBSyxDQUNaLFdBQVcsQ0FBRSxTQUFTLENBQUMsQ0FBQyxhQUFhLENBQUMsQ0FBQyxVQUFVLENBQUMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxTQUFTLENBQUMsQ0FBQyxXQUFXLENBQUMsQ0FBQyxVQUFVLENBQUMsQ0FBQyxVQUFVLENBQUMsQ0FBQyxTQUFTLENBQUMsQ0FBQyxLQUFLLENBQ25JLE9BQU8sQ0FBRSxHQUNiLENBQ0osOEJBQUcsQ0FDQyxTQUFTLENBQUUsSUFBSSxDQUNmLGFBQWEsQ0FBRSxJQUNuQiJ9 */");
+    	append_styles(target, "svelte-qtbsik", ".not-found.svelte-qtbsik.svelte-qtbsik{color:#ff6e6e}.modelEntry.svelte-qtbsik.svelte-qtbsik{list-style-type:none;height:24px}.modelEntry.svelte-qtbsik .deleteIcon.svelte-qtbsik{display:none;vertical-align:-8px}.modelEntry.svelte-qtbsik:hover .deleteIcon.svelte-qtbsik{display:inline-block}.input.svelte-qtbsik.svelte-qtbsik{background-color:black;color:white;font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, Ubuntu, Cantarell, \"Noto Sans\", sans-serif, \"Segoe UI\", Helvetica, Arial;padding:3px}h1.svelte-qtbsik.svelte-qtbsik{font-size:16px;margin-bottom:30px}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRWRpdE1vZGVscy5zdmVsdGUiLCJzb3VyY2VzIjpbIkVkaXRNb2RlbHMuc3ZlbHRlIl0sInNvdXJjZXNDb250ZW50IjpbIjxzY3JpcHQ+XHJcbiAgICAvKlxyXG4gICAgICAgIG1vZGVsIGxpc3QgZWRpdG9yIGdpdmVuIGEgbGlzdCBvZiBhbGwgaW5zdGFsbGVkIG1vZGVscyBvbiBzZXJ2ZXJcclxuICAgICovXHJcbiAgICBpbXBvcnQgeyBtZXRhZGF0YX0gZnJvbSAnLi9zdG9yZXMvbWV0YWRhdGEnXHJcbiAgICBpbXBvcnQgSWNvbiBmcm9tICcuL0ljb24uc3ZlbHRlJ1xyXG4gICAgZXhwb3J0IGxldCBub19lZGl0PWZhbHNlXHJcbiAgICBleHBvcnQgbGV0IGF2YWlsYWJsZU1vZGVscyA9IFtdXHJcbiAgICBpZiAoISRtZXRhZGF0YS5tb2RlbHMpICRtZXRhZGF0YS5tb2RlbHM9W11cclxuXHJcbiAgICAvLyBjb252ZXJzaW9uIGZyb20gb2xkIHN0cmluZyBsaXN0XHJcbiAgICBmb3IobGV0IGk9MDsgaTwkbWV0YWRhdGEubW9kZWxzLmxlbmd0aDtpKyspIHtcclxuICAgICAgICBsZXQgbW9kZWw9JG1ldGFkYXRhLm1vZGVsc1tpXVxyXG4gICAgICAgIGlmICh0eXBlb2YgbW9kZWwgPT09IFwic3RyaW5nXCIpIHtcclxuICAgICAgICAgICAgbGV0IG1vZGVsT2JqPXtwYXRoOm1vZGVsfVxyXG4gICAgICAgICAgICAkbWV0YWRhdGEubW9kZWxzW2ldPW1vZGVsT2JqXHJcbiAgICAgICAgfVxyXG4gICAgfVxyXG5cclxuICAgIC8vIFdyaXRhYmxlIHN0b3JlIGZvciBzZWxlY3RlZCBtb2RlbFxyXG5sZXQgc2VsZWN0ZWRNb2RlbCA9ICcnO1xyXG5cclxuZnVuY3Rpb24gZmluZE1vZGVsKG1vZGVsUGF0aCkge1xyXG4gICAgZm9yKGxldCBpPTA7IGk8JG1ldGFkYXRhLm1vZGVscy5sZW5ndGg7aSsrKSB7XHJcbiAgICAgICAgbGV0IG1vZGVsPSRtZXRhZGF0YS5tb2RlbHNbaV1cclxuICAgICAgICBpZiAobW9kZWwucGF0aD09PW1vZGVsUGF0aCkgcmV0dXJuIG1vZGVsXHJcbiAgICB9XHJcbiAgICByZXR1cm4gZmFsc2VcclxufVxyXG4vLyBGdW5jdGlvbiB0byBhZGQgYSBtb2RlbFxyXG5mdW5jdGlvbiBhZGRNb2RlbCgpIHtcclxuICAgIGlmICghc2VsZWN0ZWRNb2RlbCkgcmV0dXJuXHJcbiAgICBpZiAoZmluZE1vZGVsKHNlbGVjdGVkTW9kZWwpKSByZXR1cm5cclxuICAgICRtZXRhZGF0YS5tb2RlbHMucHVzaCh7cGF0aDpzZWxlY3RlZE1vZGVsfSlcclxuICAgICRtZXRhZGF0YS5tb2RlbHM9JG1ldGFkYXRhLm1vZGVsc1xyXG4gICAgc2VsZWN0ZWRNb2RlbCA9ICcnIC8vIFJlc2V0IHNlbGVjdGVkIG1vZGVsIGFmdGVyIGFkZGluZyAgICBcclxufVxyXG5cclxuLy8gRnVuY3Rpb24gdG8gcmVtb3ZlIGEgbW9kZWxcclxuZnVuY3Rpb24gcmVtb3ZlTW9kZWwoaW5kZXgpIHtcclxuICAkbWV0YWRhdGEubW9kZWxzLnNwbGljZShpbmRleCwxKVxyXG4gICRtZXRhZGF0YS5tb2RlbHM9JG1ldGFkYXRhLm1vZGVsc1xyXG59XHJcblxyXG4vLyBGdW5jdGlvbiB0byBjaGVjayBpZiBhIG1vZGVsIGlzIG5vdCBmb3VuZCBpbiBhdmFpbGFibGVNb2RlbHNcclxuZnVuY3Rpb24gbW9kZWxOb3RGb3VuZChtb2RlbFBhdGgpIHtcclxuICByZXR1cm4gIWF2YWlsYWJsZU1vZGVscy5pbmNsdWRlcyhtb2RlbFBhdGgpXHJcbn1cclxuICAvLyBGdW5jdGlvbiB0byBjbGVhbiBwYXRoIG9ubHkgZmlsZSBuYW1lXHJcbiAgZnVuY3Rpb24gY2xlYW5WYWx1ZSh2YWx1ZSkge1xyXG4gICAgcmV0dXJuIHZhbHVlLnJlcGxhY2UoL1xccypcXCguKj9cXClcXHMqL2csICcnKS50cmltKCk7XHJcbiAgfVxyXG4gLy8gRnVuY3Rpb24gdG8gYWRkIG1vZGVscyBmcm9tIHdvcmtmbG93XHJcbiBmdW5jdGlvbiBhZGRNb2RlbHNGcm9tV29ya2Zsb3coKSB7XHJcbiAgICBsZXQgY29tYm9WYWx1ZXMgPSBKU09OLnBhcnNlKEpTT04uc3RyaW5naWZ5KCRtZXRhZGF0YS5zZWxlY3RlZF9jb21ib192YWx1ZXMpKVxyXG4gICAgbGV0IGN1cnJlbnRNb2RlbHMgPSAkbWV0YWRhdGEubW9kZWxzXHJcbiAgICBsZXQgcnVsZXM9JG1ldGFkYXRhLnJ1bGVzXHJcbiAgICBpZiAocnVsZXMpIHtcclxuICAgICAgICBmb3IobGV0IGk9MDtpPHJ1bGVzLmxlbmd0aDtpKyspIHtcclxuICAgICAgICAgICAgbGV0IHJ1bGU9cnVsZXNbaV1cclxuICAgICAgICAgICAgaWYgKHJ1bGUuYWN0aW9uVHlwZT09PVwic2V0VmFsdWVcIiAmJiBydWxlLmFjdGlvblZhbHVlLmluY2x1ZGVzKFwiLlwiKSkgY29tYm9WYWx1ZXMucHVzaChydWxlLmFjdGlvblZhbHVlKVxyXG4gICAgICAgIH0gICAgICAgIFxyXG4gICAgfVxyXG5cclxuICAgIGZvciAobGV0IGk9MDtpPGNvbWJvVmFsdWVzLmxlbmd0aDtpKyspIHtcclxuICAgICAgICBsZXQgdmFsdWU9Y2xlYW5WYWx1ZShjb21ib1ZhbHVlc1tpXSlcclxuICAgICAgICBhdmFpbGFibGVNb2RlbHMuZm9yRWFjaChhdmFpbGFibGVNb2RlbCA9PiB7XHJcbiAgICAgICAgICAgIGlmIChhdmFpbGFibGVNb2RlbC5pbmNsdWRlcyh2YWx1ZSkgJiYgIWZpbmRNb2RlbChhdmFpbGFibGVNb2RlbCkpIHtcclxuICAgICAgICAgICAgICAgICRtZXRhZGF0YS5tb2RlbHMucHVzaCh7cGF0aDphdmFpbGFibGVNb2RlbH0pXHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICB9KVxyXG4gICAgfVxyXG4gICAgJG1ldGFkYXRhLm1vZGVscz0kbWV0YWRhdGEubW9kZWxzXHJcbiAgfVxyXG48L3NjcmlwdD5cclxuXHJcbjxzdHlsZT5cclxuLm5vdC1mb3VuZCB7XHJcbiAgY29sb3I6ICNmZjZlNmU7XHJcbn1cclxuLm1vZGVsRW50cnkge1xyXG4gICAgbGlzdC1zdHlsZS10eXBlOiBub25lO1xyXG4gICAgaGVpZ2h0OiAyNHB4O1xyXG59XHJcbi5tb2RlbEVudHJ5IC5kZWxldGVJY29uIHtcclxuICAgIGRpc3BsYXk6IG5vbmU7XHJcbiAgICB2ZXJ0aWNhbC1hbGlnbjogLThweDtcclxufVxyXG4ubW9kZWxFbnRyeTpob3ZlciAuZGVsZXRlSWNvbiB7XHJcbiAgICBkaXNwbGF5OmlubGluZS1ibG9jaztcclxufVxyXG4uaW5wdXQge1xyXG4gICAgICAgIGJhY2tncm91bmQtY29sb3I6IGJsYWNrO1xyXG4gICAgICAgIGNvbG9yOiB3aGl0ZTtcclxuICAgICAgICBmb250LWZhbWlseTogc3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBcIlNlZ29lIFVJXCIsIFJvYm90bywgVWJ1bnR1LCBDYW50YXJlbGwsIFwiTm90byBTYW5zXCIsIHNhbnMtc2VyaWYsIFwiU2Vnb2UgVUlcIiwgSGVsdmV0aWNhLCBBcmlhbDtcclxuICAgICAgICBwYWRkaW5nOiAzcHg7XHJcbiAgICB9XHJcbmgxIHtcclxuICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgIG1hcmdpbi1ib3R0b206IDMwcHg7XHJcbn0gICAgXHJcbjwvc3R5bGU+XHJcblxyXG48ZGl2PlxyXG48aDE+TW9kZWwgTGlzdDwvaDE+XHJcbjx1bD5cclxuICB7I2VhY2ggJG1ldGFkYXRhLm1vZGVscyBhcyBtb2RlbCwgaW5kZXh9XHJcbiAgICA8bGkgY2xhc3M9e21vZGVsTm90Rm91bmQobW9kZWwucGF0aCkgPyAnbW9kZWxFbnRyeSBub3QtZm91bmQnIDogJ21vZGVsRW50cnknfSA+XHJcbiAgICAgIHttb2RlbC5wYXRofVxyXG4gICAgICB7I2lmICFub19lZGl0fVxyXG4gICAgICAgIDxkaXYgY2xhc3M9XCJkZWxldGVJY29uXCI+XHJcbiAgICAgICAgICAgIDxJY29uIG5hbWU9XCJkZWxldGVcIiBvbjpjbGljaz17KGUpPT57cmVtb3ZlTW9kZWwoaW5kZXgpfX0gPjwvSWNvbj5cclxuICAgICAgICA8L2Rpdj5cclxuICAgICAgICB7L2lmfVxyXG4gICAgPC9saT5cclxuICAgIFxyXG4gIHsvZWFjaH1cclxuPC91bD5cclxuXHJcbnsjaWYgIW5vX2VkaXR9XHJcbiAgICA8ZGl2PlxyXG4gICAgPHNlbGVjdCBiaW5kOnZhbHVlPXtzZWxlY3RlZE1vZGVsfSBjbGFzcz1cImlucHV0XCI+XHJcbiAgICAgICAgPG9wdGlvbiB2YWx1ZT1cIlwiIGRpc2FibGVkPlNlbGVjdCBhIG1vZGVsPC9vcHRpb24+XHJcbiAgICAgICAgeyNlYWNoIGF2YWlsYWJsZU1vZGVscyBhcyBtb2RlbH1cclxuICAgICAgICA8b3B0aW9uIHZhbHVlPXttb2RlbH0+e21vZGVsfTwvb3B0aW9uPlxyXG4gICAgICAgIHsvZWFjaH1cclxuICAgIDwvc2VsZWN0PlxyXG4gICAgPGJ1dHRvbiBvbjpjbGljaz17YWRkTW9kZWx9PkFkZCBNb2RlbDwvYnV0dG9uPlxyXG4gICAgPGJ1dHRvbiBvbjpjbGljaz17YWRkTW9kZWxzRnJvbVdvcmtmbG93fT5Gcm9tIFdvcmtmbG93PC9idXR0b24+XHJcbiAgICA8L2Rpdj5cclxuey9pZn1cclxuPC9kaXY+Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQTZFQSxzQ0FBVyxDQUNULEtBQUssQ0FBRSxPQUNULENBQ0EsdUNBQVksQ0FDUixlQUFlLENBQUUsSUFBSSxDQUNyQixNQUFNLENBQUUsSUFDWixDQUNBLHlCQUFXLENBQUMseUJBQVksQ0FDcEIsT0FBTyxDQUFFLElBQUksQ0FDYixjQUFjLENBQUUsSUFDcEIsQ0FDQSx5QkFBVyxNQUFNLENBQUMseUJBQVksQ0FDMUIsUUFBUSxZQUNaLENBQ0Esa0NBQU8sQ0FDQyxnQkFBZ0IsQ0FBRSxLQUFLLENBQ3ZCLEtBQUssQ0FBRSxLQUFLLENBQ1osV0FBVyxDQUFFLFNBQVMsQ0FBQyxDQUFDLGFBQWEsQ0FBQyxDQUFDLFVBQVUsQ0FBQyxDQUFDLE1BQU0sQ0FBQyxDQUFDLE1BQU0sQ0FBQyxDQUFDLFNBQVMsQ0FBQyxDQUFDLFdBQVcsQ0FBQyxDQUFDLFVBQVUsQ0FBQyxDQUFDLFVBQVUsQ0FBQyxDQUFDLFNBQVMsQ0FBQyxDQUFDLEtBQUssQ0FDbkksT0FBTyxDQUFFLEdBQ2IsQ0FDSiw4QkFBRyxDQUNDLFNBQVMsQ0FBRSxJQUFJLENBQ2YsYUFBYSxDQUFFLElBQ25CIn0= */");
     }
 
     function get_each_context$4(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[10] = list[i];
+    	child_ctx[11] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$4(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[10] = list[i];
-    	child_ctx[14] = i;
+    	child_ctx[11] = list[i];
+    	child_ctx[15] = i;
     	return child_ctx;
     }
 
-    // (93:6) {#if !no_edit}
+    // (110:6) {#if !no_edit}
     function create_if_block_1$3(ctx) {
     	let div;
     	let icon;
     	let current;
 
     	function click_handler(...args) {
-    		return /*click_handler*/ ctx[8](/*index*/ ctx[14], ...args);
+    		return /*click_handler*/ ctx[8](/*index*/ ctx[15], ...args);
     	}
 
     	icon = new Icon({
@@ -10308,7 +10308,7 @@ var gyreapp = (function () {
     			div = element("div");
     			create_component(icon.$$.fragment);
     			attr_dev(div, "class", "deleteIcon svelte-qtbsik");
-    			add_location(div, file$4, 93, 8, 2705);
+    			add_location(div, file$4, 110, 8, 3184);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -10337,17 +10337,17 @@ var gyreapp = (function () {
     		block,
     		id: create_if_block_1$3.name,
     		type: "if",
-    		source: "(93:6) {#if !no_edit}",
+    		source: "(110:6) {#if !no_edit}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (90:2) {#each $metadata.models as model, index}
+    // (107:2) {#each $metadata.models as model, index}
     function create_each_block_1$4(ctx) {
     	let li;
-    	let t0_value = /*model*/ ctx[10] + "";
+    	let t0_value = /*model*/ ctx[11].path + "";
     	let t0;
     	let t1;
     	let t2;
@@ -10363,11 +10363,11 @@ var gyreapp = (function () {
     			if (if_block) if_block.c();
     			t2 = space();
 
-    			attr_dev(li, "class", li_class_value = "" + (null_to_empty(/*modelNotFound*/ ctx[6](/*model*/ ctx[10])
+    			attr_dev(li, "class", li_class_value = "" + (null_to_empty(/*modelNotFound*/ ctx[6](/*model*/ ctx[11].path)
     			? 'modelEntry not-found'
     			: 'modelEntry') + " svelte-qtbsik"));
 
-    			add_location(li, file$4, 90, 4, 2584);
+    			add_location(li, file$4, 107, 4, 3053);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -10378,7 +10378,7 @@ var gyreapp = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if ((!current || dirty & /*$metadata*/ 8) && t0_value !== (t0_value = /*model*/ ctx[10] + "")) set_data_dev(t0, t0_value);
+    			if ((!current || dirty & /*$metadata*/ 8) && t0_value !== (t0_value = /*model*/ ctx[11].path + "")) set_data_dev(t0, t0_value);
 
     			if (!/*no_edit*/ ctx[0]) {
     				if (if_block) {
@@ -10403,7 +10403,7 @@ var gyreapp = (function () {
     				check_outros();
     			}
 
-    			if (!current || dirty & /*$metadata*/ 8 && li_class_value !== (li_class_value = "" + (null_to_empty(/*modelNotFound*/ ctx[6](/*model*/ ctx[10])
+    			if (!current || dirty & /*$metadata*/ 8 && li_class_value !== (li_class_value = "" + (null_to_empty(/*modelNotFound*/ ctx[6](/*model*/ ctx[11].path)
     			? 'modelEntry not-found'
     			: 'modelEntry') + " svelte-qtbsik"))) {
     				attr_dev(li, "class", li_class_value);
@@ -10428,14 +10428,14 @@ var gyreapp = (function () {
     		block,
     		id: create_each_block_1$4.name,
     		type: "each",
-    		source: "(90:2) {#each $metadata.models as model, index}",
+    		source: "(107:2) {#each $metadata.models as model, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (103:0) {#if !no_edit}
+    // (120:0) {#if !no_edit}
     function create_if_block$4(ctx) {
     	let div;
     	let select;
@@ -10474,13 +10474,13 @@ var gyreapp = (function () {
     			option.__value = "";
     			option.value = option.__value;
     			option.disabled = true;
-    			add_location(option, file$4, 105, 8, 2968);
+    			add_location(option, file$4, 122, 8, 3447);
     			attr_dev(select, "class", "input svelte-qtbsik");
     			if (/*selectedModel*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[9].call(select));
-    			add_location(select, file$4, 104, 4, 2909);
-    			add_location(button0, file$4, 110, 4, 3145);
-    			add_location(button1, file$4, 111, 4, 3197);
-    			add_location(div, file$4, 103, 4, 2898);
+    			add_location(select, file$4, 121, 4, 3388);
+    			add_location(button0, file$4, 127, 4, 3624);
+    			add_location(button1, file$4, 128, 4, 3676);
+    			add_location(div, file$4, 120, 4, 3377);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -10550,17 +10550,17 @@ var gyreapp = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(103:0) {#if !no_edit}",
+    		source: "(120:0) {#if !no_edit}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (107:8) {#each availableModels as model}
+    // (124:8) {#each availableModels as model}
     function create_each_block$4(ctx) {
     	let option;
-    	let t_value = /*model*/ ctx[10] + "";
+    	let t_value = /*model*/ ctx[11] + "";
     	let t;
     	let option_value_value;
 
@@ -10568,18 +10568,18 @@ var gyreapp = (function () {
     		c: function create() {
     			option = element("option");
     			t = text(t_value);
-    			option.__value = option_value_value = /*model*/ ctx[10];
+    			option.__value = option_value_value = /*model*/ ctx[11];
     			option.value = option.__value;
-    			add_location(option, file$4, 107, 8, 3069);
+    			add_location(option, file$4, 124, 8, 3548);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
     			append_dev(option, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*availableModels*/ 2 && t_value !== (t_value = /*model*/ ctx[10] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*availableModels*/ 2 && t_value !== (t_value = /*model*/ ctx[11] + "")) set_data_dev(t, t_value);
 
-    			if (dirty & /*availableModels*/ 2 && option_value_value !== (option_value_value = /*model*/ ctx[10])) {
+    			if (dirty & /*availableModels*/ 2 && option_value_value !== (option_value_value = /*model*/ ctx[11])) {
     				prop_dev(option, "__value", option_value_value);
     				option.value = option.__value;
     			}
@@ -10593,7 +10593,7 @@ var gyreapp = (function () {
     		block,
     		id: create_each_block$4.name,
     		type: "each",
-    		source: "(107:8) {#each availableModels as model}",
+    		source: "(124:8) {#each availableModels as model}",
     		ctx
     	});
 
@@ -10636,9 +10636,9 @@ var gyreapp = (function () {
     			t2 = space();
     			if (if_block) if_block.c();
     			attr_dev(h1, "class", "svelte-qtbsik");
-    			add_location(h1, file$4, 87, 0, 2509);
-    			add_location(ul, file$4, 88, 0, 2530);
-    			add_location(div, file$4, 86, 0, 2502);
+    			add_location(h1, file$4, 104, 0, 2978);
+    			add_location(ul, file$4, 105, 0, 2999);
+    			add_location(div, file$4, 103, 0, 2971);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -10751,16 +10751,35 @@ var gyreapp = (function () {
     	let { availableModels = [] } = $$props;
     	if (!$metadata.models) set_store_value(metadata, $metadata.models = [], $metadata);
 
+    	// conversion from old string list
+    	for (let i = 0; i < $metadata.models.length; i++) {
+    		let model = $metadata.models[i];
+
+    		if (typeof model === "string") {
+    			let modelObj = { path: model };
+    			set_store_value(metadata, $metadata.models[i] = modelObj, $metadata);
+    		}
+    	}
+
     	// Writable store for selected model
     	let selectedModel = '';
 
+    	function findModel(modelPath) {
+    		for (let i = 0; i < $metadata.models.length; i++) {
+    			let model = $metadata.models[i];
+    			if (model.path === modelPath) return model;
+    		}
+
+    		return false;
+    	}
+
     	// Function to add a model
     	function addModel() {
-    		if (selectedModel && !$metadata.models.includes(selectedModel)) {
-    			$metadata.models.push(selectedModel);
-    			metadata.set($metadata);
-    			$$invalidate(2, selectedModel = ''); // Reset selected model after adding
-    		}
+    		if (!selectedModel) return;
+    		if (findModel(selectedModel)) return;
+    		$metadata.models.push({ path: selectedModel });
+    		metadata.set($metadata);
+    		$$invalidate(2, selectedModel = ''); // Reset selected model after adding    
     	}
 
     	// Function to remove a model
@@ -10770,14 +10789,14 @@ var gyreapp = (function () {
     	}
 
     	// Function to check if a model is not found in availableModels
-    	function modelNotFound(model) {
-    		return !availableModels.includes(model);
+    	function modelNotFound(modelPath) {
+    		return !availableModels.includes(modelPath);
     	}
 
     	// Function to add models from workflow
     	function addModelsFromWorkflow() {
     		let comboValues = JSON.parse(JSON.stringify($metadata.selected_combo_values));
-    		let currentModels = $metadata.models;
+    		$metadata.models;
     		let rules = $metadata.rules;
 
     		if (rules) {
@@ -10791,8 +10810,8 @@ var gyreapp = (function () {
     			let value = cleanValue(comboValues[i]);
 
     			availableModels.forEach(availableModel => {
-    				if (availableModel.includes(value) && !currentModels.includes(availableModel)) {
-    					$metadata.models.push(availableModel);
+    				if (availableModel.includes(value) && !findModel(availableModel)) {
+    					$metadata.models.push({ path: availableModel });
     				}
     			});
     		}
@@ -10827,6 +10846,7 @@ var gyreapp = (function () {
     		no_edit,
     		availableModels,
     		selectedModel,
+    		findModel,
     		addModel,
     		removeModel,
     		modelNotFound,
@@ -15918,7 +15938,11 @@ var gyreapp = (function () {
             let models=workflow.extra.gyre.models;
             for(let i=0;i<models.length;i++) {
                 let model=models[i];
-                if (!this.availableModels.includes(model)) return false
+                if (typeof model === "string") {
+                    let modelObj={path:model};
+                    model=modelObj;
+                }            
+                if (!this.availableModels.includes(model.path)) return false
             }
         
             return true

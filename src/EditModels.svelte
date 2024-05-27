@@ -7,16 +7,33 @@
     export let no_edit=false
     export let availableModels = []
     if (!$metadata.models) $metadata.models=[]
-// Writable store for selected model
+
+    // conversion from old string list
+    for(let i=0; i<$metadata.models.length;i++) {
+        let model=$metadata.models[i]
+        if (typeof model === "string") {
+            let modelObj={path:model}
+            $metadata.models[i]=modelObj
+        }
+    }
+
+    // Writable store for selected model
 let selectedModel = '';
 
+function findModel(modelPath) {
+    for(let i=0; i<$metadata.models.length;i++) {
+        let model=$metadata.models[i]
+        if (model.path===modelPath) return model
+    }
+    return false
+}
 // Function to add a model
 function addModel() {
-  if (selectedModel && !$metadata.models.includes(selectedModel)) {
-    $metadata.models.push(selectedModel)
+    if (!selectedModel) return
+    if (findModel(selectedModel)) return
+    $metadata.models.push({path:selectedModel})
     $metadata.models=$metadata.models
-    selectedModel = '' // Reset selected model after adding
-    }
+    selectedModel = '' // Reset selected model after adding    
 }
 
 // Function to remove a model
@@ -26,10 +43,10 @@ function removeModel(index) {
 }
 
 // Function to check if a model is not found in availableModels
-function modelNotFound(model) {
-  return !availableModels.includes(model)
+function modelNotFound(modelPath) {
+  return !availableModels.includes(modelPath)
 }
-  // Function to clean up keys by removing parenthetical content
+  // Function to clean path only file name
   function cleanValue(value) {
     return value.replace(/\s*\(.*?\)\s*/g, '').trim();
   }
@@ -48,8 +65,8 @@ function modelNotFound(model) {
     for (let i=0;i<comboValues.length;i++) {
         let value=cleanValue(comboValues[i])
         availableModels.forEach(availableModel => {
-            if (availableModel.includes(value) && !currentModels.includes(availableModel)) {
-                $metadata.models.push(availableModel)
+            if (availableModel.includes(value) && !findModel(availableModel)) {
+                $metadata.models.push({path:availableModel})
             }
         })
     }
@@ -88,8 +105,8 @@ h1 {
 <h1>Model List</h1>
 <ul>
   {#each $metadata.models as model, index}
-    <li class={modelNotFound(model) ? 'modelEntry not-found' : 'modelEntry'} >
-      {model}
+    <li class={modelNotFound(model.path) ? 'modelEntry not-found' : 'modelEntry'} >
+      {model.path}
       {#if !no_edit}
         <div class="deleteIcon">
             <Icon name="delete" on:click={(e)=>{removeModel(index)}} ></Icon>
