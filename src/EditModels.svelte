@@ -6,6 +6,7 @@
     import {onMount} from 'svelte'   
     import { createEventDispatcher } from 'svelte'    
     import { metadata} from './stores/metadata'
+    import { mappingsHelper } from './mappingsHelper.js'
 
     import Icon from './Icon.svelte'
     export let no_edit=false
@@ -57,7 +58,7 @@ function modelNotFound(modelPath) {
   }
  // Function to add models from workflow
  function addModelsFromWorkflow() {
-    let comboValues = JSON.parse(JSON.stringify($metadata.selected_combo_values))
+    let comboValues=new mappingsHelper().getSelectedComboValues()
     let currentModels = $metadata.models
     let rules=$metadata.rules
     if (rules) {

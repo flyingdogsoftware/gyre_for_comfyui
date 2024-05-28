@@ -90,4 +90,37 @@ export class mappingsHelper {
         }
     }
 
+    setComboValues(combo_values) {
+        // @ts-ignore
+        for(let i=0;i<window.app.graph._nodes.length;i++) {
+            // @ts-ignore
+            let _node=window.app.graph._nodes[i]
+            if  (_node && _node.widgets!=void 0) {
+                for(let k=0;k<_node.widgets.length;k++) {
+                    let widget=_node.widgets[k]
+                    if (widget.type==="combo" && widget.options  && widget.options.values && widget.name && widget.name!=="image") {
+                        combo_values[widget.name]=widget.options.values 
+                    }
+                }
+            }
+        }
+    }
+    getSelectedComboValues() {
+        let selected_combo_values=[]
+        // @ts-ignore
+        for(let i=0;i<window.app.graph._nodes.length;i++) {
+            // @ts-ignore
+            let _node=window.app.graph._nodes[i]
+            if  (_node && _node.widgets!=void 0) {
+                for(let k=0;k<_node.widgets.length;k++) {
+                    let widget=_node.widgets[k]
+                    if (widget.type==="combo" && widget.options  && widget.options.values && widget.name && widget.name!=="image") {
+                        let value=widget.value
+                        if (!selected_combo_values.includes(value)) selected_combo_values.push(value)
+                    }
+                }
+            }
+        }
+        return selected_combo_values
+    }
 }

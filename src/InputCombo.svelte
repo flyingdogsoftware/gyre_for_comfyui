@@ -2,10 +2,18 @@
   
 
   import {metadata} from "./stores/metadata";
+  import { mappingsHelper } from './mappingsHelper.js'
+  import { onMount } from 'svelte'
 
   export let value=""
   import Icon from './Icon.svelte'
   let showBox=false
+
+  onMount(() => {
+        if(!$metadata.combo_values) $metadata.combo_values = {}
+        let mh=new mappingsHelper()
+        mh.setComboValues($metadata.combo_values)
+  })
   </script>
   
   <style>

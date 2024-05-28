@@ -6,7 +6,6 @@
 
     export let render=true
     import { mappingsHelper } from './mappingsHelper.js'
-  import { insert_hydration_dev } from 'svelte/internal';
 
     let showGyreMappings="none"
     let gyreMappingsDialogLeft="100px"
@@ -56,16 +55,6 @@
     }
     window.checkGyreMapping=checkGyreMapping
 
-    function gyreSetComboValues(widget) {           // todo: find out in future where to directly get these information
-        if (widget.type!=="combo" || !widget.options  || !widget.options.values || !widget.name ) return
-        if (widget.name==="image") return
-        if(!$metadata.combo_values) $metadata.combo_values = {}
-        $metadata.combo_values[widget.name]=widget.options.values //widget.options
-        let value=widget.value
-        if (!$metadata.selected_combo_values) $metadata.selected_combo_values=[]
-        if (!$metadata.selected_combo_values.includes(value)) $metadata.selected_combo_values.push(value)
-    }
-    window.gyreSetComboValues=gyreSetComboValues
 
     function gyreClearAllComboValues() {
         $metadata.combo_values = {}
