@@ -87,6 +87,20 @@
         html+="></"+element.tag+">"
     }
     onMount(() => {
+        if(!$metadata.combo_values) $metadata.combo_values = {}
+        for(let i=0;i<window.app.graph._nodes.length;i++) {
+            let _node=window.app.graph._nodes[i]
+            if  (_node && _node.widgets!=void 0) {
+                for(let k=0;k<_node.widgets.length;k++) {
+                    let widget=_node.widgets[k]
+                    if (widget.type==="combo" && widget.options  && widget.options.values && widget.name && widget.name!=="image") {
+                        $metadata.combo_values[widget.name]=widget.options.values 
+                    }
+                }
+            }
+        }
+        
+
         generateElement()
         if (!elementRoot) return
         let customElements=elementRoot.getElementsByClassName("custom")        // should be max 1
