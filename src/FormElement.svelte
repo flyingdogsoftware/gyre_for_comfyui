@@ -7,6 +7,7 @@
     import {metadata} from "./stores/metadata"
     import LayerStack3D from "./LayerStack3D.svelte"
     import { onMount } from 'svelte'
+    import { mappingsHelper } from './mappingsHelper.js'
 
     const dispatch = createEventDispatcher()
     export let value
@@ -87,19 +88,11 @@
         html+="></"+element.tag+">"
     }
     onMount(() => {
+        // get all combo values
+
         if(!$metadata.combo_values) $metadata.combo_values = {}
-        for(let i=0;i<window.app.graph._nodes.length;i++) {
-            let _node=window.app.graph._nodes[i]
-            if  (_node && _node.widgets!=void 0) {
-                for(let k=0;k<_node.widgets.length;k++) {
-                    let widget=_node.widgets[k]
-                    if (widget.type==="combo" && widget.options  && widget.options.values && widget.name && widget.name!=="image") {
-                        $metadata.combo_values[widget.name]=widget.options.values 
-                    }
-                }
-            }
-        }
-        
+        let mh=new mappingsHelper()
+        mh.setComboValues($metadata.combo_values)
 
         generateElement()
         if (!elementRoot) return

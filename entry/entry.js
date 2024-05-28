@@ -55,7 +55,6 @@ const callback = function (mutationsList, observer) {
               ctx.textAlign = "left";
               if (w.disabled) ctx.globalAlpha *= 0.5;
               let widget_width = w.width || width
-              if (window.gyreSetComboValues) window.gyreSetComboValues(w)
               
               if (!window.checkGyreMapping) continue
               let label=window.checkGyreMapping(node,w,i)
