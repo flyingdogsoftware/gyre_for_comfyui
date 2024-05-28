@@ -58,6 +58,7 @@
         await loadList();
         await loadLogList();
         addExternalLoadListener();
+        await overrideCleanFunction();
         let lastloadedworkflowname = localStorage.getItem("lastgyreworkflowloaded");
         if(lastloadedworkflowname) {
             let current = $workflowList.find((el) => {
@@ -65,19 +66,41 @@
             })
 
             loadWorkflow(current)
-            loadUIComponents()
+            loadUIComponents();
+
+
 
         }
 
     })
 
 
+    async function overrideCleanFunction() {
+        await new Promise(r => setTimeout(r, 100));
+
+        const orgclean = window.app.clean;
+        window.app.clean = function () {
+            orgclean?.apply(this, arguments);
+            if($metadata){
+                setTimeout( ()=>{
+                    let helper=new mappingsHelper()
+                    helper.cleanUpMappings($metadata)
+                }, 500);
+            }
+        }
+    }
+
+
+
     function addExternalLoadListener() {
         const fileInput = document.getElementById("comfy-file-input");
         const fileInputListener = async () => {
             if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                await new Promise(r => setTimeout(r, 500));
                 new Date(fileInput.files[0].lastModified).toDateString()
-                let fixedfilename = getAvalableFileName(fileInput.files[0].name);
+                let fixedfilename = fileInput.files[0].name.replace(".json","");
+                fixedfilename = getAvalableFileName(fixedfilename);
+
                 let graph = window.app.graph.serialize();
                 graph.name = fixedfilename;
                 graph.lastModified = fileInput.files[0].lastModified
@@ -85,12 +108,15 @@
                 graph.extra.workspace_info.name = fixedfilename;
                 graph.extra.workspace_info.lastModified = fileInput.files[0].lastModified;
                 graph.extra.workspace_info.lastModifiedReadable = new Date(fileInput.files[0].lastModified).toISOString().split('T')[0];
+                if (graph?.extra?.gyre) {
+                    graph.gyre = graph?.extra?.gyre;
+                }
                 if (!graph.extra.gyre) {
                     graph.extra.gyre = {};
                 }
+
                 graph.extra.gyre.lastModified = fileInput.files[0].lastModified;
                 graph.extra.gyre.lastModifiedReadable = new Date(fileInput.files[0].lastModified).toISOString().split('T')[0];
-
                 loadedworkflow = graph;
                 loadWorkflow(graph);
             }
@@ -349,21 +375,29 @@
 
         }
         localStorage.setItem('lastgyreworkflowloaded',workflow.name);
-        if (!loadedworkflow) {
+
+            let wf = null;
+            if (loadedworkflow) {
+                wf = loadedworkflow;
+                loadedworkflow = null;
+                current = null;
+            }
+
+
             if (!current) {
-                let wf = JSON.parse(workflow.json);
+
+                if(!wf) wf = JSON.parse(workflow.json);
                 if (!wf.name && name) wf.name = name;
                 window.app.loadGraphData(wf);
                 //window.app.loadGraphData(workflow);
             } else {
-                let wf = JSON.parse(current.json);
+                wf = JSON.parse(current.json);
                 if (!wf.name && name) wf.name = name;
                 window.app.loadGraphData(wf);
             }
-        state="properties"
-        }
 
-    }
+        state="properties"
+     }
 
 
     async function  testFirstPass() {
