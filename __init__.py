@@ -564,7 +564,7 @@ async def prepare_models_download(request):
     modelList = None
     models = []
     for wf in workflowList:
-        if (wf['id']==id):
+        if (('id' in wf) and (wf['id']==id)):
             workflowInfo=wf
     res={'message':"Not found"}
     if workflowInfo:
