@@ -185,8 +185,10 @@ async def readworkflowdir(request):
     else:
         path = get_my_workflows_dir()
 
-    if deactivateListFile:
+    if type and type=='deactivatedworkflows' and deactivateListFile:
         fileList = deactivateListFile
+    elif  type and type=='deactivatedworkflows':
+        fileList = []
     else:
         fileList = folder_handle(path, existFlowIds)
 
