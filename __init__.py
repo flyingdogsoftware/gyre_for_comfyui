@@ -535,7 +535,7 @@ async def download_model(session, model):
     models_path = os.path.abspath('./models')
     target_path = os.path.join(models_path,model["target_folder"], model["target_name"])
     
-    os.makedirs(model["target_folder"], exist_ok=True)
+    os.makedirs(os.path.join(models_path,model["target_folder"]), exist_ok=True)
 
     async with session.get(model["source_url"]) as response:
         response.raise_for_status()
