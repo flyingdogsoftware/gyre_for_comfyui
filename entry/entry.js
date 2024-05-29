@@ -142,13 +142,15 @@ class Gyre {
   serverName
   currentExtensionName
   serverProtocol
+  serverFromBrowser
   setCurrentExtensionName(extensionName) {
     this.currentExtensionName=extensionName
   }
   getFullExtensionPath(extensionName) {
     // fix protocol - get it from browser
-    this.serverName = this.serverName.replace(/(^\w+:|^)\/\//, '');
-    this.serverName = this.serverProtocol+'//'+this.serverName;
+    //this.serverName = this.serverName.replace(/(^\w+:|^)\/\//, '');
+    //this.serverName = this.serverProtocol+'//'+this.serverName;
+    this.serverName = this.serverFromBrowser;
     return this.serverName+"/gyre_extensions/"+extensionName
   }
 
@@ -163,6 +165,7 @@ class Gyre {
 
   init() {
     this.serverProtocol = location.protocol;
+    this.serverFromBrowser =  location.origin;
     var script = document.createElement("script");
     script.async = false;
     script.src = "/gyre/init_components.js";
