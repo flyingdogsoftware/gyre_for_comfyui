@@ -64,20 +64,20 @@ server.PromptServer.instance.app.add_subapp("/dist/", gyre_app)
 
 
 def get_my_workflows_dir():
-    return os.path.join(comfy_path, 'gyre_workflows')
+    return os.path.join(comfy_path, 'workflows')
 
 def get_my_default_workflows_dir():
     return os.path.join(workspace_path, 'gyre_default_workflows')
 
 
 def get_my_log_dir():
-    return os.path.join(comfy_path, 'gyre_logs')
+    return os.path.join(comfy_path, 'logs')
 
 def get_my_debug_dir():
-    return os.path.join(comfy_path, 'gyre_debug')
+    return os.path.join(comfy_path, 'debug')
 
 def get_my_formdata_dir():
-    return os.path.join(comfy_path, 'gyre_formdata')
+    return os.path.join(comfy_path, 'formdata')
 
 def get_my_deactivatedworkflows_dir():
     return os.path.join(comfy_path, '')
