@@ -558,8 +558,7 @@ async def prepare_models_download(request):
     deactivateddir = get_my_deactivatedworkflows_dir()
     fileList = folder_handle(path, [])
     fileListdefault = folder_handle(pathdefault, [])
-    deactivated = folder_handle(deactivateddir, [])
-    workflowList = [fileList + fileListdefault + deactivated][0]
+    workflowList = [fileList + fileListdefault ][0]
     id = request.query.get('id')
     workflowInfo = None
     modelList = None
