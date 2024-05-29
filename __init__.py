@@ -28,7 +28,10 @@ version = "V1.0.0"
 
 print(f"### Loading: Gyre ({version})")
 workspace_path = os.path.join(os.path.dirname(__file__))
-comfy_path = os.path.dirname(folder_paths.__file__)
+comfy_path = os.path.join(os.path.dirname(folder_paths.__file__),"gyre_files")
+# Create the directory if it doesn't exist
+os.makedirs(comfy_path, exist_ok=True)
+
 db_dir_path = os.path.join(workspace_path, "db")
 
 workspace_app = web.Application()
@@ -77,7 +80,7 @@ def get_my_formdata_dir():
     return os.path.join(comfy_path, 'gyre_formdata')
 
 def get_my_deactivatedworkflows_dir():
-    return os.path.join(comfy_path, 'gyre_deactivatedworkflowslist')
+    return os.path.join(comfy_path, '')
 
 
 
@@ -116,6 +119,10 @@ def file_handle(name, file, existFlowIds, fileList,lastmodified):
     else:
         fileList.append(fileInfo)
 
+
+
+
+
 def folder_handle(path, existFlowIds):
     fileList = []
     # Create the directory if it doesn't exist
@@ -140,15 +147,30 @@ def folder_handle(path, existFlowIds):
 
 
 
+def load_file(path,file):
+    fileList = []
+    existFlowIds = []
+    for item in os.listdir(path):
+        item_path = os.path.join(path, item)
+        if os.path.isfile(item_path) and item_path.endswith(file+".json"):
+            lastmodified = os.path.getmtime(item_path)
+            with open(item_path, 'r', encoding='utf-8') as f:
+                file_handle(item, f, existFlowIds, fileList,lastmodified)
+    return fileList
+
+
+
 # Scan all files and subfolders in the local save directory.
 # For files, compare the extra.workspace_info.id in the json format file with the flow of the current DB to determine whether it is a flow that needs to be added;
 # For subfolders, scan the json files in the subfolder and use the same processing method as the file to determine whether it is a flow that needs to be added;
 @server.PromptServer.instance.routes.post("/gyre/readworkflowdir")
 async def readworkflowdir(request):
     reqJson = await request.json()
+    deactivateListFile = None
     type = None
     if ('type' in reqJson): type = reqJson['type']
     path = None
+    existFlowIds = reqJson['existFlowIds']
     if (type and type=='logs'):
         path = get_my_log_dir()
     elif  (type and type=='debugs'):
@@ -157,14 +179,17 @@ async def readworkflowdir(request):
         path = get_my_formdata_dir()
     elif  (type and type=='deactivatedworkflows'):
         path = get_my_deactivatedworkflows_dir()
-
+        deactivateListFile = load_file(path,'deactivatedworkflows')
     elif  (type and type=='defaults'):
         path = get_my_default_workflows_dir()
     else:
         path = get_my_workflows_dir()
-    existFlowIds = reqJson['existFlowIds']
 
-    fileList = folder_handle(path, existFlowIds)
+    if deactivateListFile:
+        fileList = deactivateListFile
+    else:
+        fileList = folder_handle(path, existFlowIds)
+
     return web.Response(text=json.dumps(fileList), content_type='application/json')
 
 
@@ -178,7 +203,7 @@ async def readworkflowdir(request):
     deactivateddir = get_my_deactivatedworkflows_dir()
     fileList = folder_handle(path, [])
     fileListdefault = folder_handle(pathdefault, [])
-    deactivated = folder_handle(deactivateddir, [])
+    deactivated = load_file(deactivateddir,'deactivatedworkflows')
     res = [fileList + fileListdefault + deactivated]
     return web.Response(text=json.dumps(res[0]), content_type='application/json')
 
@@ -433,7 +458,7 @@ def read_version_from_file(filename):
 
 
 def check_update_required():
-        filename = 'version.pkl'
+        filename = os.path.join(comfy_path,'version.pkl')
         # Send a GET request to the URL to get the content of package.json
         oldversion = read_version_from_file(filename)
         response = requests.get(f'https://raw.githubusercontent.com/grzegorzewskiflyingdog/aistudio/main/package.json')
