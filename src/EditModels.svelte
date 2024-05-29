@@ -38,6 +38,7 @@ function addModel() {
     if (!selectedModel) return
     if (findModel(selectedModel)) return
     $metadata.models.push({path:selectedModel})
+    findModelURL($metadata.models.length-1)
     $metadata.models=$metadata.models
     selectedModel = '' // Reset selected model after adding    
 }
@@ -76,6 +77,9 @@ function modelNotFound(modelPath) {
             }
         })
     }
+    for(let i=0;i<$metadata.models.length;i++) {
+        findModelURL(i)
+    }
     $metadata.models=$metadata.models
   }
 
@@ -98,6 +102,17 @@ async function downloadModels() {
        // alert("Error downloading models  " + error);
     }
 }
+    function findModelURL(index) {
+        let model=$metadata.models[index]
+        const fileName = model.path.split('/').pop()
+        for(let i=0;i<ManagerModels.models.length;i++) {
+            let mmodel=ManagerModels.models[i]
+            if (fileName===mmodel.filename) {
+                model.URL=mmodel.url
+            }
+        }
+        $metadata.models=$metadata.models
+    }
 let progress={}
 let intervalID=0
 async function startProgress() {
@@ -119,8 +134,11 @@ async function startProgress() {
     },500)
 }
 
+let ManagerModels=[]
 onMount(async () => {
     startProgress()     // check progress after page reload
+    let result=await fetch("https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/model-list.json")
+    ManagerModels=await result.json()
 })
 </script>
 
@@ -142,7 +160,7 @@ onMount(async () => {
 .modelEntry:hover .deleteIcon {
     display: block;
 }
-.modelEntry:hover .inputURL {
+.modelEntry:hover .inputModelURL {
     opacity: 1.0;
     transition: opacity 0.5s;
 }
@@ -175,7 +193,10 @@ h1 {
 
     margin-top: 10px;
     margin-bottom: 10px;
-    opacity: 0;
+
+}
+.inputModelURL {
+        opacity: 0;
 }
 </style>
 
@@ -183,7 +204,7 @@ h1 {
 <h1>Model List</h1>
 <ul>
   {#each $metadata.models as model, index}
-    <li class={modelNotFound(model.path) && !progress[model.path] ? 'modelEntry not-found' : 'modelEntry'} >
+    <li class={modelNotFound(model.path) && !progress[model.path] ? 'modelEntry not-found' : 'modelEntry'} title="{model.URL}">
       {model.path}
       {#if progress[model.path]}
         <div class="progressBarContainer">
@@ -191,7 +212,10 @@ h1 {
         </div>
       {/if}
       {#if !no_edit && !progress[model.path]}
-        <div><input type="text" placeholder="Source URL" bind:value={model.URL} class="input inputURL"></div>
+        <div class="inputModelURL">
+            <input type="text" placeholder="Source URL" bind:value={model.URL} class="input inputURL">
+            <Icon name="find" on:click={(e)=>{findModelURL(index)}}></Icon>
+        </div>
         <div class="deleteIcon">
             <Icon name="deactivated" on:click={(e)=>{removeModel(index)}} title="Remove from list - it will be not deleted in filesystem."></Icon>
         </div>
