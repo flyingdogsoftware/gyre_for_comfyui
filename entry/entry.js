@@ -148,7 +148,7 @@ class Gyre {
   getFullExtensionPath(extensionName) {
     // fix protocol - get it from browser
     this.serverName = this.serverName.replace(/(^\w+:|^)\/\//, '');
-    this.serverName = this.serverProtocol+this.serverName;
+    this.serverName = this.serverProtocol+'//'+this.serverName;
     return this.serverName+"/gyre_extensions/"+extensionName
   }
 
