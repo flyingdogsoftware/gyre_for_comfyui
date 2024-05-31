@@ -526,7 +526,7 @@ def get_all_model_files():
     result = {"models": files_with_dot}
     return result
 
-@server.PromptServer.instance.routes.post("/gyre/get_all_models")
+@server.PromptServer.instance.routes.get("/gyre/get_all_models")
 async def get_all_models(request):
     models_list=get_all_model_files()
     return web.Response(text=json.dumps(models_list), content_type='application/json')

@@ -219,7 +219,7 @@
      * get list of all installed models
      */
      async function getAllModels() {
-        let res = await getListFromServer("/gyre/get_all_models")
+        let res = await getListFromServer("/gyre/get_all_models","GET")
         if (res) allModels=res.models
  //       console.log("All models",allModels)
     }
@@ -291,17 +291,24 @@
             }
         }
     }
-    async function getListFromServer(endpoint="/gyre/collect_gyre_components") {
+    async function getListFromServer(endpoint="/gyre/collect_gyre_components",method="POST") {
+        let response
         try {
-            const response = await fetch(endpoint, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    path: ""
-                }),
-            });
+            if (method==="GET") {
+                response = await fetch(endpoint)
+                
+            } else {
+                response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        path: ""
+                    }),
+                });                
+            }
+
 
             let result = await response.json();        
             return result;
