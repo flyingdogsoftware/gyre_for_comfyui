@@ -12,12 +12,24 @@
     const dispatch = createEventDispatcher()
     export let value
     export let readonly=""
-
+    export let availableModels
     export let no_edit=false
     let layers=[]
     if (element.type==="slider") {
         if (!value) value=element.min
     }
+
+    function getUniquePaths(filePaths) {
+        // Extract directory paths by removing the file names
+        const directories = filePaths.map(filePath => {
+            return filePath.substring(0, filePath.lastIndexOf('/'));
+        });
+        const uniqueDirectories = new Set(directories)
+        // Convert the Set back to an array
+        return Array.from(uniqueDirectories)
+    }
+    let uniqueModelPaths=getUniquePaths(availableModels)
+
     // Function to immediately update the parent component
     function updateElement(updatedProps) {
         element={ ...element, ...updatedProps }
@@ -109,6 +121,22 @@
         if (!value) return defaultValue
         return value
     }
+
+    function getFilesFromModelPath(targetPath) {
+        if (!availableModels) return []
+        // Normalize the target path to ensure it does not end with a slash
+        const normalizedTargetPath = targetPath.endsWith('/') ? targetPath.slice(0, -1) : targetPath
+        // Filter the files that belong to the target directory
+        const filesInPath = availableModels
+                .filter(filePath => {
+                    const directoryPath = filePath.substring(0, filePath.lastIndexOf('/'));
+                    return directoryPath === normalizedTargetPath;
+                })
+                .map(filePath => filePath.substring(filePath.lastIndexOf('/') + 1)); // Extract filenames
+        return filesInPath
+    }
+
+
     let elementRoot
 </script>
 
@@ -179,18 +207,30 @@
         </select>
     {:else if element.type === 'pre_filled_dropdown'}
     <label for={element.name}>{element.label}:</label>
-        {#if element.widget_name && $metadata.combo_values[element.widget_name] }
-        <select name="{element.name}" class="dropdown"  {readonly} on:change={e => {changeValue(e.target.value)}}>
-            {#each $metadata.combo_values[element.widget_name] as v}
-                {#if !element.regex || new RegExp(element.regex).test(v)}
-                    <option value={v}  selected={value===v}>{v} </option>
-                {/if}
-            {/each} 
-        </select>      
-        {:else if !element.widget_name}  
-            Select Widget
+        {#if element.widget_name==="_model_select_"}
+            {#if element.model_path}
+                <select name="{element.name}" class="dropdown"  {readonly} on:change={e => {changeValue(e.target.value)}}>
+                    {#each getFilesFromModelPath(element.model_path) as modelFile}
+                        {#if !element.regex || new RegExp(element.regex).test(modelFile)}
+                            <option value={modelFile}  selected={value===modelFile}>{modelFile}</option>
+                        {/if}
+                    {/each}
+                </select>      
+            {/if}
         {:else}
-            Widget {element.widget_name} not found.
+            {#if element.widget_name && $metadata.combo_values[element.widget_name] }
+            <select name="{element.name}" class="dropdown"  {readonly} on:change={e => {changeValue(e.target.value)}}>
+                {#each $metadata.combo_values[element.widget_name] as v}
+                    {#if !element.regex || new RegExp(element.regex).test(v)}
+                        <option value={v}  selected={value===v}>{v}</option>
+                    {/if}
+                {/each} 
+            </select>      
+            {:else if !element.widget_name}  
+                Select Widget
+            {:else}
+                Widget {element.widget_name} not found.
+            {/if}
         {/if}
     {:else if element.type === 'slider'}
         <label for={element.name} class="slider_label">{element.label}:</label>
@@ -315,12 +355,25 @@
             <select  name="widget_name"  on:change={(e) => updateElement({ widget_name: e.target.value })} bind:value={element.widget_name}  >
                 <option>Select...</option>
                 {#if $metadata.combo_values}
+                <option value="_model_select_">Models from Path</option>
+                    <option disabled>----------</option>
                     {#each Object.entries($metadata.combo_values) as [widget_name,values]}
                         <option value={widget_name}>{widget_name}</option>
                     {/each}
                 {/if}
             </select>
         </div>
+        {#if element.widget_name==="_model_select_"}
+            <div class="formLine">
+                <label  for="model_path"> Path: </label>
+                <select  name="model_path"  on:change={(e) => updateElement({ model_path: e.target.value })} bind:value={element.model_path}  >
+                    {#each uniqueModelPaths as model}
+                        <option value={model}>{model}</option>
+                    {/each}
+
+                </select>
+            </div>      
+        {/if}
         <div class="formLine">
             <label  for="rexex"> Filter RegEx: </label>
             <input type="text" name="regex" value={getParameterValue(element.regex,"")} on:change={(e) => updateElement({ regex: e.target.value })} />

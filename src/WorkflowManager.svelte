@@ -791,7 +791,7 @@
             {/if}
             {#if state === "editForm"}
                 <div style="margin-top:10px"></div>
-                <FormBuilder {refresh} {custom_ui_components} on:refreshTags={(e)=>{ refreshTags(e)}} posX={parseInt(left)} posY={parseInt(top)} no_edit={$metadata.tags.includes('Default')}></FormBuilder>
+                <FormBuilder availableModels={allModels} {refresh} {custom_ui_components} on:refreshTags={(e)=>{ refreshTags(e)}} posX={parseInt(left)} posY={parseInt(top)} no_edit={$metadata.tags.includes('Default')}></FormBuilder>
             {/if}
             {#if state === "editRules"}
                 <div style="margin-top:10px"></div>
