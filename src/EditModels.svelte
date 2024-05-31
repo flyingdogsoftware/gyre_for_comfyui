@@ -118,18 +118,23 @@ let intervalID=0
 async function startProgress() {
     progress={}
     if (intervalID) clearInterval(intervalID)
-    
     intervalID = setInterval(async () => { 
+
         let response=await fetch("/gyre/download_progress")
         progress=await response.json()
         $metadata.models=$metadata.models   // refresh template
-        if ( !Object.keys(progress).length) {
+        if (!downloadingNow && !Object.keys(progress).length) {
             dispatch("downloadFinished")
             clearInterval(intervalID)
             setTimeout(() => {
                 $metadata.models=$metadata.models
              },1000)
             downloadingNow=false
+        } else {
+            if (downloadingNow && Object.keys(progress).length) {
+                downloadingNow=false
+            }
+            
         }
     },500)
 }
