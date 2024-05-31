@@ -402,7 +402,7 @@ async def create_js_file(request):
         unique_paths.add(component["path"])
 
     # Initialize a string for the JavaScript code
-    js_code = f"""globalThis.gyre.serverName = "{abspath}";"""
+    js_code = ""
 
     # Loop over the unique paths and build the script tags
     for path in unique_paths:
