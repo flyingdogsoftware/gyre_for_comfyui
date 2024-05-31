@@ -590,8 +590,9 @@ async def prepare_models_download(request):
         async with aiohttp.ClientSession() as session:
             tasks = [download_model(session, model) for model in models]
             await asyncio.gather(*tasks)
-            global progress
-            progress = {}
+            # better reset progress on client after 100% on each download is detected
+          #  global progress
+          #  progress = {}
 
     return web.Response(text=json.dumps(res), content_type='application/json')
 

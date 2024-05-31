@@ -118,8 +118,9 @@ let intervalID=0
 async function startProgress() {
     progress={}
     if (intervalID) clearInterval(intervalID)
-    intervalID = setInterval(async () => { 
 
+
+    intervalID = setInterval(async () => { 
         let response=await fetch("/gyre/download_progress")
         progress=await response.json()
         $metadata.models=$metadata.models   // refresh template
@@ -130,12 +131,27 @@ async function startProgress() {
                 $metadata.models=$metadata.models
              },1000)
             downloadingNow=false
-        } else {
-            if (downloadingNow && Object.keys(progress).length) {
-                downloadingNow=false
+        } else {        
+            let allDownloaded=true          // check if downloads finished
+            for(let key in progress) {
+                let percent=parseInt(progress[key])
+                if (percent<100) {
+                    allDownloaded=false
+                    break
+                } 
             }
-            
+            if (allDownloaded) {
+                await fetch("/gyre/clear_download_progress")    // confirm finished downloads
+                downloadingNow=false
+                clearInterval(intervalID)
+                dispatch("downloadFinished")
+                progress={}
+                setTimeout(() => {
+                    $metadata.models=$metadata.models
+                },1000)                
+            }
         }
+        
     },500)
 }
 
