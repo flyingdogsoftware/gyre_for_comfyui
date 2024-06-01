@@ -265,11 +265,15 @@
             <label  for="hidden">Hidden: </label>
             <input type="checkbox" name="hidden" bind:checked={element.hidden}  /> Hide Input in form
         </div>       
+        <div class="formLine">
+            <label  for="required">Validation: </label>
+            <input type="checkbox" name="required" bind:checked={element.required}  /> Value required
+        </div>              
     {/if}
     {#if element.type==="slider" || element.type==="text" || element.type==="textarea" || element.type==="number"}
     <div class="formLine">
-        <label  for="hidden">Hidden: </label>
-        <input type="checkbox" name="hidden" bind:checked={element.readonly}  /> Readonly
+        <label  for="Readonly">Readonly: </label>
+        <input type="checkbox" name="Readonly" bind:checked={element.readonly}  /> Readonly
     </div>    
     {/if}
     {#if element.type==="custom"}
