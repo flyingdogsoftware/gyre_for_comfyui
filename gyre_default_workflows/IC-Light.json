@@ -1,1 +1,1318 @@
-{"last_node_id":53,"last_link_id":169,"nodes":[{"id":20,"type":"VAEEncode","pos":[996,758],"size":{"0":210,"1":46},"flags":{},"order":15,"mode":0,"inputs":[{"name":"pixels","type":"IMAGE","link":133,"slot_index":0},{"name":"vae","type":"VAE","link":150,"slot_index":1}],"outputs":[{"name":"LATENT","type":"LATENT","links":[123],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"VAEEncode"}},{"id":35,"type":"MaskToImage","pos":[757,776],"size":{"0":210,"1":26},"flags":{},"order":14,"mode":0,"inputs":[{"name":"mask","type":"MASK","link":155}],"outputs":[{"name":"IMAGE","type":"IMAGE","links":[133],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"MaskToImage"}},{"id":44,"type":"ICLightConditioning","pos":[863,506],"size":{"0":342.5999755859375,"1":138},"flags":{},"order":12,"mode":0,"inputs":[{"name":"positive","type":"CONDITIONING","link":157},{"name":"negative","type":"CONDITIONING","link":158},{"name":"vae","type":"VAE","link":159},{"name":"foreground","type":"LATENT","link":160,"slot_index":3},{"name":"opt_background","type":"LATENT","link":null}],"outputs":[{"name":"positive","type":"CONDITIONING","links":[161],"shape":3,"slot_index":0},{"name":"negative","type":"CONDITIONING","links":[162],"shape":3,"slot_index":1},{"name":"empty_latent","type":"LATENT","links":null,"shape":3}],"properties":{"Node name for S&R":"ICLightConditioning"},"widgets_values":[0.18215]},{"id":40,"type":"Reroute","pos":[504,484],"size":[75,26],"flags":{},"order":6,"mode":0,"inputs":[{"name":"","type":"*","link":148}],"outputs":[{"name":"VAE","type":"VAE","links":[150,159,163],"slot_index":0}],"properties":{"showOutputText":true,"horizontal":false}},{"id":45,"type":"VAEEncode","pos":[628,609],"size":{"0":210,"1":46},"flags":{},"order":10,"mode":0,"inputs":[{"name":"pixels","type":"IMAGE","link":164,"slot_index":0},{"name":"vae","type":"VAE","link":163,"slot_index":1}],"outputs":[{"name":"LATENT","type":"LATENT","links":[160],"shape":3}],"properties":{"Node name for S&R":"VAEEncode"}},{"id":2,"type":"CheckpointLoaderSimple","pos":[-213,381],"size":{"0":315,"1":98},"flags":{},"order":0,"mode":0,"outputs":[{"name":"MODEL","type":"MODEL","links":[156],"shape":3,"slot_index":0},{"name":"CLIP","type":"CLIP","links":[4,5],"shape":3,"slot_index":1},{"name":"VAE","type":"VAE","links":[10,148],"shape":3,"slot_index":2}],"properties":{"Node name for S&R":"CheckpointLoaderSimple"},"widgets_values":["realisticVisionV60B1_v51VAE.safetensors"]},{"id":4,"type":"CLIPTextEncode","pos":[203,582],"size":{"0":400,"1":200},"flags":{},"order":4,"mode":0,"inputs":[{"name":"clip","type":"CLIP","link":4}],"outputs":[{"name":"CONDITIONING","type":"CONDITIONING","links":[157],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"CLIPTextEncode"},"widgets_values":["spotlight"],"color":"#232","bgcolor":"#353"},{"id":7,"type":"VAEDecode","pos":[1642,399],"size":{"0":210,"1":46},"flags":{},"order":17,"mode":0,"inputs":[{"name":"samples","type":"LATENT","link":77},{"name":"vae","type":"VAE","link":10,"slot_index":1}],"outputs":[{"name":"IMAGE","type":"IMAGE","links":[166],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"VAEDecode"}},{"id":48,"type":"SaveImage","pos":[1739,613],"size":{"0":315,"1":58},"flags":{},"order":18,"mode":0,"inputs":[{"name":"images","type":"IMAGE","link":166}],"properties":{"Node name for S&R":"SaveImage"},"widgets_values":["ComfyUI"]},{"id":50,"type":"LoadImage","pos":[-698,1244],"size":{"0":315,"1":314},"flags":{},"order":1,"mode":0,"outputs":[{"name":"IMAGE","type":"IMAGE","links":[167],"shape":3,"slot_index":0},{"name":"MASK","type":"MASK","links":null,"shape":3}],"properties":{"Node name for S&R":"LoadImage"},"widgets_values":["04coj","image"]},{"id":9,"type":"LoadImage","pos":[-689,804],"size":{"0":315,"1":314.0000305175781},"flags":{},"order":2,"mode":0,"outputs":[{"name":"IMAGE","type":"IMAGE","links":[144],"shape":3,"slot_index":0},{"name":"MASK","type":"MASK","links":[],"shape":3}],"properties":{"Node name for S&R":"LoadImage"},"widgets_values":["oldman.jpg","image"]},{"id":53,"type":"ImageToMask","pos":[213,1191],"size":{"0":315,"1":58},"flags":{},"order":9,"mode":0,"inputs":[{"name":"image","type":"IMAGE","link":168}],"outputs":[{"name":"MASK","type":"MASK","links":[169],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"ImageToMask"},"widgets_values":["red"]},{"id":19,"type":"KSampler","pos":[1257,369],"size":{"0":315,"1":262},"flags":{},"order":16,"mode":0,"inputs":[{"name":"model","type":"MODEL","link":137,"slot_index":0},{"name":"positive","type":"CONDITIONING","link":161},{"name":"negative","type":"CONDITIONING","link":162,"slot_index":2},{"name":"latent_image","type":"LATENT","link":123}],"outputs":[{"name":"LATENT","type":"LATENT","links":[77],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"KSampler"},"widgets_values":[100361857014338,"fixed",25,2.05,"euler","ddim_uniform",0.9]},{"id":37,"type":"LoadAndApplyICLightUnet","pos":[489,365],"size":{"0":381.3333740234375,"1":58},"flags":{},"order":3,"mode":0,"inputs":[{"name":"model","type":"MODEL","link":156}],"outputs":[{"name":"MODEL","type":"MODEL","links":[137],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"LoadAndApplyICLightUnet"},"widgets_values":["IC-Light\\iclight_sd15_fc.safetensors"]},{"id":5,"type":"CLIPTextEncode","pos":[207,832],"size":{"0":400,"1":200},"flags":{},"order":5,"mode":0,"inputs":[{"name":"clip","type":"CLIP","link":5}],"outputs":[{"name":"CONDITIONING","type":"CONDITIONING","links":[158],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"CLIPTextEncode"},"widgets_values":["bad quality"],"color":"#322","bgcolor":"#533"},{"id":43,"type":"RemapMaskRange","pos":[664,910],"size":{"0":315,"1":82},"flags":{},"order":13,"mode":0,"inputs":[{"name":"mask","type":"MASK","link":154}],"outputs":[{"name":"mask","type":"MASK","links":[155],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"RemapMaskRange"},"widgets_values":[0,0.65]},{"id":42,"type":"GrowMaskWithBlur","pos":[657,1051],"size":{"0":315,"1":246},"flags":{},"order":11,"mode":0,"inputs":[{"name":"mask","type":"MASK","link":169}],"outputs":[{"name":"mask","type":"MASK","links":[154],"shape":3,"slot_index":0},{"name":"mask_inverted","type":"MASK","links":null,"shape":3}],"properties":{"Node name for S&R":"GrowMaskWithBlur"},"widgets_values":[0,0,true,false,11.700000000000001,1,1,false]},{"id":39,"type":"ImageResize+","pos":[-217,1027],"size":{"0":315,"1":218},"flags":{},"order":8,"mode":0,"inputs":[{"name":"image","type":"IMAGE","link":144}],"outputs":[{"name":"IMAGE","type":"IMAGE","links":[164],"shape":3,"slot_index":0},{"name":"width","type":"INT","links":[],"shape":3},{"name":"height","type":"INT","links":[],"shape":3,"slot_index":2}],"properties":{"Node name for S&R":"ImageResize+"},"widgets_values":[512,512,"nearest","stretch","always",0]},{"id":51,"type":"ImageResize+","pos":[-221,1297],"size":{"0":315,"1":218},"flags":{},"order":7,"mode":0,"inputs":[{"name":"image","type":"IMAGE","link":167}],"outputs":[{"name":"IMAGE","type":"IMAGE","links":[168],"shape":3,"slot_index":0},{"name":"width","type":"INT","links":null,"shape":3},{"name":"height","type":"INT","links":null,"shape":3}],"properties":{"Node name for S&R":"ImageResize+"},"widgets_values":[512,512,"nearest","stretch","always",0]}],"links":[[4,2,1,4,0,"CLIP"],[5,2,1,5,0,"CLIP"],[10,2,2,7,1,"VAE"],[77,19,0,7,0,"LATENT"],[123,20,0,19,3,"LATENT"],[133,35,0,20,0,"IMAGE"],[137,37,0,19,0,"MODEL"],[144,9,0,39,0,"IMAGE"],[148,2,2,40,0,"*"],[150,40,0,20,1,"VAE"],[154,42,0,43,0,"MASK"],[155,43,0,35,0,"MASK"],[156,2,0,37,0,"MODEL"],[157,4,0,44,0,"CONDITIONING"],[158,5,0,44,1,"CONDITIONING"],[159,40,0,44,2,"VAE"],[160,45,0,44,3,"LATENT"],[161,44,0,19,1,"CONDITIONING"],[162,44,1,19,2,"CONDITIONING"],[163,40,0,45,1,"VAE"],[164,39,0,45,0,"IMAGE"],[166,7,0,48,0,"IMAGE"],[167,50,0,51,0,"IMAGE"],[168,51,0,53,0,"IMAGE"],[169,53,0,42,0,"MASK"]],"groups":[],"config":{},"extra":{"gyre":{"lastModified":1717334200276,"lastModifiedReadable":"2024-06-02 13:16:40","tags":["Inpainting"],"combo_values":{},"license":"yes_commercial","forms":{"default":{"elements":[{"name":"steps","type":"slider","label":"Steps","options":[],"default":15,"min":1,"max":50,"step":1},{"name":"advanced_options","type":"advanced_options","label":"","options":[],"default":""},{"name":"seed","type":"text","label":"Seed","default":"","placeholder":"Random if empty","menu_type":null},{"name":"ckpt_name","label":"Ckpt name","default":"realisticVisionV60B1_v51VAE.safetensors","type":"pre_filled_dropdown","widget_name":"ckpt_name","regex":"^(?!.*[xX][lL])(?!.*[iI][nN][pP][aA][iI][nN][tT][iI][nN][gG]).*$"}]}},"mappings":{"2":[{"fromField":"ckpt_name","toField":"ckpt_name","toIndex":0}],"4":[{"fromField":"resultImage","toField":"filename_prefix","toIndex":0},{"fromField":"prompt","toField":"text","toIndex":0}],"5":[{"fromField":"negativePrompt","toField":"text","toIndex":0}],"9":[{"fromField":"mergedImage","toField":"image","toIndex":0}],"19":[{"fromField":"seed","toField":"seed","toIndex":0},{"fromField":"steps","toField":"steps","toIndex":2}],"48":[{"fromField":"resultImage","toField":"filename_prefix","toIndex":0}],"50":[{"fromField":"mask","toField":"image","toIndex":0}]},"category":"","nodeWidgets":{"2":[{"type":"combo","name":"ckpt_name","value":"realisticVisionV60B1_v51VAE.safetensors","options":{"values":["Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors","awpainting_v13.safetensors","dreamshaperXL_v2TurboDPMSDE.safetensors","epicrealism_v10-inpainting.safetensors","realisticVisionV60B1_v51VAE.safetensors","sd-v1-5-inpainting.ckpt","sd_xl_base_1.0.safetensors","sdxl_lightning_1step_x0.safetensors","sdxl_lightning_2step.safetensors","sdxl_lightning_4step.safetensors","sdxl_lightning_8step.safetensors","sdxxxl_v30.safetensors","v1-5-pruned-emaonly.ckpt"]},"last_y":66}],"3":[{"type":"combo","name":"image","value":"0y6u8","options":{"values":[]},"_real_value":"0y6u8","last_y":46},{"type":"button","name":"upload","value":"image","options":{},"label":"choose file to upload","serialize":false,"last_y":70}],"4":[{"type":"customtext","name":"text","value":"spotlight","element":{},"options":{"hideOnZoom":true,"selectOn":["focus","click"]},"inputEl":{},"dynamicPrompts":true,"last_y":26,"computedHeight":174,"y":26}],"5":[{"type":"customtext","name":"text","value":"bad quality","element":{},"options":{"hideOnZoom":true,"selectOn":["focus","click"]},"inputEl":{},"dynamicPrompts":true,"last_y":26,"computedHeight":174,"y":26}],"6":[{"type":"combo","name":"image","value":"043tx","options":{"values":[]},"_real_value":"043tx","last_y":46},{"type":"button","name":"upload","value":"image","options":{},"label":"choose file to upload","serialize":false,"last_y":70}],"9":[{"type":"combo","name":"image","value":"oldman.jpg","options":{"values":[]},"_real_value":"oldman.jpg","last_y":46},{"type":"button","name":"upload","value":"image","options":{},"label":"choose file to upload","serialize":false,"last_y":70}],"19":[{"type":"number","name":"seed","value":100361857014338,"options":{"min":0,"max":18446744073709552000,"step":10,"round":1,"precision":0},"linkedWidgets":[{"type":"combo","name":"control_after_generate","value":"fixed","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":110,"__beforeQueued":null}],"last_y":86},{"type":"combo","name":"control_after_generate","value":"fixed","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":110,"__beforeQueued":null},{"type":"number","name":"steps","value":25,"options":{"min":1,"max":10000,"step":10,"round":1,"precision":0},"last_y":134},{"type":"number","name":"cfg","value":2.05,"options":{"min":0,"max":100,"step":1,"round":0.01,"precision":1},"last_y":158},{"type":"combo","name":"sampler_name","value":"euler","options":{"values":["euler","euler_ancestral","heun","heunpp2","dpm_2","dpm_2_ancestral","lms","dpm_fast","dpm_adaptive","dpmpp_2s_ancestral","dpmpp_sde","dpmpp_sde_gpu","dpmpp_2m","dpmpp_2m_sde","dpmpp_2m_sde_gpu","dpmpp_3m_sde","dpmpp_3m_sde_gpu","ddpm","lcm","ddim","uni_pc","uni_pc_bh2"]},"last_y":182},{"type":"combo","name":"scheduler","value":"ddim_uniform","options":{"values":["normal","karras","exponential","sgm_uniform","simple","ddim_uniform"]},"last_y":206},{"type":"number","name":"denoise","value":0.9,"options":{"min":0,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":230}],"22":[{"type":"combo","name":"shape","value":"circle","options":{"values":["circle","square","triangle"]},"last_y":46},{"type":"number","name":"frames","value":1,"options":{"min":1,"max":4096,"step":10,"round":1,"precision":0},"last_y":70},{"type":"number","name":"location_x","value":125,"options":{"min":0,"max":4096,"step":10,"round":1,"precision":0},"last_y":94},{"type":"number","name":"location_y","value":256,"options":{"min":0,"max":4096,"step":10,"round":1,"precision":0},"last_y":118},{"type":"number","name":"grow","value":0,"options":{"min":-512,"max":512,"step":10,"round":1,"precision":0},"last_y":142},{"type":"converted-widget","name":"frame_width","value":512,"options":{"min":16,"max":4096,"step":10,"round":1,"precision":0},"origType":"number","last_y":166},{"type":"converted-widget","name":"frame_height","value":512,"options":{"min":16,"max":4096,"step":10,"round":1,"precision":0},"origType":"number","last_y":166},{"type":"number","name":"shape_width","value":256,"options":{"min":8,"max":4096,"step":10,"round":1,"precision":0},"last_y":166},{"type":"number","name":"shape_height","value":512,"options":{"min":8,"max":4096,"step":10,"round":1,"precision":0},"last_y":190}],"37":[{"type":"combo","name":"model_path","value":"IC-Light\\iclight_sd15_fc.safetensors","options":{"values":["IC-Light\\iclight_sd15_fbc.safetensors","IC-Light\\iclight_sd15_fc.safetensors","IC-Light\\iclight_sd15_fcon.safetensors","xl-inpaint-0.1\\diffusion_pytorch_model.fp16.safetensors"]},"last_y":26}],"39":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"combo","name":"interpolation","value":"nearest","options":{"values":["nearest","bilinear","bicubic","area","nearest-exact","lanczos"]},"last_y":114},{"type":"combo","name":"method","value":"stretch","options":{"values":["stretch","keep proportion","fill / crop","pad"]},"last_y":138},{"type":"combo","name":"condition","value":"always","options":{"values":["always","downscale if bigger","upscale if smaller","if bigger area","if smaller area"]},"last_y":162},{"type":"number","name":"multiple_of","value":0,"options":{"min":0,"max":512,"step":10,"round":1,"precision":0},"last_y":186}],"42":[{"type":"number","name":"expand","value":0,"options":{"min":-16384,"max":16384,"step":10,"round":1,"precision":0},"last_y":46},{"type":"number","name":"incremental_expandrate","value":0,"options":{"min":0,"max":100,"step":1,"round":0.1,"precision":1},"last_y":70},{"type":"toggle","name":"tapered_corners","value":true,"options":{},"last_y":94},{"type":"toggle","name":"flip_input","value":false,"options":{},"last_y":118},{"type":"number","name":"blur_radius","value":11.700000000000001,"options":{"min":0,"max":100,"step":1,"round":0.1,"precision":1},"last_y":142},{"type":"number","name":"lerp_alpha","value":1,"options":{"min":0,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":166},{"type":"number","name":"decay_factor","value":1,"options":{"min":0,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":190},{"type":"toggle","name":"fill_holes","value":false,"options":{},"last_y":214}],"43":[{"type":"number","name":"min","value":0,"options":{"min":-10,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":26},{"type":"number","name":"max","value":0.65,"options":{"min":0,"max":10,"step":0.1,"round":0.01,"precision":2},"last_y":50}],"44":[{"type":"number","name":"multiplier","value":0.18215,"options":{"min":0,"max":1,"step":0.01,"round":0.001,"precision":3},"last_y":106}],"47":[{"type":"combo","name":"image","value":"043tx","options":{"values":[]},"last_y":26},{"type":"combo","name":"channel","value":"red","options":{"values":["alpha","red","green","blue"]},"last_y":50},{"type":"button","name":"upload","value":"image","options":{},"label":"choose file to upload","serialize":false,"last_y":74}],"48":[{"type":"text","name":"filename_prefix","value":"ComfyUI","options":{},"last_y":26}],"50":[{"type":"combo","name":"image","value":"04coj","options":{"values":[]},"_real_value":"04coj","last_y":46},{"type":"button","name":"upload","value":"image","options":{},"label":"choose file to upload","serialize":false,"last_y":70}],"51":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"combo","name":"interpolation","value":"nearest","options":{"values":["nearest","bilinear","bicubic","area","nearest-exact","lanczos"]},"last_y":114},{"type":"combo","name":"method","value":"stretch","options":{"values":["stretch","keep proportion","fill / crop","pad"]},"last_y":138},{"type":"combo","name":"condition","value":"always","options":{"values":["always","downscale if bigger","upscale if smaller","if bigger area","if smaller area"]},"last_y":162},{"type":"number","name":"multiple_of","value":0,"options":{"min":0,"max":512,"step":10,"round":1,"precision":0},"last_y":186}],"53":[{"type":"combo","name":"channel","value":"red","options":{"values":["red","green","blue","alpha"]},"last_y":26}]},"workflowid":"hbc6b8506","virtualNodes":["Reroute"],"rules":[],"selected_combo_values":[],"models":[{"path":"unet/IC-Light/iclight_sd15_fbc.safetensors","URL":"https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fbc.safetensors"},{"path":"unet/IC-Light/iclight_sd15_fc.safetensors","URL":"https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fc.safetensors"},{"path":"unet/IC-Light/iclight_sd15_fcon.safetensors","URL":"https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fcon.safetensors"},{"path":"checkpoints/realisticVisionV60B1_v51VAE.safetensors","URL":"https://huggingface.co/moiu2998/mymo/resolve/main/realisticVisionV60B1_v51VAE.safetensors?download=true"}]},"ds":{"scale":1,"offset":{"0":617.6000671386719,"1":-101.5997314453125}}},"version":0.4}
+{
+  "last_node_id": 53,
+  "last_link_id": 169,
+  "nodes": [
+    {
+      "id": 20,
+      "type": "VAEEncode",
+      "pos": [996, 758],
+      "size": { "0": 210, "1": 46 },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        { "name": "pixels", "type": "IMAGE", "link": 133, "slot_index": 0 },
+        { "name": "vae", "type": "VAE", "link": 150, "slot_index": 1 }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [123],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": { "Node name for S&R": "VAEEncode" }
+    },
+    {
+      "id": 35,
+      "type": "MaskToImage",
+      "pos": [757, 776],
+      "size": { "0": 210, "1": 26 },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [{ "name": "mask", "type": "MASK", "link": 155 }],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [133],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": { "Node name for S&R": "MaskToImage" }
+    },
+    {
+      "id": 44,
+      "type": "ICLightConditioning",
+      "pos": [863, 506],
+      "size": { "0": 342.5999755859375, "1": 138 },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        { "name": "positive", "type": "CONDITIONING", "link": 157 },
+        { "name": "negative", "type": "CONDITIONING", "link": 158 },
+        { "name": "vae", "type": "VAE", "link": 159 },
+        {
+          "name": "foreground",
+          "type": "LATENT",
+          "link": 160,
+          "slot_index": 3
+        },
+        { "name": "opt_background", "type": "LATENT", "link": null }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [161],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [162],
+          "shape": 3,
+          "slot_index": 1
+        },
+        { "name": "empty_latent", "type": "LATENT", "links": null, "shape": 3 }
+      ],
+      "properties": { "Node name for S&R": "ICLightConditioning" },
+      "widgets_values": [0.18215]
+    },
+    {
+      "id": 40,
+      "type": "Reroute",
+      "pos": [504, 484],
+      "size": [75, 26],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [{ "name": "", "type": "*", "link": 148 }],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [150, 159, 163],
+          "slot_index": 0
+        }
+      ],
+      "properties": { "showOutputText": true, "horizontal": false }
+    },
+    {
+      "id": 45,
+      "type": "VAEEncode",
+      "pos": [628, 609],
+      "size": { "0": 210, "1": 46 },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        { "name": "pixels", "type": "IMAGE", "link": 164, "slot_index": 0 },
+        { "name": "vae", "type": "VAE", "link": 163, "slot_index": 1 }
+      ],
+      "outputs": [
+        { "name": "LATENT", "type": "LATENT", "links": [160], "shape": 3 }
+      ],
+      "properties": { "Node name for S&R": "VAEEncode" }
+    },
+    {
+      "id": 2,
+      "type": "CheckpointLoaderSimple",
+      "pos": [-213, 381],
+      "size": { "0": 315, "1": 98 },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [156],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [4, 5],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [10, 148],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": { "Node name for S&R": "CheckpointLoaderSimple" },
+      "widgets_values": ["realisticVisionV60B1_v51VAE.safetensors"]
+    },
+    {
+      "id": 4,
+      "type": "CLIPTextEncode",
+      "pos": [203, 582],
+      "size": { "0": 400, "1": 200 },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [{ "name": "clip", "type": "CLIP", "link": 4 }],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [157],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": { "Node name for S&R": "CLIPTextEncode" },
+      "widgets_values": ["spotlight"],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 7,
+      "type": "VAEDecode",
+      "pos": [1642, 399],
+      "size": { "0": 210, "1": 46 },
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        { "name": "samples", "type": "LATENT", "link": 77 },
+        { "name": "vae", "type": "VAE", "link": 10, "slot_index": 1 }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [166],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": { "Node name for S&R": "VAEDecode" }
+    },
+    {
+      "id": 48,
+      "type": "SaveImage",
+      "pos": [1739, 613],
+      "size": { "0": 315, "1": 58 },
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [{ "name": "images", "type": "IMAGE", "link": 166 }],
+      "properties": { "Node name for S&R": "SaveImage" },
+      "widgets_values": ["ComfyUI"]
+    },
+    {
+      "id": 50,
+      "type": "LoadImage",
+      "pos": [-698, 1244],
+      "size": { "0": 315, "1": 314 },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [167],
+          "shape": 3,
+          "slot_index": 0
+        },
+        { "name": "MASK", "type": "MASK", "links": null, "shape": 3 }
+      ],
+      "properties": { "Node name for S&R": "LoadImage" },
+      "widgets_values": ["04coj", "image"]
+    },
+    {
+      "id": 9,
+      "type": "LoadImage",
+      "pos": [-689, 804],
+      "size": { "0": 315, "1": 314.0000305175781 },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [144],
+          "shape": 3,
+          "slot_index": 0
+        },
+        { "name": "MASK", "type": "MASK", "links": [], "shape": 3 }
+      ],
+      "properties": { "Node name for S&R": "LoadImage" },
+      "widgets_values": ["oldman.jpg", "image"]
+    },
+    {
+      "id": 53,
+      "type": "ImageToMask",
+      "pos": [213, 1191],
+      "size": { "0": 315, "1": 58 },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [{ "name": "image", "type": "IMAGE", "link": 168 }],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [169],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": { "Node name for S&R": "ImageToMask" },
+      "widgets_values": ["red"]
+    },
+    {
+      "id": 19,
+      "type": "KSampler",
+      "pos": [1257, 369],
+      "size": { "0": 315, "1": 262 },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        { "name": "model", "type": "MODEL", "link": 137, "slot_index": 0 },
+        { "name": "positive", "type": "CONDITIONING", "link": 161 },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 162,
+          "slot_index": 2
+        },
+        { "name": "latent_image", "type": "LATENT", "link": 123 }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [77],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": { "Node name for S&R": "KSampler" },
+      "widgets_values": [
+        100361857014338,
+        "fixed",
+        25,
+        2.05,
+        "euler",
+        "ddim_uniform",
+        0.9
+      ]
+    },
+    {
+      "id": 37,
+      "type": "LoadAndApplyICLightUnet",
+      "pos": [489, 365],
+      "size": { "0": 381.3333740234375, "1": 58 },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [{ "name": "model", "type": "MODEL", "link": 156 }],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [137],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": { "Node name for S&R": "LoadAndApplyICLightUnet" },
+      "widgets_values": ["IC-Light/iclight_sd15_fc.safetensors"]
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncode",
+      "pos": [207, 832],
+      "size": { "0": 400, "1": 200 },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [{ "name": "clip", "type": "CLIP", "link": 5 }],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [158],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": { "Node name for S&R": "CLIPTextEncode" },
+      "widgets_values": ["bad quality"],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 43,
+      "type": "RemapMaskRange",
+      "pos": [664, 910],
+      "size": { "0": 315, "1": 82 },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [{ "name": "mask", "type": "MASK", "link": 154 }],
+      "outputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [155],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": { "Node name for S&R": "RemapMaskRange" },
+      "widgets_values": [0, 0.65]
+    },
+    {
+      "id": 42,
+      "type": "GrowMaskWithBlur",
+      "pos": [657, 1051],
+      "size": { "0": 315, "1": 246 },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [{ "name": "mask", "type": "MASK", "link": 169 }],
+      "outputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [154],
+          "shape": 3,
+          "slot_index": 0
+        },
+        { "name": "mask_inverted", "type": "MASK", "links": null, "shape": 3 }
+      ],
+      "properties": { "Node name for S&R": "GrowMaskWithBlur" },
+      "widgets_values": [0, 0, true, false, 11.700000000000001, 1, 1, false]
+    },
+    {
+      "id": 39,
+      "type": "ImageResize+",
+      "pos": [-217, 1027],
+      "size": { "0": 315, "1": 218 },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [{ "name": "image", "type": "IMAGE", "link": 144 }],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [164],
+          "shape": 3,
+          "slot_index": 0
+        },
+        { "name": "width", "type": "INT", "links": [], "shape": 3 },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": { "Node name for S&R": "ImageResize+" },
+      "widgets_values": [512, 512, "nearest", "stretch", "always", 0]
+    },
+    {
+      "id": 51,
+      "type": "ImageResize+",
+      "pos": [-221, 1297],
+      "size": { "0": 315, "1": 218 },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [{ "name": "image", "type": "IMAGE", "link": 167 }],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [168],
+          "shape": 3,
+          "slot_index": 0
+        },
+        { "name": "width", "type": "INT", "links": null, "shape": 3 },
+        { "name": "height", "type": "INT", "links": null, "shape": 3 }
+      ],
+      "properties": { "Node name for S&R": "ImageResize+" },
+      "widgets_values": [512, 512, "nearest", "stretch", "always", 0]
+    }
+  ],
+  "links": [
+    [4, 2, 1, 4, 0, "CLIP"],
+    [5, 2, 1, 5, 0, "CLIP"],
+    [10, 2, 2, 7, 1, "VAE"],
+    [77, 19, 0, 7, 0, "LATENT"],
+    [123, 20, 0, 19, 3, "LATENT"],
+    [133, 35, 0, 20, 0, "IMAGE"],
+    [137, 37, 0, 19, 0, "MODEL"],
+    [144, 9, 0, 39, 0, "IMAGE"],
+    [148, 2, 2, 40, 0, "*"],
+    [150, 40, 0, 20, 1, "VAE"],
+    [154, 42, 0, 43, 0, "MASK"],
+    [155, 43, 0, 35, 0, "MASK"],
+    [156, 2, 0, 37, 0, "MODEL"],
+    [157, 4, 0, 44, 0, "CONDITIONING"],
+    [158, 5, 0, 44, 1, "CONDITIONING"],
+    [159, 40, 0, 44, 2, "VAE"],
+    [160, 45, 0, 44, 3, "LATENT"],
+    [161, 44, 0, 19, 1, "CONDITIONING"],
+    [162, 44, 1, 19, 2, "CONDITIONING"],
+    [163, 40, 0, 45, 1, "VAE"],
+    [164, 39, 0, 45, 0, "IMAGE"],
+    [166, 7, 0, 48, 0, "IMAGE"],
+    [167, 50, 0, 51, 0, "IMAGE"],
+    [168, 51, 0, 53, 0, "IMAGE"],
+    [169, 53, 0, 42, 0, "MASK"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "gyre": {
+      "lastModified": 1717334200276,
+      "lastModifiedReadable": "2024-06-02 13:16:40",
+      "tags": ["Inpainting"],
+      "combo_values": {},
+      "license": "yes_commercial",
+      "forms": {
+        "default": {
+          "elements": [
+            {
+              "name": "steps",
+              "type": "slider",
+              "label": "Steps",
+              "options": [],
+              "default": 15,
+              "min": 1,
+              "max": 50,
+              "step": 1
+            },
+            {
+              "name": "advanced_options",
+              "type": "advanced_options",
+              "label": "",
+              "options": [],
+              "default": ""
+            },
+            {
+              "name": "seed",
+              "type": "text",
+              "label": "Seed",
+              "default": "",
+              "placeholder": "Random if empty",
+              "menu_type": null
+            },
+            {
+              "name": "ckpt_name",
+              "label": "Ckpt name",
+              "default": "realisticVisionV60B1_v51VAE.safetensors",
+              "type": "pre_filled_dropdown",
+              "widget_name": "ckpt_name",
+              "regex": "^(?!.*[xX][lL])(?!.*[iI][nN][pP][aA][iI][nN][tT][iI][nN][gG]).*$"
+            }
+          ]
+        }
+      },
+      "mappings": {
+        "2": [
+          { "fromField": "ckpt_name", "toField": "ckpt_name", "toIndex": 0 }
+        ],
+        "4": [
+          {
+            "fromField": "resultImage",
+            "toField": "filename_prefix",
+            "toIndex": 0
+          },
+          { "fromField": "prompt", "toField": "text", "toIndex": 0 }
+        ],
+        "5": [
+          { "fromField": "negativePrompt", "toField": "text", "toIndex": 0 }
+        ],
+        "9": [{ "fromField": "mergedImage", "toField": "image", "toIndex": 0 }],
+        "19": [
+          { "fromField": "seed", "toField": "seed", "toIndex": 0 },
+          { "fromField": "steps", "toField": "steps", "toIndex": 2 }
+        ],
+        "48": [
+          {
+            "fromField": "resultImage",
+            "toField": "filename_prefix",
+            "toIndex": 0
+          }
+        ],
+        "50": [{ "fromField": "mask", "toField": "image", "toIndex": 0 }]
+      },
+      "category": "",
+      "nodeWidgets": {
+        "2": [
+          {
+            "type": "combo",
+            "name": "ckpt_name",
+            "value": "realisticVisionV60B1_v51VAE.safetensors",
+            "options": {
+              "values": [
+                "Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors",
+                "awpainting_v13.safetensors",
+                "dreamshaperXL_v2TurboDPMSDE.safetensors",
+                "epicrealism_v10-inpainting.safetensors",
+                "realisticVisionV60B1_v51VAE.safetensors",
+                "sd-v1-5-inpainting.ckpt",
+                "sd_xl_base_1.0.safetensors",
+                "sdxl_lightning_1step_x0.safetensors",
+                "sdxl_lightning_2step.safetensors",
+                "sdxl_lightning_4step.safetensors",
+                "sdxl_lightning_8step.safetensors",
+                "sdxxxl_v30.safetensors",
+                "v1-5-pruned-emaonly.ckpt"
+              ]
+            },
+            "last_y": 66
+          }
+        ],
+        "3": [
+          {
+            "type": "combo",
+            "name": "image",
+            "value": "0y6u8",
+            "options": { "values": [] },
+            "_real_value": "0y6u8",
+            "last_y": 46
+          },
+          {
+            "type": "button",
+            "name": "upload",
+            "value": "image",
+            "options": {},
+            "label": "choose file to upload",
+            "serialize": false,
+            "last_y": 70
+          }
+        ],
+        "4": [
+          {
+            "type": "customtext",
+            "name": "text",
+            "value": "spotlight",
+            "element": {},
+            "options": { "hideOnZoom": true, "selectOn": ["focus", "click"] },
+            "inputEl": {},
+            "dynamicPrompts": true,
+            "last_y": 26,
+            "computedHeight": 174,
+            "y": 26
+          }
+        ],
+        "5": [
+          {
+            "type": "customtext",
+            "name": "text",
+            "value": "bad quality",
+            "element": {},
+            "options": { "hideOnZoom": true, "selectOn": ["focus", "click"] },
+            "inputEl": {},
+            "dynamicPrompts": true,
+            "last_y": 26,
+            "computedHeight": 174,
+            "y": 26
+          }
+        ],
+        "6": [
+          {
+            "type": "combo",
+            "name": "image",
+            "value": "043tx",
+            "options": { "values": [] },
+            "_real_value": "043tx",
+            "last_y": 46
+          },
+          {
+            "type": "button",
+            "name": "upload",
+            "value": "image",
+            "options": {},
+            "label": "choose file to upload",
+            "serialize": false,
+            "last_y": 70
+          }
+        ],
+        "9": [
+          {
+            "type": "combo",
+            "name": "image",
+            "value": "oldman.jpg",
+            "options": { "values": [] },
+            "_real_value": "oldman.jpg",
+            "last_y": 46
+          },
+          {
+            "type": "button",
+            "name": "upload",
+            "value": "image",
+            "options": {},
+            "label": "choose file to upload",
+            "serialize": false,
+            "last_y": 70
+          }
+        ],
+        "19": [
+          {
+            "type": "number",
+            "name": "seed",
+            "value": 100361857014338,
+            "options": {
+              "min": 0,
+              "max": 18446744073709552000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "linkedWidgets": [
+              {
+                "type": "combo",
+                "name": "control_after_generate",
+                "value": "fixed",
+                "options": {
+                  "values": ["fixed", "increment", "decrement", "randomize"],
+                  "serialize": false
+                },
+                "label": "control_after_generate",
+                "last_y": 110,
+                "__beforeQueued": null
+              }
+            ],
+            "last_y": 86
+          },
+          {
+            "type": "combo",
+            "name": "control_after_generate",
+            "value": "fixed",
+            "options": {
+              "values": ["fixed", "increment", "decrement", "randomize"],
+              "serialize": false
+            },
+            "label": "control_after_generate",
+            "last_y": 110,
+            "__beforeQueued": null
+          },
+          {
+            "type": "number",
+            "name": "steps",
+            "value": 25,
+            "options": {
+              "min": 1,
+              "max": 10000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 134
+          },
+          {
+            "type": "number",
+            "name": "cfg",
+            "value": 2.05,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "round": 0.01,
+              "precision": 1
+            },
+            "last_y": 158
+          },
+          {
+            "type": "combo",
+            "name": "sampler_name",
+            "value": "euler",
+            "options": {
+              "values": [
+                "euler",
+                "euler_ancestral",
+                "heun",
+                "heunpp2",
+                "dpm_2",
+                "dpm_2_ancestral",
+                "lms",
+                "dpm_fast",
+                "dpm_adaptive",
+                "dpmpp_2s_ancestral",
+                "dpmpp_sde",
+                "dpmpp_sde_gpu",
+                "dpmpp_2m",
+                "dpmpp_2m_sde",
+                "dpmpp_2m_sde_gpu",
+                "dpmpp_3m_sde",
+                "dpmpp_3m_sde_gpu",
+                "ddpm",
+                "lcm",
+                "ddim",
+                "uni_pc",
+                "uni_pc_bh2"
+              ]
+            },
+            "last_y": 182
+          },
+          {
+            "type": "combo",
+            "name": "scheduler",
+            "value": "ddim_uniform",
+            "options": {
+              "values": [
+                "normal",
+                "karras",
+                "exponential",
+                "sgm_uniform",
+                "simple",
+                "ddim_uniform"
+              ]
+            },
+            "last_y": 206
+          },
+          {
+            "type": "number",
+            "name": "denoise",
+            "value": 0.9,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 230
+          }
+        ],
+        "22": [
+          {
+            "type": "combo",
+            "name": "shape",
+            "value": "circle",
+            "options": { "values": ["circle", "square", "triangle"] },
+            "last_y": 46
+          },
+          {
+            "type": "number",
+            "name": "frames",
+            "value": 1,
+            "options": {
+              "min": 1,
+              "max": 4096,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 70
+          },
+          {
+            "type": "number",
+            "name": "location_x",
+            "value": 125,
+            "options": {
+              "min": 0,
+              "max": 4096,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 94
+          },
+          {
+            "type": "number",
+            "name": "location_y",
+            "value": 256,
+            "options": {
+              "min": 0,
+              "max": 4096,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 118
+          },
+          {
+            "type": "number",
+            "name": "grow",
+            "value": 0,
+            "options": {
+              "min": -512,
+              "max": 512,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 142
+          },
+          {
+            "type": "converted-widget",
+            "name": "frame_width",
+            "value": 512,
+            "options": {
+              "min": 16,
+              "max": 4096,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "origType": "number",
+            "last_y": 166
+          },
+          {
+            "type": "converted-widget",
+            "name": "frame_height",
+            "value": 512,
+            "options": {
+              "min": 16,
+              "max": 4096,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "origType": "number",
+            "last_y": 166
+          },
+          {
+            "type": "number",
+            "name": "shape_width",
+            "value": 256,
+            "options": {
+              "min": 8,
+              "max": 4096,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 166
+          },
+          {
+            "type": "number",
+            "name": "shape_height",
+            "value": 512,
+            "options": {
+              "min": 8,
+              "max": 4096,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 190
+          }
+        ],
+        "37": [
+          {
+            "type": "combo",
+            "name": "model_path",
+            "value": "IC-Light/iclight_sd15_fc.safetensors",
+            "options": {
+              "values": [
+                "IC-Light\\iclight_sd15_fbc.safetensors",
+                "IC-Light\\iclight_sd15_fc.safetensors",
+                "IC-Light\\iclight_sd15_fcon.safetensors",
+                "xl-inpaint-0.1\\diffusion_pytorch_model.fp16.safetensors"
+              ]
+            },
+            "last_y": 26
+          }
+        ],
+        "39": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "combo",
+            "name": "interpolation",
+            "value": "nearest",
+            "options": {
+              "values": [
+                "nearest",
+                "bilinear",
+                "bicubic",
+                "area",
+                "nearest-exact",
+                "lanczos"
+              ]
+            },
+            "last_y": 114
+          },
+          {
+            "type": "combo",
+            "name": "method",
+            "value": "stretch",
+            "options": {
+              "values": ["stretch", "keep proportion", "fill / crop", "pad"]
+            },
+            "last_y": 138
+          },
+          {
+            "type": "combo",
+            "name": "condition",
+            "value": "always",
+            "options": {
+              "values": [
+                "always",
+                "downscale if bigger",
+                "upscale if smaller",
+                "if bigger area",
+                "if smaller area"
+              ]
+            },
+            "last_y": 162
+          },
+          {
+            "type": "number",
+            "name": "multiple_of",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 512,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 186
+          }
+        ],
+        "42": [
+          {
+            "type": "number",
+            "name": "expand",
+            "value": 0,
+            "options": {
+              "min": -16384,
+              "max": 16384,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 46
+          },
+          {
+            "type": "number",
+            "name": "incremental_expandrate",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 70
+          },
+          {
+            "type": "toggle",
+            "name": "tapered_corners",
+            "value": true,
+            "options": {},
+            "last_y": 94
+          },
+          {
+            "type": "toggle",
+            "name": "flip_input",
+            "value": false,
+            "options": {},
+            "last_y": 118
+          },
+          {
+            "type": "number",
+            "name": "blur_radius",
+            "value": 11.700000000000001,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 142
+          },
+          {
+            "type": "number",
+            "name": "lerp_alpha",
+            "value": 1,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 166
+          },
+          {
+            "type": "number",
+            "name": "decay_factor",
+            "value": 1,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 190
+          },
+          {
+            "type": "toggle",
+            "name": "fill_holes",
+            "value": false,
+            "options": {},
+            "last_y": 214
+          }
+        ],
+        "43": [
+          {
+            "type": "number",
+            "name": "min",
+            "value": 0,
+            "options": {
+              "min": -10,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 26
+          },
+          {
+            "type": "number",
+            "name": "max",
+            "value": 0.65,
+            "options": {
+              "min": 0,
+              "max": 10,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 50
+          }
+        ],
+        "44": [
+          {
+            "type": "number",
+            "name": "multiplier",
+            "value": 0.18215,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 0.01,
+              "round": 0.001,
+              "precision": 3
+            },
+            "last_y": 106
+          }
+        ],
+        "47": [
+          {
+            "type": "combo",
+            "name": "image",
+            "value": "043tx",
+            "options": { "values": [] },
+            "last_y": 26
+          },
+          {
+            "type": "combo",
+            "name": "channel",
+            "value": "red",
+            "options": { "values": ["alpha", "red", "green", "blue"] },
+            "last_y": 50
+          },
+          {
+            "type": "button",
+            "name": "upload",
+            "value": "image",
+            "options": {},
+            "label": "choose file to upload",
+            "serialize": false,
+            "last_y": 74
+          }
+        ],
+        "48": [
+          {
+            "type": "text",
+            "name": "filename_prefix",
+            "value": "ComfyUI",
+            "options": {},
+            "last_y": 26
+          }
+        ],
+        "50": [
+          {
+            "type": "combo",
+            "name": "image",
+            "value": "04coj",
+            "options": { "values": [] },
+            "_real_value": "04coj",
+            "last_y": 46
+          },
+          {
+            "type": "button",
+            "name": "upload",
+            "value": "image",
+            "options": {},
+            "label": "choose file to upload",
+            "serialize": false,
+            "last_y": 70
+          }
+        ],
+        "51": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "combo",
+            "name": "interpolation",
+            "value": "nearest",
+            "options": {
+              "values": [
+                "nearest",
+                "bilinear",
+                "bicubic",
+                "area",
+                "nearest-exact",
+                "lanczos"
+              ]
+            },
+            "last_y": 114
+          },
+          {
+            "type": "combo",
+            "name": "method",
+            "value": "stretch",
+            "options": {
+              "values": ["stretch", "keep proportion", "fill / crop", "pad"]
+            },
+            "last_y": 138
+          },
+          {
+            "type": "combo",
+            "name": "condition",
+            "value": "always",
+            "options": {
+              "values": [
+                "always",
+                "downscale if bigger",
+                "upscale if smaller",
+                "if bigger area",
+                "if smaller area"
+              ]
+            },
+            "last_y": 162
+          },
+          {
+            "type": "number",
+            "name": "multiple_of",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 512,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 186
+          }
+        ],
+        "53": [
+          {
+            "type": "combo",
+            "name": "channel",
+            "value": "red",
+            "options": { "values": ["red", "green", "blue", "alpha"] },
+            "last_y": 26
+          }
+        ]
+      },
+      "workflowid": "hbc6b8506",
+      "virtualNodes": ["Reroute"],
+      "rules": [],
+      "selected_combo_values": [],
+      "models": [
+        {
+          "path": "unet/IC-Light/iclight_sd15_fbc.safetensors",
+          "URL": "https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fbc.safetensors"
+        },
+        {
+          "path": "unet/IC-Light/iclight_sd15_fc.safetensors",
+          "URL": "https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fc.safetensors"
+        },
+        {
+          "path": "unet/IC-Light/iclight_sd15_fcon.safetensors",
+          "URL": "https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fcon.safetensors"
+        },
+        {
+          "path": "checkpoints/realisticVisionV60B1_v51VAE.safetensors",
+          "URL": "https://huggingface.co/moiu2998/mymo/resolve/main/realisticVisionV60B1_v51VAE.safetensors?download=true"
+        }
+      ]
+    },
+    "ds": {
+      "scale": 1,
+      "offset": { "0": 617.6000671386719, "1": -101.5997314453125 }
+    }
+  },
+  "version": 0.4
+}
