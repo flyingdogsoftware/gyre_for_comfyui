@@ -206,6 +206,12 @@ async def readworkflowdir(request):
     fileList = folder_handle(path, [])
     fileListdefault = folder_handle(pathdefault, [])
     deactivated = load_file(deactivateddir,'deactivatedworkflows')
+    if not deactivated:
+        deactivated=[
+            {"json": "[]", 
+             "name": "deactivatedworkflows", 
+             "id": "", 
+             "lastmodified": 1717327112.6768162}]
     res = [fileList + fileListdefault + deactivated]
     return web.Response(text=json.dumps(res[0]), content_type='application/json')
 
