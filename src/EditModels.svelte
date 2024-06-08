@@ -93,7 +93,7 @@ async function downloadModels() {
     }
     try {
         downloadingNow=true
-        startProgress()
+        setTimeout(() => {   startProgress()},1000)
         let response = await fetch("/gyre/download_models?id="+$metadata.workflowid)  
         let result = await response.json();            
         return result;
@@ -134,8 +134,9 @@ async function startProgress() {
         } else {        
             let allDownloaded=true          // check if downloads finished
             for(let key in progress) {
-                let percent=parseInt(progress[key])
-                if (percent<100) {
+
+                let percent=progress[key]
+                if (percent!=="canceled" && parseInt(percent)<100) {
                     allDownloaded=false
                     break
                 } 
@@ -154,7 +155,20 @@ async function startProgress() {
         
     },500)
 }
+async function cancelDownload(modelPath) {
+    let index=0
+    for(let i=0;i<$metadata.models.length;i++) {
+        let model=$metadata.models[i]
+        if (progress[model.path]) {
+            if (modelPath===model.path) {
+                await fetch("/gyre/cancel_download/?index="+index)
+            }
+            index++
+        }
+    }
 
+    
+}
 let ManagerModels=[]
 onMount(async () => {
     startProgress()     // check progress after page reload
@@ -201,6 +215,7 @@ h1 {
     margin-top:13px;
     margin-bottom:13px;   
     white-space: nowrap; 
+    position: relative;
 }
 .progress {
     height: 10px;
@@ -219,6 +234,15 @@ h1 {
 .inputModelURL {
         opacity: 0;
 }
+.progressBarContainer .Cancel {
+    display: none;
+    position: absolute;
+    right:0;
+    top: 0;
+}
+.progressBarContainer:hover .Cancel {
+    display: block;
+}
 </style>
 
 <div>
@@ -229,7 +253,12 @@ h1 {
       {model.path}
       {#if progress[model.path]}
         <div class="progressBarContainer">
-            <div class="progress" style="width:{parseInt(progress[model.path])}%;"></div> {parseInt(progress[model.path])}%
+            {#if progress[model.path]==="canceled"}
+                Canceled
+            {:else}
+                <div class="progress" style="width:{parseInt(progress[model.path])}%;"></div> {parseInt(progress[model.path])}%
+                <button class="Cancel" on:click={() => { cancelDownload(model.path)}}>Cancel</button>
+            {/if}
         </div>
       {/if}
       {#if !no_edit && !progress[model.path]}

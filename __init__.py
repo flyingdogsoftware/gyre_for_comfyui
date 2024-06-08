@@ -539,7 +539,9 @@ async def get_all_models(request):
 
 # Shared dictionary to store progress
 progress = {}
-async def download_model(session, model):
+cancel_flags = []
+
+async def download_model(session, model, index):
     models_path = os.path.abspath('./models')
     target_path = os.path.join(models_path,model["target_folder"], model["target_name"])
     
@@ -552,6 +554,11 @@ async def download_model(session, model):
 
         with open(target_path, "wb") as f:
             while True:
+                if cancel_flags[index]:                
+                    progress[model["path"]] = "canceled"
+                    f.close()
+                    os.remove(target_path)
+                    return         
                 chunk = await response.content.read(1024)
                 if not chunk:
                     break
@@ -561,6 +568,7 @@ async def download_model(session, model):
 
 @server.PromptServer.instance.routes.get("/gyre/download_models")
 async def prepare_models_download(request):
+    global cancel_flags
     path = get_my_workflows_dir()
     pathdefault = get_my_default_workflows_dir()
     deactivateddir = get_my_deactivatedworkflows_dir()
@@ -584,6 +592,7 @@ async def prepare_models_download(request):
         res={'message':"No models found"}
     else:
         availableModels=get_all_model_files()["models"]
+        cancel_flags = []
         for modelInfo in modelList:
             if modelInfo['path'] not in availableModels:
                 directory, filename = os.path.split(modelInfo['path'])
@@ -592,9 +601,10 @@ async def prepare_models_download(request):
                     "target_folder": directory,
                     "target_name": filename,
                     "source_url": modelInfo['URL']
-                })                
+                })  
+                cancel_flags.append(False)              
         async with aiohttp.ClientSession() as session:
-            tasks = [download_model(session, model) for model in models]
+            tasks = [download_model(session, model, index ) for index, model in enumerate(models)]
             await asyncio.gather(*tasks)
             # better reset progress on client after 100% on each download is detected
           #  global progress
@@ -609,7 +619,17 @@ async def download_progress(request):
 @server.PromptServer.instance.routes.get("/gyre/clear_download_progress")
 async def clear_download_progress(request):
     global progress
+    global cancel_flags
     progress = {}
+    cancel_flags = []
     return web.Response(text=json.dumps({"status":"Progress cleared"}), content_type='application/json')
+
+@server.PromptServer.instance.routes.get("/gyre/cancel_download/")
+async def cancel_download(request):
+    index = request.query.get('index')
+    index=int(index)
+    cancel_flags[index] = True
+    return web.Response(text=json.dumps({"status": f"Download at index {index} cancelled"}), content_type='application/json')
+
 
 download_and_extract_github_repo()
