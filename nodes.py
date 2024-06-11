@@ -1,3 +1,7 @@
+from .inspyrenet_pipeline import InSPyReNetNode
+import folder_paths
+
+
 class AlwaysEqualProxy(str):
     def __eq__(self, _):
         return True
@@ -81,9 +85,37 @@ class LoopEnd:
     def do_nothing(self, ANY):
         return (ANY,)
 
+class BackgroundRemovalNode:
+    """
+    This node performs background removal using InSPyReNet.
+    """
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "image": ("IMAGE",),
+            },
+        }
+
+    RETURN_TYPES = ("IMAGE",)
+    RETURN_NAMES = ("output",)
+    FUNCTION = "process"
+    CATEGORY = "Image Processing"
+
+    def __init__(self):
+        self.node = InSPyReNetNode()
+
+    def process(self, image):
+        self.node.load_model()
+        return (self.node.process(image),)
+
+
+
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
+    "BackgroundRemoval": BackgroundRemovalNode,
     "GyreLoopStart": LoopStart,
     "GyreLoopEnd": LoopEnd,
     "GyreIfElse": IfElse,
@@ -92,6 +124,7 @@ NODE_CLASS_MAPPINGS = {
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
+    "BackgroundRemoval": "Gyre Background Removal",
     "GyreLoopStart": "Loop Start",
     "GyreLoopEnd": "Loop End",
     "GyreIfElse": "If Else",
