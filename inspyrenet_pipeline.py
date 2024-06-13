@@ -30,8 +30,8 @@ class InSPyReNetPipeline:
 
     @torch.no_grad()
     def __call__(
-        self, tensor, mode: Literal["alpha", "solid", "mask"] = "alpha", color=[0, 0, 0]
-    ):
+        self, tensor, mode: Literal["alpha", "mask"] = "alpha", shrink_factor=0.2):
+        color=[0, 0, 0]
         """
         Color must be 0..1 if used, not 0..255
         """
@@ -60,13 +60,17 @@ class InSPyReNetPipeline:
             guided_filter = scale < 0.5
 
         else:
-            # Pad up to square, plus whatever to get to multiple of 32
-            maxdim = max(
-                math.ceil(tensor.shape[-1] / 32) * 32,
-                math.ceil(tensor.shape[-2] / 32) * 32,
-            )
+            # Calculate the padding sizes
+            max_height = math.ceil(tensor.shape[-2] / 32) * 32
+            max_width = math.ceil(tensor.shape[-1] / 32) * 32
+            # Calculate the padding values for both dimensions
+            pad_height = max_height - tensor.shape[-2]
+            pad_width = max_width - tensor.shape[-1]
 
-            padding = (maxdim - tensor.shape[-1], 0, maxdim - tensor.shape[-2], 0)
+            # Ensure the padding is evenly distributed on both sides            
+            padding = (pad_width // 2, pad_width - pad_width // 2, pad_height // 2, pad_height - pad_height // 2)
+
+            #padding = (maxdim - tensor.shape[-1], 0, maxdim - tensor.shape[-2], 0)  
 
             sample = torch.nn.functional.pad(tensor, padding, mode="reflect")
 
@@ -83,12 +87,16 @@ class InSPyReNetPipeline:
         if scale is not None:
             pred = images.resize(pred, 1 / scale)
 
+        print(pred.shape)
+        print(tensor.shape)
         if padding is not None:
-            pred = pred[:, :, padding[2] :, padding[0] :]
+            print("padding is not None")
+            #pred = pred[:, :, padding[2] :, padding[0] :]
+            pred = pred[:, :, padding[2]:padding[2] + tensor.shape[2], padding[0]:padding[0] + tensor.shape[3]]
+
+        print(pred.shape)
 
         if guided_filter:
-            print("Guided Filtering Mask")
-
             guided_pred = (
                 guidedfilter2d_color(
                     tensor.to(torch.float64), pred.to(torch.float64), 32, 1e-8
@@ -100,31 +108,25 @@ class InSPyReNetPipeline:
             pred = torch.max(guided_pred, pred)
 
         # Slightly shrink mask
-        pred = ((pred - 0.2) / 0.8).clamp(0, 1)
+        pred = ((pred - shrink_factor) / (1 - shrink_factor)).clamp(0, 1)
 
         if mode == "mask":
             return pred
 
         elif mode == "alpha":
             return torch.cat([tensor, pred], dim=1)
-
-        elif mode == "solid":
-            colort = torch.tensor(color).to(tensor.device, tensor.dtype)
-            overlay = (torch.ones_like(tensor).T * colort.unsqueeze(1)).T
-            return tensor * pred + overlay * (1 - pred)
-
         else:
             raise ValueError(f"Unknown background removal mode {mode}")
 
 
-def process_image(image_tensor: torch.Tensor, model, device):
+def process_image(image_tensor: torch.Tensor, shrink_factor, model, device):
     image_tensor = image_tensor.permute(0, 3, 1, 2)
     # Initialize the pipeline
     pipeline = InSPyReNetPipeline(model)
     # Move module to the appropriate device
     pipeline.to(device)
     # Apply the pipeline directly
-    result_tensor = pipeline(image_tensor.to(device), mode="alpha")
+    result_tensor = pipeline(image_tensor.to(device), "alpha",shrink_factor)
     result_tensor = result_tensor.permute(0, 2, 3, 1)
     return result_tensor
 
@@ -144,7 +146,7 @@ class InSPyReNetNode:
         self.model.eval()
         self.model.to(self.device)
 
-    def process(self, image):
+    def process(self, image, shrink_factor):
         if self.model is None:
             raise RuntimeError("Model is not loaded. Please load the model first.")
-        return process_image(image, self.model, self.device)
+        return process_image(image,shrink_factor, self.model, self.device)

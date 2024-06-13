@@ -95,6 +95,13 @@ class BackgroundRemovalNode:
         return {
             "required": {
                 "image": ("IMAGE",),
+                "shrink_factor": ( "FLOAT", {
+                    "default": 0.2,
+                    "min": 0.0,
+                    "max": 1.0,
+                    "step": 0.1,
+                    "round": 0.1, 
+                    "display": "number"}),
             },
         }
 
@@ -106,9 +113,9 @@ class BackgroundRemovalNode:
     def __init__(self):
         self.node = InSPyReNetNode()
 
-    def process(self, image):
+    def process(self, image,shrink_factor):
         self.node.load_model()
-        return (self.node.process(image),)
+        return (self.node.process(image,shrink_factor),)
 
 
 
