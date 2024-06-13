@@ -8,6 +8,7 @@
   import FieldSelector from "./fieldSelector.svelte"
   import { createEventDispatcher } from 'svelte'
   import { onMount } from 'svelte';
+  import { modelsManager } from './modelsManager';
 
   const dispatch = createEventDispatcher()
 
@@ -281,6 +282,9 @@ let selectWorkflowType=false
     {/if}
 
 
+  {/if}
+  {#if no_edit}
+    Readonly Mode. Duplicate Workflow for editing.
   {/if}
   {#each formElements as element, index (element.name)}
     <div
