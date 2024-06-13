@@ -504,7 +504,8 @@ def write_json_to_file(json_str):
 
 def get_all_model_files():
     # Navigate up to the 'models' folder
-    current_path = os.path.abspath('./models')
+    comfy_path = os.path.dirname(folder_paths.__file__)
+    current_path = os.path.join(comfy_path,'models')
     while True:
         parent_path, current_folder = os.path.split(current_path)
         if current_folder == 'models':
