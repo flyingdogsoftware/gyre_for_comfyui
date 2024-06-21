@@ -430,7 +430,7 @@ def download_and_extract_github_repo():
         return
     print(f'Download new version of Gyre application it can take some time please wait...')
     #url = f'https://github.com/grzegorzewskiflyingdog/aistudio/archive/refs/heads/main.zip'
-    url = f'https://github.com/grzegorzewskiflyingdog/aistudio/archive/main.zip'
+    url = f'https://github.com/flyingdogsoftware/gyre-ui-dist/archive/main.zip'
     response = requests.get(url)
     if response.status_code == 200:
         with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
@@ -469,7 +469,7 @@ def check_update_required():
         filename = os.path.join(comfy_path,'version.pkl')
         # Send a GET request to the URL to get the content of package.json
         oldversion = read_version_from_file(filename)
-        response = requests.get(f'https://raw.githubusercontent.com/grzegorzewskiflyingdog/aistudio/main/package.json')
+        response = requests.get(f'https://raw.githubusercontent.com/flyingdogsoftware/gyre-ui-dist/main/package.json')
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
             # Parse the JSON content
