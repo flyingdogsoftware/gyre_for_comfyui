@@ -436,7 +436,7 @@ def download_and_extract_github_repo():
         with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
             zip_ref.extractall(gyre_path)
         print(f'New version downloaded from {url}. Install it now to {gyre_path}. Please wait...')
-        source_directory = os.path.join(gyre_path,"aistudio-main","dist")
+        source_directory = os.path.join(gyre_path,"gyre-ui-dist-main","dist")
         target_directory = os.path.join(source_directory, '..', '..', os.path.basename(source_directory))
         if os.path.exists(target_directory) and os.path.isdir(target_directory):
             shutil.rmtree(target_directory)
