@@ -168,6 +168,10 @@
     <div class="field" on:click={(e) => {selectElement("Seed")}}>
         <Icon name="form_text" ></Icon><span>Seed</span>
     </div>   
+    <!-- svelte-ignore a11y-click-events-have-key-events -->    
+    <div class="field" on:click={(e) => {selectElement("file")}}>
+        <Icon name="form_file" ></Icon><span>Internal File</span>
+    </div>      
     <h1>From Extensions</h1>       
     {#each custom_ui_components as ui_element}
             <!-- svelte-ignore a11y-click-events-have-key-events -->    

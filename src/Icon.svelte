@@ -36,6 +36,7 @@
             "form_colorpicker":{class:"default deactivate"}, 
             "form_magnifier":{class:"default deactivate"}, 
             "form_text_output":{class:"default deactivate"}, 
+            "form_file":{class:"default deactivate"}, 
             "find":{class:"default smallIcon"}, 
 
         }
@@ -179,7 +180,11 @@
     {#if name=="activateback"}
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48" fill="none"><path d="M10 33C10 25.7011 14.103 19.4168 20 16.5919C22.1347 15.5693 24.5046 15 27 15C36.3888 15 44 23.0589 44 33" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 28L10 33L4 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     {/if}
-
+     {#if name==="form_file"}
+     <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" viewBox="0 0 16 16">
+        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/>
+      </svg>
+    {/if}
 
 
 </div>

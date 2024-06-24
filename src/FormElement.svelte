@@ -164,6 +164,11 @@
         <!-- svelte-ignore a11y-missing-attribute -->
         <img name="magnifier" src="{magnifier_preview}">
     {/if}    
+    {#if element.type==="file"} 
+        <label for={element.name} class="file_label">{element.name}:</label>
+        <!-- svelte-ignore a11y-missing-attribute -->
+        Internal File for plugins
+    {/if}
     {#if element.type==="drop_layers"} 
         <label for={element.name} class="layer_drop_layers">{element.label}:</label>
             {#each Array(parseInt(element.num_layers)) as _, i}
@@ -248,7 +253,7 @@
 <div class="element-properties" >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="formClose" on:click={closeProperties}>X</div>
-    {#if element.type !== 'layer_image' &&   element.type !== 'text_output' && element.type!=="advanced_options"  && element.type!=="custom" && element.type!=="magnifier" && element.type!=="drop_layers"} 
+    {#if element.type !== 'layer_image' &&   element.type !== 'file' && element.type !== 'text_output' && element.type!=="advanced_options"  && element.type!=="custom" && element.type!=="magnifier" && element.type!=="drop_layers"} 
         <div class="formLine" >
             <label for="label">Label:</label>
             <input type="text" name="label" value={element.label} on:input={(e) => updateElement({ label: e.target.value })} />
@@ -322,11 +327,18 @@
             <label  for="name"> Name: </label>
             <input type="text" name="name" value={element.name} on:change={(e) => updateElement({ name: e.target.value })} />
         </div>
-        <div class="formLine">
+    <!--  <div class="formLine">
             <label  for="from_selection">Pixel Data: </label>
             <input type="checkbox" name="from_selection" bind:checked={element.from_selection}  /> From Selection
-        </div>      
+        </div>     -->    
     {/if}
+    {#if element.type === 'file' }
+        <div class="formLine">
+            <label  for="name"> Name: </label>
+            <input type="text" name="name" value={element.name} on:change={(e) => updateElement({ name: e.target.value })} />
+        </div>   
+    {/if}
+
     {#if element.type === 'drop_layers' }
         <div class="formLine">
             <label  for="name"> Name: </label>
