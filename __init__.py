@@ -189,8 +189,12 @@ async def readworkflowdir(request):
         fileList = deactivateListFile
     elif  type and type=='deactivatedworkflows':
         fileList = []
+    elif  (type and type=='defaults'):
+        fileList = folder_handle(path,[])
+        fileList1 = folder_handle(defaultextensionworkflows,[])
+        fileList = [fileList + fileList1][0]
     else:
-        fileList = folder_handle(path, existFlowIds)
+        fileList = folder_handle(path,[])
 
     return web.Response(text=json.dumps(fileList), content_type='application/json')
 
@@ -201,10 +205,13 @@ async def readworkflowdir(request):
 @server.PromptServer.instance.routes.get("/gyre/readworkflowdir")
 async def readworkflowdir(request):
     path = get_my_workflows_dir()
+
+
     pathdefault = get_my_default_workflows_dir()
     deactivateddir = get_my_deactivatedworkflows_dir()
     fileList = folder_handle(path, [])
     fileListdefault = folder_handle(pathdefault, [])
+    fileListdefaultadditional = folder_handle(defaultextensionworkflows, [])
     deactivated = load_file(deactivateddir,'deactivatedworkflows')
     if not deactivated:
         deactivated=[
@@ -212,7 +219,7 @@ async def readworkflowdir(request):
              "name": "deactivatedworkflows", 
              "id": "", 
              "lastmodified": 1717327112.6768162}]
-    res = [fileList + fileListdefault + deactivated]
+    res = [fileList + fileListdefault+ fileListdefaultadditional + deactivated ]
     return web.Response(text=json.dumps(res[0]), content_type='application/json')
 
 
@@ -303,6 +310,8 @@ def collect_gyre_components():
     # Get the parent directory (../ of current folder)
     parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 
+
+
     # List all subdirectories at the same level as the current script's parent directory
     subdirs = [d for d in os.listdir(parent_dir) if os.path.isdir(os.path.join(parent_dir, d))]
 
@@ -363,7 +372,7 @@ for component in components:
 current_dir = os.path.dirname(__file__)
 # Get the parent directory (../ of current folder)
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-
+defaultextensionworkflows = os.path.join(parent_dir,'gyre-extensions','gyre_default_workflows')
 
 for path in unique_paths:
     gyre_entry_folder_path = os.path.join(parent_dir, path, 'gyre_entry')
@@ -575,7 +584,8 @@ async def prepare_models_download(request):
     deactivateddir = get_my_deactivatedworkflows_dir()
     fileList = folder_handle(path, [])
     fileListdefault = folder_handle(pathdefault, [])
-    workflowList = [fileList + fileListdefault ][0]
+    fileListdefaultadditional = folder_handle(defaultextensionworkflows, [])
+    workflowList = [fileList + fileListdefault + fileListdefaultadditional][0]
     id = request.query.get('id')
     workflowInfo = None
     modelList = None
