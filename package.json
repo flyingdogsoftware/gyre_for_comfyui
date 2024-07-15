@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "npm run copy:styles && rollup -c",
+    "buildci": "npm run copy:styles1 && rollup -c",
     "dev": "npm run copy:styles && rollup -c -w",
     "buildl": "npm run copy:styles1 && rollup -c",
     "devl": "npm run copy:styles1 && rollup -c -w",
