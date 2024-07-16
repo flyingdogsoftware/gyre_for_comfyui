@@ -223,7 +223,7 @@
     }
 
     function addJSScript(extensionName){
-        let src= location.origin+'/gyre_extensions/'+'gyre-extensions/'+extensionName;
+        let src= location.origin+'/gyre_extensions/'+extensionName;
         let script=window.document.createElement("script")
         script.async = false
         script.src=src
