@@ -296,9 +296,9 @@ async def upload_log_json_file(request):
     return web.Response(text="File log updated successfully")
 
 
-def collect_gyre_components():
+def collect_gyre_plugins(manifest):
     """
-    Scans sibling directories for 'entry' subfolders containing both 'gyre_init.js' and 'gyre_ui_components.json',
+    Scans sibling directories for 'entry' subfolders containing both 'gyre_init.js' and plugin manifest file there (e.g. 'gyre_ui_components.json'),
     reads the JSON file and adds components with additional information to a list.
     
     Returns:
@@ -315,7 +315,7 @@ def collect_gyre_components():
     # List all subdirectories at the same level as the current script's parent directory
     subdirs = [d for d in os.listdir(parent_dir) if os.path.isdir(os.path.join(parent_dir, d))]
 
-    components_list = []
+    plugin_list = []
     debug_list = []
     # Iterate over each subdirectory
     for subdir in subdirs:
@@ -328,44 +328,28 @@ def collect_gyre_components():
         if os.path.exists(entry_folder_path):  
             # Check if 'gyre_init.js' and 'gyre_ui_components.json' files exist
             gyre_init_js_path = os.path.join(entry_folder_path, 'gyre_init.js')
-            gyre_ui_components_json_path = os.path.join(entry_folder_path, 'gyre_ui_components.json')
-            if os.path.exists(gyre_init_js_path) and os.path.exists(gyre_ui_components_json_path):
-                
-                #relative_path = os.path.relpath(entry_folder_path, parent_dir)
-                #relative_path = os.path.relpath(subdir, parent_dir).replace('\\', '/')
-
+            manifest_json_path = os.path.join(entry_folder_path, manifest)
+            if os.path.exists(gyre_init_js_path) and os.path.exists(manifest_json_path):
                 # Read the JSON file
-                with open(gyre_ui_components_json_path, 'r') as json_file:
+                with open(manifest_json_path, 'r') as json_file:
                     gyre_ui_data = json.load(json_file)
                 debug_list.append(gyre_ui_data)
 
                 # Check if the components key exists in the JSON data
-                if 'components' in gyre_ui_data and isinstance(gyre_ui_data['components'], list):
+                if 'plugins' in gyre_ui_data and isinstance(gyre_ui_data['plugins'], list):
                     
                     # Add copyright information and path to components
-                    for component in gyre_ui_data['components']:
-                        component_info = {
-                            'copyright': gyre_ui_data.get('copyright', 'Unknown'),
-                            'name': component.get('name', 'Unnamed'),
-                            'tag': component.get('tag', 'untagged'),
-                            'icon': component.get('icon', ''),
-                            'path': subdir_name
-                        }
-                        if 'split_value_num' in component:
-                              component_info['split_value_num'] = component['split_value_num'] 
-                        if 'split_value_type' in component:
-                              component_info['split_value_type'] = component['split_value_type']                               
-                        # Add 'defaults' sub-object if it exists
-                        if 'parameters' in component:
-                            component_info['parameters'] = component['parameters'] 
-                        components_list.append(component_info)
-    return components_list
+                    for plugin in gyre_ui_data['plugins']:
+                        plugin['path']=subdir_name
+                        plugin['copyright']=gyre_ui_data.get('copyright', 'Unknown')
+                        plugin_list.append(plugin)
+    return plugin_list
 
 
 # add each gyre extensions to web path
 # like "/gyre_extensions/(name of extension)/any file"
 # these files are served from "gyre_entry" folder
-components = collect_gyre_components()
+components = collect_gyre_plugins('gyre_ui_components.json')
 unique_paths = set()
 for component in components:
     unique_paths.add(component["path"])
@@ -398,37 +382,9 @@ server.PromptServer.instance.app.add_subapp("/gyreapp/", gyre_app)
 
 
 @server.PromptServer.instance.routes.post("/gyre/collect_gyre_components")
-async def collect_gyre_components_ws(request):
-    components_list=collect_gyre_components()
+async def collect_gyre_components(request):
+    components_list=collect_gyre_plugins('gyre_ui_components.json')
     return web.Response(text=json.dumps(components_list), content_type='application/json')
-
-@server.PromptServer.instance.routes.get("/gyre/init_components.js")
-async def create_js_file(request):
-    # Call the collect_gyre_components function to get the list of components
-    components = collect_gyre_components()
-
-    # Set containing unique relative paths to 'gyre_init.js'
-    unique_paths = set()
-
-    abspath = request.scheme+'://'+request.host
-    # Loop over each component to add unique script paths
-    for component in components:        
-        # Add to the set of unique paths
-        unique_paths.add(component["path"])
-
-    # Initialize a string for the JavaScript code
-    js_code = ""
-
-    # Loop over the unique paths and build the script tags
-    for path in unique_paths:
-        # Build the JavaScript code to create the script element
-        js_code += f"""
-        globalThis.gyre.setCurrentExtensionName("{path}")
-        globalThis.gyre.loadScript("gyre_init.js")
-        """
-    
-    return  web.Response(text=js_code, content_type='text/javascript')
-
 
 
 def download_and_extract_github_repo():
