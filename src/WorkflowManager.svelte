@@ -66,9 +66,8 @@
             })
 
             loadWorkflow(current)
-            loadUIComponents();
-
-
+            await loadUIComponents();
+            await executeJSUIComponents();
 
         }
 
@@ -215,6 +214,24 @@
         custom_ui_components = await getListFromServer()
        // console.log("COMPONENTS",custom_ui_components)
     }
+
+    async function executeJSUIComponents() {
+        custom_ui_components.forEach((el)=>{
+            addJSScript(el.js_path);
+        })
+        // console.log("COMPONENTS",custom_ui_components)
+    }
+
+    function addJSScript(extensionName){
+        let src= location.origin+'/gyre_extensions/'+'gyre-extensions/'+extensionName;
+        let script=window.document.createElement("script")
+        script.async = false
+        script.src=src
+        document.head.appendChild(script)
+    }
+
+
+
     /**
      * get list of all installed models
      */

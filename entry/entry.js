@@ -55,15 +55,15 @@ const callback = function (mutationsList, observer) {
               ctx.textAlign = "left";
               if (w.disabled) ctx.globalAlpha *= 0.5;
               let widget_width = w.width || width
-              
+
               if (!window.checkGyreMapping) continue
               let label=window.checkGyreMapping(node,w,i)
               if (label) {
               switch (w.type) {
-                case "button":            
+                case "button":
                     ctx.textAlign = "center"
                     ctx.fillStyle = text_color
-                    ctx.fillText(label, widget_width * 0.5, y + H * 0.7)                
+                    ctx.fillText(label, widget_width * 0.5, y + H * 0.7)
                   break;
                 case "toggle":
                     ctx.fillStyle = text_color
@@ -84,7 +84,7 @@ const callback = function (mutationsList, observer) {
                   break
                 case "number":
                 case "combo":
-                  ctx.textAlign = "left" 
+                  ctx.textAlign = "left"
                   ctx.fillStyle = text_color
                   ctx.fillText(label, margin * 2 + 5, y + H * 0.7)
                   break;
@@ -93,14 +93,14 @@ const callback = function (mutationsList, observer) {
                   ctx.textAlign = "left"
                   ctx.fillStyle = text_color
                   ctx.fillText(label, margin * 2, y + H * 0.7);
-                 
+
                   break;
                 case "customtext":  // multiline input (e.g. prompt), draw information below because textarea is on top
                     ctx.textAlign = "left"
                     ctx.fillStyle = text_color
                     y+=w.element.offsetHeight+1
-                    ctx.fillText(label, 2, y + H * 0.7);                                     
-                    break;                  
+                    ctx.fillText(label, 2, y + H * 0.7);
+                    break;
               }
             }
               posY += (w.computeSize ? w.computeSize(widget_width)[1] : H) + 4;
@@ -118,7 +118,7 @@ const callback = function (mutationsList, observer) {
               "callback": (item, options, e, menu, node)=>{
               //  console.log("node:",node.id,node.widgets )
                 window.openGyreMappings(node,e)
-              }            
+              }
             })
 
             return response;
@@ -162,14 +162,21 @@ class Gyre {
     script.src=src
     document.head.appendChild(script)
   }
+  loadExtScript(extensionName) {
+    let src= this.serverFromBrowser+'/gyre_extensions/'+extensionName;
+    let script=window.document.createElement("script")
+    script.async = false
+    script.src=src
+    document.head.appendChild(script)
+  }
+
 
   init() {
+    return;
     this.serverProtocol = location.protocol;
     this.serverFromBrowser =  location.origin;
-    var script = document.createElement("script");
-    script.async = false;
-    script.src = "/gyre/init_components.js";
-    document.head.appendChild(script);
+    this.loadExtScript('gyre-extensions/node_modules/@fds-components/fds-gradient-editor/dist/fds-gradient-editor.js');
+    this.loadExtScript('gyre-extensions/node_modules/@fds-components/fds-gradient-slider/dist/fds-gradient-slider.js');
   }
 }
 globalThis.gyre=new Gyre()
