@@ -386,6 +386,23 @@ async def collect_gyre_components(request):
     components_list=collect_gyre_plugins('gyre_ui_components.json')
     return web.Response(text=json.dumps(components_list), content_type='application/json')
 
+@server.PromptServer.instance.routes.get("/gyre/collect_all_gyre_components")
+async def collect_all_gyre_components(request):
+    components_ui_list=collect_gyre_plugins('gyre_ui_components.json')
+    components_ui_brushes_list=collect_gyre_plugins('gyre_ui_brushes.json')
+    components_ui_layers_list=collect_gyre_plugins('gyre_ui_layers.json')
+    components_ui_tools_list=collect_gyre_plugins('gyre_ui_tools.json')
+    result = {
+        "ui": components_ui_list,
+        "brushes": components_ui_brushes_list,
+        "layers": components_ui_layers_list,
+        "tools": components_ui_tools_list
+    }
+
+    return web.Response(text=json.dumps(result), content_type='application/json')
+
+
+
 
 def download_and_extract_github_repo():
     print("check update required")
