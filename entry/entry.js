@@ -9,7 +9,8 @@ const callback = function (mutationsList, observer) {
     if (mutation.type === "childList") {
       // @ts-ignore
       mutation.addedNodes.forEach((node) => {
-        if (node.nodeName === "CANVAS") {
+
+        if (node.nodeName === "SCRIPT") {
           // @ts-ignore
           import("/dist/build/bundle.js");
           observer.disconnect();
@@ -129,6 +130,7 @@ const callback = function (mutationsList, observer) {
   }
 };
 
+console.log("HELLO")
 
 
 // Create an instance of the MutationObserver
@@ -170,13 +172,8 @@ class Gyre {
     document.head.appendChild(script)
   }
 
-
   init() {
-    return;
-    this.serverProtocol = location.protocol;
-    this.serverFromBrowser =  location.origin;
-    this.loadExtScript('gyre-extensions/node_modules/@fds-components/fds-gradient-editor/dist/fds-gradient-editor.js');
-    this.loadExtScript('gyre-extensions/node_modules/@fds-components/fds-gradient-slider/dist/fds-gradient-slider.js');
+    return
   }
 }
 globalThis.gyre=new Gyre()

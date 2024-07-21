@@ -44,7 +44,7 @@
     function onMouseDown() {
         moving = true;
     }
-
+console.log("MAINAPP")
     function onMouseMove(e) {
         if (moving) {
             left += e.movementX;
