@@ -248,6 +248,7 @@ h1 {
 <div>
 <h1>Model List</h1>
 <ul>
+{#if $metadata.models}
   {#each $metadata.models as model, index}
     <li class={modelNotFound(model.path) && !progress[model.path] ? 'modelEntry not-found' : 'modelEntry'} title="{model.URL}">
       {model.path}
@@ -273,6 +274,7 @@ h1 {
     </li>
     
   {/each}
+{/if}
 </ul>
 
 {#if !no_edit}
