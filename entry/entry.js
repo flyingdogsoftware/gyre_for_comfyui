@@ -10,7 +10,7 @@ const callback = function (mutationsList, observer) {
       // @ts-ignore
       mutation.addedNodes.forEach((node) => {
 
-        if (node.nodeName === "SCRIPT") {
+        if (node.nodeName === "SCRIPT" || node.nodeName === "CANVAS") {
           // @ts-ignore
           import("/dist/build/bundle.js");
           observer.disconnect();
