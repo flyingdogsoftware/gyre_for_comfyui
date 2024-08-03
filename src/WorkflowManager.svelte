@@ -808,8 +808,18 @@ console.log("MAINAPP")
                     {:else if $metadata.category}
                         Layer menu category: {$metadata.category}
                     {/if}       
-                </div>                
-                <EditModels availableModels={allModels} no_edit={$metadata.tags.includes('Default')} on:downloadFinished={getAllModels}></EditModels>
+                </div>
+                {#if  $metadata.tags.includes('LayerMenu')}       
+                    <div class="inputLine" >
+                        {#if  !$metadata.tags.includes('Default')}
+                        <label for="transparency" style="vertical-align:top">Result image:</label>
+                            <input type="checkbox"  bind:value={$metadata.no_preserve_transparency}> Do not preserve Transparency of Selected Layer          
+                        {:else if !$metadata.no_preserve_transparency}
+                            Preserve Transparency of Selected Layer for Result Image.   
+                        {/if}       
+                    </div>                      
+                {/if} 
+                 <EditModels availableModels={allModels} no_edit={$metadata.tags.includes('Default')} on:downloadFinished={getAllModels}></EditModels>
                 {#if $metadata.workflowid}ID: {$metadata.workflowid}{/if}
 
             {/if}
