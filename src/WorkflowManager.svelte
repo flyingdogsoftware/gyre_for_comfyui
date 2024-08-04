@@ -813,7 +813,7 @@ console.log("MAINAPP")
                     <div class="inputLine" >
                         {#if  !$metadata.tags.includes('Default')}
                         <label for="transparency" style="vertical-align:top">Result image:</label>
-                            <input type="checkbox"  bind:value={$metadata.no_preserve_transparency}> Do not preserve Transparency of Selected Layer          
+                            <input type="checkbox"  bind:checked={$metadata.no_preserve_transparency}> Do not preserve Transparency of Selected Layer          
                         {:else if !$metadata.no_preserve_transparency}
                             Preserve Transparency of Selected Layer for Result Image.   
                         {/if}       
