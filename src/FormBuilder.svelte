@@ -6,6 +6,8 @@
   import formTemplate_LayerMenu  from './form_templates/layermenu.json'
   import { mappingsHelper } from './mappingsHelper.js'
   import FieldSelector from "./fieldSelector.svelte"
+  import PresetManagement from "./presetManagement.svelte"
+
   import { createEventDispatcher } from 'svelte'
   import { onMount } from 'svelte';
   import { modelsManager } from './modelsManager';
@@ -262,10 +264,11 @@ let selectWorkflowType=false
    dispatch("refreshTags",$metadata.tags)
  }
  let fieldSelector
+ let presetManagement
 
 </script>
 
-<FieldSelector {custom_ui_components} bind:this={fieldSelector} on:select={(e)=>{ addElement(e)}}></FieldSelector>
+<PresetManagement bind:this={presetManagement} ></PresetManagement>
 
 
 <div class="formBuilder">
@@ -313,7 +316,9 @@ let selectWorkflowType=false
 </div>
 <div>
  {#if !no_edit}
-  <button on:click={(e) => fieldSelector.openDialog(e,posX,posY)}>+ Add Element</button>
+  <button on:click={(e) => fieldSelector.openDialog(e,posX,posY)}>+ Add Element</button><br>
+  <button on:click={(e) => presetManagement.openDialog(e,posX,posY)}>Preset Management</button>
+
 {/if}
 </div>
 </div>

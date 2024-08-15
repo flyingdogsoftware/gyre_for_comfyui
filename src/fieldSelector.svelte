@@ -21,6 +21,7 @@
         left=x+"px"
         top=y+"px"    
     }
+
     export function hideDialog() {
         showFieldSelector="none"
     }
@@ -90,10 +91,18 @@
             margin-left: 20px;
             vertical-align: 10px;
         }
+        .close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+        }
         </style>
 
 
 <div id="fieldSelector" style="display:{showFieldSelector};left:{left};top:{top}" >
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="close" on:click={(e) => { hideDialog()}}>X</div>
     <h1>Add Form Field</h1>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="field" on:click={(e) => { selectElement("text")}}>

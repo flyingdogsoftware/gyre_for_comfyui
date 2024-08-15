@@ -274,6 +274,10 @@
             <label  for="required">Validation: </label>
             <input type="checkbox" name="required" bind:checked={element.required}  /> Value required
         </div>              
+        <div class="formLine">
+            <label  for="required">Preset: </label>
+            <input type="checkbox" name="required" bind:checked={element.preset_ignore}  /> Ignore in Preset Store
+        </div>          
     {/if}
     {#if element.type==="slider" || element.type==="text" || element.type==="textarea" || element.type==="number"}
     <div class="formLine">
@@ -304,7 +308,11 @@
           <div class="formLine">
             <label  for="hidden">Hidden: </label>
             <input type="checkbox" name="hidden" bind:checked={element.hidden}  /> Hide Input in form
-        </div>                
+        </div>      
+        <div class="formLine">
+            <label  for="required">Preset: </label>
+            <input type="checkbox" name="required" bind:checked={element.preset_ignore}  /> Ignore in Preset Store
+        </div>                    
     {/if}
     {#if element.type === 'text' || element.type === 'textarea' || element.type === 'number'  || element.type === 'color_picker'}
         <div class="formLine">
