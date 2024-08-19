@@ -43,6 +43,101 @@ if os.path.exists(dist_path):
         web.static("/", dist_path),
     ])
 
+
+current_dir = os.path.dirname(__file__)
+# Get the parent directory (../ of current folder)
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+#defaultextensionworkflows = os.path.join(parent_dir,'gyre-extensions','gyre_default_workflows') # fix please
+#print(f'defaultextensionworkflows {defaultextensionworkflows}')
+
+
+
+
+
+def get_all_extensions_workflows():
+    fileList = []
+    for path in unique_paths:
+        defaultws = os.path.join(parent_dir,path,'gyre_default_workflows')
+        fileList = fileList + folder_handle(defaultws,[])
+    #print(f'result filelist: {fileList}')
+    #return web.Response(text=f'blala{fileList}')
+    return fileList
+
+
+
+
+
+def collect_gyre_plugins(manifest):
+    """
+    Scans sibling directories for 'entry' subfolders containing both 'gyre_init.js' and plugin manifest file there (e.g. 'gyre_ui_components.json'),
+    reads the JSON file and adds components with additional information to a list.
+
+    Returns:
+        list of dictionaries: Each dictionary includes copyright, component name, component tag, and path.
+    """
+    # Get the current script's directory
+    current_dir = os.path.dirname(__file__)
+
+    # Get the parent directory (../ of current folder)
+    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+
+
+
+    # List all subdirectories at the same level as the current script's parent directory
+    subdirs = [d for d in os.listdir(parent_dir) if os.path.isdir(os.path.join(parent_dir, d))]
+
+    plugin_list = []
+    debug_list = []
+    # Iterate over each subdirectory
+    for subdir in subdirs:
+        # Path to the 'entry' subfolder
+        entry_folder_path = os.path.join(parent_dir, subdir, 'gyre_entry')
+        subdir_name = os.path.basename(subdir)
+
+
+        # Check if 'gyre_entry' subfolder exists
+        if os.path.exists(entry_folder_path):
+            # Check if 'gyre_init.js' and 'gyre_ui_components.json' files exist
+            gyre_init_js_path = os.path.join(entry_folder_path, 'gyre_init.js')
+            manifest_json_path = os.path.join(entry_folder_path, manifest)
+            if os.path.exists(gyre_init_js_path) and os.path.exists(manifest_json_path):
+                # Read the JSON file
+                with open(manifest_json_path, 'r') as json_file:
+                    gyre_ui_data = json.load(json_file)
+                debug_list.append(gyre_ui_data)
+
+                # Check if the components key exists in the JSON data
+                if 'plugins' in gyre_ui_data and isinstance(gyre_ui_data['plugins'], list):
+
+                    # Add copyright information and path to components
+                    for plugin in gyre_ui_data['plugins']:
+                        plugin['path']=subdir_name
+                        plugin['copyright']=gyre_ui_data.get('copyright', 'Unknown')
+                        plugin_list.append(plugin)
+    return plugin_list
+
+
+# add each gyre extensions to web path
+# like "/gyre_extensions/(name of extension)/any file"
+# these files are served from "gyre_entry" folder
+components = collect_gyre_plugins('gyre_ui_components.json')
+components1 = collect_gyre_plugins('gyre_ui_brushes.json')
+components2 = collect_gyre_plugins('gyre_ui_layers.json')
+components3 = collect_gyre_plugins('gyre_ui_tools.json')
+components = components+components1+components2+components3
+
+unique_paths = set()
+for component in components:
+    unique_paths.add(component["path"])
+
+
+#print(f'unique path::{unique_paths}')
+
+
+
+
+
+
 server.PromptServer.instance.app.add_subapp("/dist/build/", workspace_app)
 
 #mimetypes.types_map['.ts'] = 'application/javascript; charset=utf-8'
@@ -191,7 +286,8 @@ async def readworkflowdir(request):
         fileList = []
     elif  (type and type=='defaults'):
         fileList = folder_handle(path,[])
-        fileList1 = folder_handle(defaultextensionworkflows,[])
+        #fileList1 = folder_handle(defaultextensionworkflows,[])
+        fileList1 = get_all_extensions_workflows()
         fileList = [fileList + fileList1][0]
     else:
         fileList = folder_handle(path,[])
@@ -211,7 +307,8 @@ async def readworkflowdir(request):
     deactivateddir = get_my_deactivatedworkflows_dir()
     fileList = folder_handle(path, [])
     fileListdefault = folder_handle(pathdefault, [])
-    fileListdefaultadditional = folder_handle(defaultextensionworkflows, [])
+    #fileListdefaultadditional = folder_handle(defaultextensionworkflows, [])
+    fileListdefaultadditional = get_all_extensions_workflows()
     deactivated = load_file(deactivateddir,'deactivatedworkflows')
     if not deactivated:
         deactivated=[
@@ -320,70 +417,8 @@ async def save_workflow_file(request):
 
 
 
-def collect_gyre_plugins(manifest):
-    """
-    Scans sibling directories for 'entry' subfolders containing both 'gyre_init.js' and plugin manifest file there (e.g. 'gyre_ui_components.json'),
-    reads the JSON file and adds components with additional information to a list.
-    
-    Returns:
-        list of dictionaries: Each dictionary includes copyright, component name, component tag, and path.
-    """
-    # Get the current script's directory
-    current_dir = os.path.dirname(__file__)
-
-    # Get the parent directory (../ of current folder)
-    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 
 
-
-    # List all subdirectories at the same level as the current script's parent directory
-    subdirs = [d for d in os.listdir(parent_dir) if os.path.isdir(os.path.join(parent_dir, d))]
-
-    plugin_list = []
-    debug_list = []
-    # Iterate over each subdirectory
-    for subdir in subdirs:
-        # Path to the 'entry' subfolder
-        entry_folder_path = os.path.join(parent_dir, subdir, 'gyre_entry')    
-        subdir_name = os.path.basename(subdir)
-
-      
-        # Check if 'gyre_entry' subfolder exists
-        if os.path.exists(entry_folder_path):  
-            # Check if 'gyre_init.js' and 'gyre_ui_components.json' files exist
-            gyre_init_js_path = os.path.join(entry_folder_path, 'gyre_init.js')
-            manifest_json_path = os.path.join(entry_folder_path, manifest)
-            if os.path.exists(gyre_init_js_path) and os.path.exists(manifest_json_path):
-                # Read the JSON file
-                with open(manifest_json_path, 'r') as json_file:
-                    gyre_ui_data = json.load(json_file)
-                debug_list.append(gyre_ui_data)
-
-                # Check if the components key exists in the JSON data
-                if 'plugins' in gyre_ui_data and isinstance(gyre_ui_data['plugins'], list):
-                    
-                    # Add copyright information and path to components
-                    for plugin in gyre_ui_data['plugins']:
-                        plugin['path']=subdir_name
-                        plugin['copyright']=gyre_ui_data.get('copyright', 'Unknown')
-                        plugin_list.append(plugin)
-    return plugin_list
-
-
-# add each gyre extensions to web path
-# like "/gyre_extensions/(name of extension)/any file"
-# these files are served from "gyre_entry" folder
-components = collect_gyre_plugins('gyre_ui_components.json')
-unique_paths = set()
-for component in components:
-    unique_paths.add(component["path"])
-## todo: support other kind of manifest here as welll to generate global unique_path array
-
-
-current_dir = os.path.dirname(__file__)
-# Get the parent directory (../ of current folder)
-parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-defaultextensionworkflows = os.path.join(parent_dir,'gyre-extensions','gyre_default_workflows') # fix please
 
 for path in unique_paths:
     gyre_entry_folder_path = os.path.join(parent_dir, path, 'gyre_entry')
@@ -584,7 +619,9 @@ async def prepare_models_download(request):
     deactivateddir = get_my_deactivatedworkflows_dir()
     fileList = folder_handle(path, [])
     fileListdefault = folder_handle(pathdefault, [])
-    fileListdefaultadditional = folder_handle(defaultextensionworkflows, [])
+    #fileListdefaultadditional = folder_handle(defaultextensionworkflows, [])
+    fileListdefaultadditional = get_all_extensions_workflows()
+
     workflowList = [fileList + fileListdefault + fileListdefaultadditional][0]
     id = request.query.get('id')
     workflowInfo = None
