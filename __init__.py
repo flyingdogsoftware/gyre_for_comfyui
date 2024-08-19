@@ -296,6 +296,30 @@ async def upload_log_json_file(request):
     return web.Response(text="File log updated successfully")
 
 
+@server.PromptServer.instance.routes.post("/gyre/save_workflow_file")
+async def save_workflow_file(request):
+    data = await request.json()
+    file_path = data['file_path']
+    json_str = data['json_str']
+
+    def write_mjson_to_file(json_str):
+        my_workflows_dir = get_my_workflows_dir()
+        full_path = os.path.join(my_workflows_dir, file_path)
+        # Create the directory if it doesn't exist
+        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+        with open(full_path, 'w', encoding='utf-8') as file:
+            file.write(json_str)
+
+    # Offload the file update to a separate thread
+    await asyncio.to_thread(write_mjson_to_file, json_str)
+    return web.Response(text="File log updated successfully")
+
+
+
+
+
+
+
 def collect_gyre_plugins(manifest):
     """
     Scans sibling directories for 'entry' subfolders containing both 'gyre_init.js' and plugin manifest file there (e.g. 'gyre_ui_components.json'),
