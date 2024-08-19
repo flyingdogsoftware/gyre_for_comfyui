@@ -130,7 +130,6 @@ const callback = function (mutationsList, observer) {
   }
 };
 
-console.log("HELLO")
 
 
 // Create an instance of the MutationObserver

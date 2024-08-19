@@ -353,10 +353,13 @@ components = collect_gyre_plugins('gyre_ui_components.json')
 unique_paths = set()
 for component in components:
     unique_paths.add(component["path"])
+## todo: support other kind of manifest here as welll to generate global unique_path array
+
+
 current_dir = os.path.dirname(__file__)
 # Get the parent directory (../ of current folder)
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-defaultextensionworkflows = os.path.join(parent_dir,'gyre-extensions','gyre_default_workflows')
+defaultextensionworkflows = os.path.join(parent_dir,'gyre-extensions','gyre_default_workflows') # fix please
 
 for path in unique_paths:
     gyre_entry_folder_path = os.path.join(parent_dir, path, 'gyre_entry')

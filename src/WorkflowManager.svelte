@@ -217,13 +217,13 @@ console.log("MAINAPP")
 
     async function executeJSUIComponents() {
         custom_ui_components.forEach((el)=>{
-            addJSScript(el.js_path);
+            addJSScript(el.path,el.js_path)
         })
         // console.log("COMPONENTS",custom_ui_components)
     }
 
-    function addJSScript(extensionName){
-        let src= location.origin+'/gyre_extensions/'+extensionName;
+    function addJSScript(extensionName,js_path){
+        let src= location.origin+'/gyre_extensions/'+extensionName+"/"+js_path
         let script=window.document.createElement("script")
         script.async = false
         script.src=src
