@@ -267,8 +267,8 @@ let selectWorkflowType=false
  let presetManagement
 
 </script>
-
 <PresetManagement bind:this={presetManagement} ></PresetManagement>
+<FieldSelector bind:this={fieldSelector} on:select={addElement} {custom_ui_components}></FieldSelector>
 
 
 <div class="formBuilder">
