@@ -60,10 +60,17 @@
         font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif, "Segoe UI", Helvetica, Arial;
         padding: 3px;
     }
+    .presetList {
+        max-height: 500px;
+        overflow: auto;
+        scrollbar-color: rgb(227, 206, 116) black;
+        scrollbar-width: thin;
+    }
+
         </style>
 
 
-<div id="presetManagement" style="display:{showPresetManager};left:{left};top:{top}" >
+<div id="presetManagement" style="display:{showPresetManager};left:{left};top:{top};" >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="close" on:click={(e) => { hideDialog()}}>X</div>
     <h1>Preset Management</h1>
@@ -81,7 +88,24 @@
       {/if}
       {#if $metadata.presetType==="URL"}
         Read Presets (e.g. Prompt Styles) from URL<input type="text" class="input" bind:value={$metadata.presetURL}>
-      {/if}      
+      {/if} 
+    </p>  
+      <div class="presetList">
 
-    </p>
+
+        {#if $metadata.presets && $metadata.presets.length}
+            {#each $metadata.presets as preset}
+                <p>{preset.name}
+                {#if preset.image}
+                    <br>
+                    <img src={preset.image} alt={preset.name} style="width:64px">
+                {/if}
+                </p>
+            {/each}
+        {:else}
+        No Presets stored in this workflow
+        {/if}
+    </div>
+    
+   
 </div>
