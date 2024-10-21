@@ -1,1 +1,2994 @@
-{"last_node_id":29,"last_link_id":59,"nodes":[{"id":7,"type":"ToBasicPipe","pos":[1397,-28],"size":{"0":241.79998779296875,"1":326},"flags":{"collapsed":false},"order":14,"mode":0,"inputs":[{"name":"model","type":"MODEL","link":59},{"name":"clip","type":"CLIP","link":7},{"name":"vae","type":"VAE","link":8},{"name":"positive","type":"CONDITIONING","link":54},{"name":"negative","type":"CONDITIONING","link":10}],"outputs":[{"name":"basic_pipe","type":"BASIC_PIPE","links":[25],"shape":3}],"properties":{"Node name for S&R":"ToBasicPipe"},"color":"#323","bgcolor":"#535"},{"id":18,"type":"SaveImage","pos":[2306,301],"size":{"0":482,"1":610},"flags":{},"order":16,"mode":0,"inputs":[{"name":"images","type":"IMAGE","link":35}],"properties":{"Node name for S&R":"SaveImage"},"widgets_values":["ComfyUI"]},{"id":8,"type":"DenoiseSchedulerDetailerHookProvider","pos":[1220,979],"size":{"0":302.3999938964844,"1":82},"flags":{},"order":0,"mode":0,"outputs":[{"name":"DETAILER_HOOK","type":"DETAILER_HOOK","links":[26],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"DenoiseSchedulerDetailerHookProvider"},"widgets_values":["simple",0.2],"color":"#323","bgcolor":"#535"},{"id":22,"type":"SelfAttentionGuidance","pos":[1023,-90],"size":{"0":315,"1":82},"flags":{},"order":8,"mode":0,"inputs":[{"name":"model","type":"MODEL","link":44}],"outputs":[{"name":"MODEL","type":"MODEL","links":[],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"SelfAttentionGuidance"},"widgets_values":[0.5,2]},{"id":24,"type":"ControlNetLoader","pos":[1108.7198364257813,1436.7205017089839],"size":{"0":500.8695983886719,"1":58},"flags":{},"order":1,"mode":0,"outputs":[{"name":"CONTROL_NET","type":"CONTROL_NET","links":[49],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"ControlNetLoader"},"widgets_values":["control_v11p_sd15_openpose_fp16.safetensors"]},{"id":5,"type":"CLIPTextEncode","pos":[918,369],"size":{"0":320,"1":100},"flags":{},"order":10,"mode":0,"inputs":[{"name":"clip","type":"CLIP","link":13}],"outputs":[{"name":"CONDITIONING","type":"CONDITIONING","links":[10],"shape":3,"slot_index":0}],"title":"Negative","properties":{"Node name for S&R":"CLIPTextEncode"},"widgets_values":["ugly, naked"],"color":"#571a1a","bgcolor":"#6b2e2e"},{"id":2,"type":"CLIPTextEncode","pos":[828,101],"size":{"0":320,"1":120},"flags":{},"order":9,"mode":0,"inputs":[{"name":"clip","type":"CLIP","link":12,"slot_index":0}],"outputs":[{"name":"CONDITIONING","type":"CONDITIONING","links":[50],"shape":3,"slot_index":0}],"title":"Positive","properties":{"Node name for S&R":"CLIPTextEncode"},"widgets_values":["beautiful woman sitting on chair"],"color":"#1a571a","bgcolor":"#2e6b2e"},{"id":25,"type":"ControlNetApply","pos":[1766.719836425782,1545.7205017089839],"size":{"0":317.4000244140625,"1":98},"flags":{},"order":12,"mode":0,"inputs":[{"name":"conditioning","type":"CONDITIONING","link":52},{"name":"control_net","type":"CONTROL_NET","link":49},{"name":"image","type":"IMAGE","link":48}],"outputs":[{"name":"CONDITIONING","type":"CONDITIONING","links":[53],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"ControlNetApply"},"widgets_values":[1]},{"id":26,"type":"GyreLoopStart","pos":[1036,1245],"size":{"0":210,"1":26},"flags":{},"order":11,"mode":0,"inputs":[{"name":"ANY","type":"*","link":50}],"outputs":[{"name":"ANY","type":"*","links":[52],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"GyreLoopStart"}},{"id":27,"type":"GyreLoopEnd","pos":[1388,1228],"size":{"0":210,"1":26},"flags":{},"order":13,"mode":0,"inputs":[{"name":"ANY","type":"*","link":53}],"outputs":[{"name":"ANY","type":"*","links":[54],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"GyreLoopEnd"}},{"id":1,"type":"LoadImage","pos":[670,592],"size":{"0":320,"1":320},"flags":{},"order":2,"mode":0,"outputs":[{"name":"IMAGE","type":"IMAGE","links":[55],"shape":3,"slot_index":0},{"name":"MASK","type":"MASK","links":[],"shape":3,"slot_index":1}],"properties":{"Node name for S&R":"LoadImage"},"widgets_values":["6xoex (1).png","image"],"color":"#223","bgcolor":"#335"},{"id":9,"type":"LoadImageMask","pos":[654,958],"size":{"0":315,"1":318},"flags":{},"order":3,"mode":0,"outputs":[{"name":"MASK","type":"MASK","links":[57],"shape":3,"slot_index":0}],"properties":{"Node name for S&R":"LoadImageMask"},"widgets_values":["mask (2).png","red","image"]},{"id":29,"type":"ResizeMask","pos":[1140,890],"size":{"0":315,"1":146},"flags":{},"order":7,"mode":0,"inputs":[{"name":"mask","type":"MASK","link":57}],"outputs":[{"name":"mask","type":"MASK","links":[58],"shape":3,"slot_index":0},{"name":"width","type":"INT","links":null,"shape":3},{"name":"height","type":"INT","links":null,"shape":3}],"properties":{"Node name for S&R":"ResizeMask"},"widgets_values":[512,512,false]},{"id":23,"type":"LoadImage","pos":[1129,1567],"size":{"0":315,"1":314},"flags":{},"order":4,"mode":0,"outputs":[{"name":"IMAGE","type":"IMAGE","links":[48],"shape":3,"slot_index":0},{"name":"MASK","type":"MASK","links":null,"shape":3,"slot_index":1}],"properties":{"Node name for S&R":"LoadImage"},"widgets_values":["83e83d79-0084-4407-87c2-6cf655768a2c.png","image"]},{"id":4,"type":"CheckpointLoader|pysssss","pos":[287,-29],"size":{"0":386.4488830566406,"1":223.23193359375},"flags":{},"order":5,"mode":0,"outputs":[{"name":"MODEL","type":"MODEL","links":[44,59],"shape":3,"slot_index":0},{"name":"CLIP","type":"CLIP","links":[7,12,13],"shape":3,"slot_index":1},{"name":"VAE","type":"VAE","links":[8],"shape":3,"slot_index":2}],"properties":{"Node name for S&R":"CheckpointLoader|pysssss"},"widgets_values":[{"content":"epicrealism_v10-inpainting.safetensors","image":null},"[none]"],"color":"#432","bgcolor":"#653"},{"id":15,"type":"MaskDetailerPipe","pos":[1701,340],"size":{"0":400,"1":780},"flags":{},"order":15,"mode":0,"inputs":[{"name":"image","type":"IMAGE","link":56},{"name":"mask","type":"MASK","link":58},{"name":"basic_pipe","type":"BASIC_PIPE","link":25},{"name":"refiner_basic_pipe_opt","type":"BASIC_PIPE","link":null},{"name":"detailer_hook","type":"DETAILER_HOOK","link":26}],"outputs":[{"name":"image","type":"IMAGE","links":[35],"shape":3,"slot_index":0},{"name":"cropped_refined","type":"IMAGE","links":null,"shape":6},{"name":"cropped_enhanced_alpha","type":"IMAGE","links":null,"shape":6},{"name":"basic_pipe","type":"BASIC_PIPE","links":null,"shape":3},{"name":"refiner_basic_pipe_opt","type":"BASIC_PIPE","links":null,"shape":3}],"properties":{"Node name for S&R":"MaskDetailerPipe"},"widgets_values":[512,true,768,true,709788903192577,"randomize",10,4,"dpmpp_2m","normal",1,40,1.5,10,0.2,1,1,true,20],"color":"#323","bgcolor":"#535"},{"id":28,"type":"ImageResize+","pos":[1123,557],"size":{"0":315,"1":218},"flags":{},"order":6,"mode":0,"inputs":[{"name":"image","type":"IMAGE","link":55}],"outputs":[{"name":"IMAGE","type":"IMAGE","links":[56],"shape":3,"slot_index":0},{"name":"width","type":"INT","links":null,"shape":3},{"name":"height","type":"INT","links":null,"shape":3}],"properties":{"Node name for S&R":"ImageResize+"},"widgets_values":[512,512,"nearest","stretch","always",0]}],"links":[[7,4,1,7,1,"CLIP"],[8,4,2,7,2,"VAE"],[10,5,0,7,4,"CONDITIONING"],[12,4,1,2,0,"CLIP"],[13,4,1,5,0,"CLIP"],[25,7,0,15,2,"BASIC_PIPE"],[26,8,0,15,4,"DETAILER_HOOK"],[35,15,0,18,0,"IMAGE"],[44,4,0,22,0,"MODEL"],[48,23,0,25,2,"IMAGE"],[49,24,0,25,1,"CONTROL_NET"],[50,2,0,26,0,"*"],[52,26,0,25,0,"CONDITIONING"],[53,25,0,27,0,"*"],[54,27,0,7,3,"CONDITIONING"],[55,1,0,28,0,"IMAGE"],[56,28,0,15,0,"IMAGE"],[57,9,0,29,0,"MASK"],[58,29,0,15,1,"MASK"],[59,4,0,7,0,"MODEL"]],"groups":[{"title":"controlnet[]","bounding":[1038,1344,1105,592],"color":"#3f789e","font_size":24,"locked":false}],"config":{},"extra":{"gyre":{"lastModified":1716983693299,"lastModifiedReadable":"2024-05-29 11:54:53","workflowid":"yy21nzqst9","tags":["Inpainting","ControlNet"],"combo_values":{},"license":"yes_commercial","virtualNodes":[],"nodeWidgets":{"1":[{"type":"combo","name":"image","value":"6xoex (1).png","options":{"values":[]},"_real_value":"6xoex (1).png","last_y":46},{"type":"button","name":"upload","value":"image","options":{},"label":"choose file to upload","serialize":false,"last_y":70}],"2":[{"type":"customtext","name":"text","value":"beautiful woman sitting on chair","element":{},"options":{"hideOnZoom":true,"selectOn":["focus","click"]},"inputEl":{},"dynamicPrompts":true,"last_y":26,"computedHeight":94,"y":26}],"3":[{"type":"combo","name":"ckpt_name","value":"sd-v1-5-inpainting.ckpt","options":{"values":["Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors","awpainting_v13.safetensors","dreamshaperXL_v2TurboDPMSDE.safetensors","realisticVisionV60B1_v51VAE.safetensors","sd-v1-5-inpainting.ckpt","sd_xl_base_1.0.safetensors","sdxl_lightning_1step_x0.safetensors","sdxl_lightning_2step.safetensors","sdxl_lightning_4step.safetensors","sdxl_lightning_8step.safetensors","sdxxxl_v30.safetensors","v1-5-pruned-emaonly.ckpt"]},"last_y":66}],"4":[{"type":"combo","name":"ckpt_name","value":{"content":"epicrealism_v10-inpainting.safetensors","image":null},"options":{"values":[{"content":"awpainting_v13.safetensors","image":null,"title":"awpainting_v13.safetensors"},{"content":"dreamshaperXL_v2TurboDPMSDE.safetensors","image":null,"title":"dreamshaperXL_v2TurboDPMSDE.safetensors"},{"content":"epicrealism_v10-inpainting.safetensors","image":null,"title":"epicrealism_v10-inpainting.safetensors"},{"content":"Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors","image":null,"title":"Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors"},{"content":"realisticVisionV60B1_v51VAE.safetensors","image":null,"title":"realisticVisionV60B1_v51VAE.safetensors"},{"content":"sd-v1-5-inpainting.ckpt","image":null,"title":"sd-v1-5-inpainting.ckpt"},{"content":"sd_xl_base_1.0.safetensors","image":null,"title":"sd_xl_base_1.0.safetensors"},{"content":"sdxl_lightning_1step_x0.safetensors","image":null,"title":"sdxl_lightning_1step_x0.safetensors"},{"content":"sdxl_lightning_2step.safetensors","image":null,"title":"sdxl_lightning_2step.safetensors"},{"content":"sdxl_lightning_4step.safetensors","image":null,"title":"sdxl_lightning_4step.safetensors"},{"content":"sdxl_lightning_8step.safetensors","image":null,"title":"sdxl_lightning_8step.safetensors"},{"content":"sdxxxl_v30.safetensors","image":null,"title":"sdxxxl_v30.safetensors"},{"content":"v1-5-pruned-emaonly.ckpt","image":null,"title":"v1-5-pruned-emaonly.ckpt"}]},"last_y":66},{"type":"combo","name":"example","value":"[none]","options":{"values":["[none]"]},"last_y":90,"disabled":true}],"5":[{"type":"customtext","name":"text","value":"ugly, naked","element":{},"options":{"hideOnZoom":true,"selectOn":["focus","click"]},"inputEl":{},"dynamicPrompts":true,"last_y":26,"computedHeight":74,"y":26}],"6":[{"type":"number","name":"guide_size","value":512,"options":{"min":64,"max":16384,"step":80,"round":1,"precision":0},"last_y":106},{"type":"toggle","name":"guide_size_for","value":true,"options":{"on":"mask bbox","off":"crop region"},"last_y":130},{"type":"number","name":"max_size","value":768,"options":{"min":64,"max":16384,"step":80,"round":1,"precision":0},"last_y":154},{"type":"toggle","name":"mask_mode","value":true,"options":{"on":"masked only","off":"whole"},"last_y":178},{"type":"number","name":"seed","value":91348195301351,"options":{"min":0,"max":18446744073709552000,"step":10,"round":1,"precision":0},"linkedWidgets":[{"type":"combo","name":"control_after_generate","value":"randomize","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":226,"__beforeQueued":null}],"last_y":202},{"type":"combo","name":"control_after_generate","value":"randomize","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":226,"__beforeQueued":null},{"type":"number","name":"steps","value":10,"options":{"min":1,"max":10000,"step":10,"round":1,"precision":0},"last_y":250},{"type":"number","name":"cfg","value":4,"options":{"min":0,"max":100,"step":5,"round":0.1,"precision":1},"last_y":274},{"type":"combo","name":"sampler_name","value":"dpmpp_2m","options":{"values":["euler","euler_ancestral","heun","heunpp2","dpm_2","dpm_2_ancestral","lms","dpm_fast","dpm_adaptive","dpmpp_2s_ancestral","dpmpp_sde","dpmpp_sde_gpu","dpmpp_2m","dpmpp_2m_sde","dpmpp_2m_sde_gpu","dpmpp_3m_sde","dpmpp_3m_sde_gpu","ddpm","lcm","ddim","uni_pc","uni_pc_bh2"]},"last_y":298},{"type":"combo","name":"scheduler","value":"AYS SD1","options":{"values":["normal","karras","exponential","sgm_uniform","simple","ddim_uniform","AYS SDXL","AYS SD1","AYS SVD"]},"last_y":322},{"type":"number","name":"denoise","value":1,"options":{"min":0.0001,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":346},{"type":"number","name":"feather","value":40,"options":{"min":0,"max":100,"step":10,"round":1,"precision":0},"last_y":370},{"type":"number","name":"crop_factor","value":2,"options":{"min":1,"max":10,"step":1,"round":0.1,"precision":1},"last_y":394},{"type":"number","name":"drop_size","value":10,"options":{"min":1,"max":8192,"step":10,"round":1,"precision":0},"last_y":418},{"type":"number","name":"refiner_ratio","value":0.2,"options":{"min":0,"max":1,"step":5,"round":0.1,"precision":1},"last_y":442},{"type":"number","name":"batch_size","value":1,"options":{"min":1,"max":100,"step":10,"round":1,"precision":0},"last_y":466},{"type":"number","name":"cycle","value":1,"options":{"min":1,"max":10,"step":10,"round":1,"precision":0},"last_y":490},{"type":"toggle","name":"inpaint_model","value":false,"options":{"on":"enabled","off":"disabled"},"last_y":514},{"type":"number","name":"noise_mask_feather","value":20,"options":{"min":0,"max":100,"step":10,"round":1,"precision":0},"last_y":538}],"8":[{"type":"combo","name":"schedule_for_cycle","value":"simple","options":{"values":["simple"]},"last_y":26},{"type":"number","name":"target_denoise","value":0.2,"options":{"min":0,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":50}],"9":[{"type":"combo","name":"image","value":"mask (2).png","options":{"values":[]},"_real_value":"mask (2).png","last_y":26},{"type":"combo","name":"channel","value":"red","options":{"values":["alpha","red","green","blue"]},"last_y":50},{"type":"button","name":"upload","value":"image","options":{},"label":"choose file to upload","serialize":false,"last_y":74}],"10":[{"type":"customtext","name":"text","value":"","element":{},"options":{"hideOnZoom":true,"selectOn":["focus","click"]},"inputEl":{},"dynamicPrompts":true,"last_y":25.999972343444824,"computedHeight":74.00002765655518,"y":25.999972343444824}],"11":[{"type":"number","name":"seed","value":103557349876679,"options":{"min":0,"max":18446744073709552000,"step":10,"round":1,"precision":0},"linkedWidgets":[{"type":"combo","name":"control_after_generate","value":"randomize","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":110,"__beforeQueued":null}],"last_y":86},{"type":"combo","name":"control_after_generate","value":"randomize","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":110,"__beforeQueued":null},{"type":"number","name":"steps","value":10,"options":{"min":1,"max":10000,"step":10,"round":1,"precision":0},"last_y":134},{"type":"number","name":"cfg","value":4,"options":{"min":0,"max":100,"step":5,"round":0.1,"precision":1},"last_y":158},{"type":"combo","name":"sampler_name","value":"dpmpp_2m_sde","options":{"values":["euler","euler_ancestral","heun","heunpp2","dpm_2","dpm_2_ancestral","lms","dpm_fast","dpm_adaptive","dpmpp_2s_ancestral","dpmpp_sde","dpmpp_sde_gpu","dpmpp_2m","dpmpp_2m_sde","dpmpp_2m_sde_gpu","dpmpp_3m_sde","dpmpp_3m_sde_gpu","ddpm","lcm","ddim","uni_pc","uni_pc_bh2"]},"last_y":182},{"type":"combo","name":"scheduler","value":"AYS SD1","options":{"values":["normal","karras","exponential","sgm_uniform","simple","ddim_uniform","AYS SDXL","AYS SD1","AYS SVD"]},"last_y":206},{"type":"number","name":"denoise","value":0.4,"options":{"min":0,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":230},{"type":"combo","name":"noise_mode","value":"GPU(=A1111)","options":{"values":["GPU(=A1111)","CPU"]},"last_y":254},{"type":"combo","name":"batch_seed_mode","value":"incremental","options":{"values":["incremental","comfy","variation str inc:0.01","variation str inc:0.05"]},"last_y":278},{"type":"number","name":"variation_seed","value":0,"options":{"min":0,"max":18446744073709552000,"step":10,"round":1,"precision":0},"last_y":302},{"type":"number","name":"variation_strength","value":0,"options":{"min":0,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":326}],"13":[{"type":"number","name":"scale","value":0.5,"options":{"min":-2,"max":5,"step":1,"round":0.1,"precision":1},"last_y":26},{"type":"number","name":"blur_sigma","value":2,"options":{"min":0,"max":10,"step":1,"round":0.1,"precision":1},"last_y":50}],"15":[{"type":"number","name":"guide_size","value":512,"options":{"min":64,"max":16384,"step":80,"round":1,"precision":0},"last_y":106},{"type":"toggle","name":"guide_size_for","value":true,"options":{"on":"mask bbox","off":"crop region"},"last_y":130},{"type":"number","name":"max_size","value":768,"options":{"min":64,"max":16384,"step":80,"round":1,"precision":0},"last_y":154},{"type":"toggle","name":"mask_mode","value":true,"options":{"on":"masked only","off":"whole"},"last_y":178},{"type":"number","name":"seed","value":709788903192577,"options":{"min":0,"max":18446744073709552000,"step":10,"round":1,"precision":0},"linkedWidgets":[{"type":"combo","name":"control_after_generate","value":"randomize","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":226,"__beforeQueued":null}],"last_y":202},{"type":"combo","name":"control_after_generate","value":"randomize","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":226,"__beforeQueued":null},{"type":"number","name":"steps","value":10,"options":{"min":1,"max":10000,"step":10,"round":1,"precision":0},"last_y":250},{"type":"number","name":"cfg","value":4,"options":{"min":0,"max":100,"step":5,"round":0.1,"precision":1},"last_y":274},{"type":"combo","name":"sampler_name","value":"dpmpp_2m","options":{"values":["euler","euler_ancestral","heun","heunpp2","dpm_2","dpm_2_ancestral","lms","dpm_fast","dpm_adaptive","dpmpp_2s_ancestral","dpmpp_sde","dpmpp_sde_gpu","dpmpp_2m","dpmpp_2m_sde","dpmpp_2m_sde_gpu","dpmpp_3m_sde","dpmpp_3m_sde_gpu","ddpm","lcm","ddim","uni_pc","uni_pc_bh2"]},"last_y":298},{"type":"combo","name":"scheduler","value":"normal","options":{"values":["normal","karras","exponential","sgm_uniform","simple","ddim_uniform","AYS SDXL","AYS SD1","AYS SVD"]},"last_y":322},{"type":"number","name":"denoise","value":1,"options":{"min":0.0001,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":346},{"type":"number","name":"feather","value":40,"options":{"min":0,"max":100,"step":10,"round":1,"precision":0},"last_y":370},{"type":"number","name":"crop_factor","value":1.5,"options":{"min":1,"max":10,"step":1,"round":0.1,"precision":1},"last_y":394},{"type":"number","name":"drop_size","value":10,"options":{"min":1,"max":8192,"step":10,"round":1,"precision":0},"last_y":418},{"type":"number","name":"refiner_ratio","value":0.2,"options":{"min":0,"max":1,"step":5,"round":0.1,"precision":1},"last_y":442},{"type":"number","name":"batch_size","value":1,"options":{"min":1,"max":100,"step":10,"round":1,"precision":0},"last_y":466},{"type":"number","name":"cycle","value":1,"options":{"min":1,"max":10,"step":10,"round":1,"precision":0},"last_y":490},{"type":"toggle","name":"inpaint_model","value":true,"options":{"on":"enabled","off":"disabled"},"last_y":514},{"type":"number","name":"noise_mask_feather","value":20,"options":{"min":0,"max":100,"step":10,"round":1,"precision":0},"last_y":538}],"16":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"combo","name":"interpolation","value":"nearest","options":{"values":["nearest","bilinear","bicubic","area","nearest-exact","lanczos"]},"last_y":114},{"type":"toggle","name":"keep_proportion","value":false,"options":{},"last_y":138},{"type":"combo","name":"condition","value":"always","options":{"values":["always","downscale if bigger","upscale if smaller"]},"last_y":162},{"type":"number","name":"multiple_of","value":0,"options":{"min":0,"max":512,"step":10,"round":1,"precision":0},"last_y":186}],"17":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":65.99998474121094},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":89.99998474121094},{"type":"toggle","name":"keep_proportions","value":false,"options":{},"last_y":113.99998474121094}],"18":[{"type":"text","name":"filename_prefix","value":"ComfyUI","options":{},"last_y":26}],"20":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":65.99996948242188},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":89.99996948242188},{"type":"toggle","name":"keep_proportions","value":false,"options":{},"last_y":113.99996948242188}],"21":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"combo","name":"interpolation","value":"nearest","options":{"values":["nearest","bilinear","bicubic","area","nearest-exact","lanczos"]},"last_y":114},{"type":"toggle","name":"keep_proportion","value":false,"options":{},"last_y":138},{"type":"combo","name":"condition","value":"always","options":{"values":["always","downscale if bigger","upscale if smaller"]},"last_y":162},{"type":"number","name":"multiple_of","value":0,"options":{"min":0,"max":512,"step":10,"round":1,"precision":0},"last_y":186}],"22":[{"type":"number","name":"scale","value":0.5,"options":{"min":-2,"max":5,"step":1,"round":0.1,"precision":1},"last_y":26},{"type":"number","name":"blur_sigma","value":2,"options":{"min":0,"max":10,"step":1,"round":0.1,"precision":1},"last_y":50}],"23":[{"type":"combo","name":"image","value":"83e83d79-0084-4407-87c2-6cf655768a2c.png","options":{"values":[]},"_real_value":"83e83d79-0084-4407-87c2-6cf655768a2c.png","last_y":46},{"type":"button","name":"upload","value":"image","options":{},"label":"choose file to upload","serialize":false,"last_y":70}],"24":[{"type":"combo","name":"control_net_name","value":"control_v11p_sd15_openpose_fp16.safetensors","options":{"values":["OpenPoseXL2.safetensors","bdsqlsz_controlllite_xl_depth.safetensors","bdsqlsz_controlllite_xl_dw_openpose.safetensors","bdsqlsz_controlllite_xl_sketch.safetensors","bdsqlsz_controlllite_xl_t2i-adapter_color_shuffle.safetensors","control_boxdepth_LooseControlfp16.safetensors","control_v11p_sd15_openpose_fp16.safetensors","t2i-adapter-canny-sdxl-1.0.fp16.safetensors","t2i-adapter-depth-midas-sdxl-1.0.fp16.safetensors","t2i-adapter-depth-zoe-sdxl-1.0.fp16.safetensors","t2i-adapter-lineart-sdxl-1.0.fp16.safetensors","t2i-adapter-openpose-sdxl-1.0.safetensors","t2i-adapter-sketch-sdxl-1.0.fp16.safetensors","t2iadapter_openpose_sd14v1.pth"]},"last_y":25.99995708465576}],"25":[{"type":"number","name":"strength","value":1,"options":{"min":0,"max":10,"step":0.1,"round":0.01,"precision":2},"last_y":65.99995803833008}],"28":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"combo","name":"interpolation","value":"nearest","options":{"values":["nearest","bilinear","bicubic","area","nearest-exact","lanczos"]},"last_y":114},{"type":"combo","name":"method","value":"stretch","options":{"values":["stretch","keep proportion","fill / crop","pad"]},"last_y":138},{"type":"combo","name":"condition","value":"always","options":{"values":["always","downscale if bigger","upscale if smaller","if bigger area","if smaller area"]},"last_y":162},{"type":"number","name":"multiple_of","value":0,"options":{"min":0,"max":512,"step":10,"round":1,"precision":0},"last_y":186}],"29":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"toggle","name":"keep_proportions","value":false,"options":{},"last_y":114}],"45":[{"type":"combo","name":"mode","value":"resize only","options":{"values":["rescale","resize"]},"last_y":66},{"type":"combo","name":"supersample","value":0,"options":{"values":["true","false"]},"last_y":90},{"type":"combo","name":"resampling","value":0,"options":{"values":["lanczos","nearest","bilinear","bicubic"]},"last_y":114},{"type":"number","name":"rescale_factor","value":0.5,"options":{"min":0.01,"max":16,"step":0.1,"round":0.01,"precision":2},"last_y":138}],"46":[{"type":"combo","name":"upscale_method","value":"nearest-exact","options":{"values":["nearest-exact","bilinear","area","bicubic","bislerp"]},"last_y":26},{"type":"number","name":"width","value":1024,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":50},{"type":"number","name":"height","value":1024,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":74},{"type":"combo","name":"crop","value":"disabled","options":{"values":["disabled","center"]},"last_y":98}],"47":[{"type":"number","name":"seed","value":728616809258269,"options":{"min":0,"max":18446744073709552000,"step":10,"round":1,"precision":0},"linkedWidgets":[{"type":"combo","name":"control_after_generate","value":"randomize","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":110,"__beforeQueued":null}],"last_y":86},{"type":"combo","name":"control_after_generate","value":"randomize","options":{"values":["fixed","increment","decrement","randomize"],"serialize":false},"label":"control_after_generate","last_y":110,"__beforeQueued":null},{"type":"number","name":"steps","value":5,"options":{"min":1,"max":10000,"step":10,"round":1,"precision":0},"last_y":134},{"type":"number","name":"cfg","value":8,"options":{"min":0,"max":100,"step":1,"round":0.01,"precision":1},"last_y":158},{"type":"combo","name":"sampler_name","value":"dpmpp_3m_sde_gpu","options":{"values":["euler","euler_ancestral","heun","heunpp2","dpm_2","dpm_2_ancestral","lms","dpm_fast","dpm_adaptive","dpmpp_2s_ancestral","dpmpp_sde","dpmpp_sde_gpu","dpmpp_2m","dpmpp_2m_sde","dpmpp_2m_sde_gpu","dpmpp_3m_sde","dpmpp_3m_sde_gpu","ddpm","lcm","ddim","uni_pc","uni_pc_bh2"]},"last_y":182},{"type":"combo","name":"scheduler","value":"simple","options":{"values":["normal","karras","exponential","sgm_uniform","simple","ddim_uniform"]},"last_y":206},{"type":"number","name":"denoise","value":0.5,"options":{"min":0,"max":1,"step":0.1,"round":0.01,"precision":2},"last_y":230}],"48":[{"type":"combo","name":"ckpt_name","value":"v1-5-pruned-emaonly.ckpt","options":{"values":["Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors","awpainting_v13.safetensors","dreamshaperXL_v2TurboDPMSDE.safetensors","realisticVisionV60B1_v51VAE.safetensors","sd-v1-5-inpainting.ckpt","sd_xl_base_1.0.safetensors","sdxl_lightning_1step_x0.safetensors","sdxl_lightning_2step.safetensors","sdxl_lightning_4step.safetensors","sdxl_lightning_8step.safetensors","sdxxxl_v30.safetensors","v1-5-pruned-emaonly.ckpt"]},"last_y":66}],"49":[{"type":"combo","name":"version","value":"SD 1.x","options":{"values":["SDXL","SD 1.x"]},"last_y":26},{"type":"number","name":"upscale","value":2,"options":{"min":1,"max":2,"step":0.1,"round":0.01,"precision":2},"last_y":50}],"54":[{"type":"number","name":"x","value":0,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"y","value":0,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"toggle","name":"resize_source","value":false,"options":{},"last_y":114}],"56":[{"type":"number","name":"dilation","value":0,"options":{"min":-512,"max":512,"step":10,"round":1,"precision":0},"last_y":26}],"57":[{"type":"combo","name":"image","value":"Download (52) (2).png","options":{"values":[]},"_real_value":"Download (52) (2).png","last_y":46},{"type":"button","name":"upload","value":"image","options":{},"label":"choose file to upload","serialize":false,"last_y":70}],"58":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"combo","name":"interpolation","value":"nearest","options":{"values":["nearest","bilinear","bicubic","area","nearest-exact","lanczos"]},"last_y":114},{"type":"toggle","name":"keep_proportion","value":false,"options":{},"last_y":138},{"type":"combo","name":"condition","value":"always","options":{"values":["always","downscale if bigger","upscale if smaller"]},"last_y":162},{"type":"number","name":"multiple_of","value":0,"options":{"min":0,"max":512,"step":10,"round":1,"precision":0},"last_y":186}],"59":[{"type":"combo","name":"channel","value":"red","options":{"values":["red","green","blue","alpha"]},"last_y":26}],"60":[{"type":"number","name":"width","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"height","value":512,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"combo","name":"interpolation","value":"nearest","options":{"values":["nearest","bilinear","bicubic","area","nearest-exact","lanczos"]},"last_y":114},{"type":"toggle","name":"keep_proportion","value":false,"options":{},"last_y":138},{"type":"combo","name":"condition","value":"always","options":{"values":["always","downscale if bigger","upscale if smaller"]},"last_y":162},{"type":"number","name":"multiple_of","value":0,"options":{"min":0,"max":512,"step":10,"round":1,"precision":0},"last_y":186}],"61":[{"type":"number","name":"x","value":0,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":66},{"type":"number","name":"y","value":0,"options":{"min":0,"max":16384,"step":80,"round":1,"precision":0},"last_y":90},{"type":"toggle","name":"resize_source","value":false,"options":{},"last_y":114}],"63":[{"type":"combo","name":"channel","value":"red","options":{"values":["red","green","blue","alpha"]},"last_y":26}],"64":[{"type":"text","name":"filename_prefix","value":"ComfyUI","options":{},"last_y":26}],"66":[{"type":"number","name":"blur","value":0,"options":{"min":0,"max":1023,"step":10,"round":1,"precision":0},"last_y":46},{"type":"number","name":"factor","value":1,"options":{"min":-10,"max":10,"step":0.1,"round":0.01,"precision":2},"last_y":70}],"67":[{"type":"combo","name":"method","value":"wavelet","options":{"values":["wavelet","adain","mkl","hm","reinhard","mvgd","hm-mvgd-hm","hm-mkl-hm"]},"last_y":46},{"type":"combo","name":"image_output","value":"Preview","options":{"values":["Hide","Preview","Save","Hide/Save"]},"last_y":70},{"type":"easyHidden","name":"save_prefix","value":"ComfyUI","options":{},"last_y":94}],"69":[{"type":"combo","name":"method","value":"wavelet","options":{"values":["wavelet","adain","mkl","hm","reinhard","mvgd","hm-mvgd-hm","hm-mkl-hm"]},"last_y":46},{"type":"combo","name":"image_output","value":"Preview","options":{"values":["Hide","Preview","Save","Hide/Save"]},"last_y":70},{"type":"easyHidden","name":"save_prefix","value":"ComfyUI","options":{},"last_y":94}]},"mappings":{"1":[{"fromField":"mergedImage","toField":"image","toIndex":0}],"2":[{"fromField":"prompt","toField":"text","toIndex":0}],"5":[{"fromField":"negativePrompt","toField":"text","toIndex":0}],"9":[{"fromField":"mask","toField":"image","toIndex":0}],"15":[{"fromField":"seed","toField":"seed","toIndex":4}],"18":[{"fromField":"resultImage","toField":"filename_prefix","toIndex":0}],"23":[{"fromField":"controlnet[].image","toField":"image","toIndex":0}]},"forms":{"default":{"elements":[{"name":"number_images","type":"slider","label":"Number images","options":[],"default":1,"min":1,"max":4,"step":1},{"name":"advanced_options","type":"advanced_options","label":"","options":[],"default":""},{"name":"seed","type":"text","label":"Seed","options":[],"default":"","placeholder":"Empty = Random"}]}},"selected_combo_values":[],"models":[{"path":"controlnet/control_v11p_sd15_openpose_fp16.safetensors","URL":"https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11p_sd15_openpose_fp16.safetensors"},{"path":"checkpoints/epicrealism_v10-inpainting.safetensors","URL":"https://civitai.com/api/download/models/95864"}],"description":"still using 512x512 max. needs hires fix. also support for other ControlNet models is missing. Only Pose at the moment."},"ds":{"scale":1,"offset":{"0":141.60009765625,"1":63.20013427734375}}},"version":0.4}
+{
+  "last_node_id": 29,
+  "last_link_id": 59,
+  "nodes": [
+    {
+      "id": 7,
+      "type": "ToBasicPipe",
+      "pos": {
+        "0": 1397,
+        "1": -28,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 241.79998779296875, "1": 326 },
+      "flags": { "collapsed": false },
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        { "name": "model", "type": "MODEL", "link": 59 },
+        { "name": "clip", "type": "CLIP", "link": 7 },
+        { "name": "vae", "type": "VAE", "link": 8 },
+        { "name": "positive", "type": "CONDITIONING", "link": 54 },
+        { "name": "negative", "type": "CONDITIONING", "link": 10 }
+      ],
+      "outputs": [
+        {
+          "name": "basic_pipe",
+          "type": "BASIC_PIPE",
+          "links": [25],
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "ToBasicPipe" },
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 18,
+      "type": "SaveImage",
+      "pos": {
+        "0": 2306,
+        "1": 301,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 482, "1": 610 },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [{ "name": "images", "type": "IMAGE", "link": 35 }],
+      "outputs": [],
+      "properties": { "Node name for S&R": "SaveImage" },
+      "widgets_values": ["ComfyUI"]
+    },
+    {
+      "id": 8,
+      "type": "DenoiseSchedulerDetailerHookProvider",
+      "pos": {
+        "0": 1220,
+        "1": 979,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 302.3999938964844, "1": 82 },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "DETAILER_HOOK",
+          "type": "DETAILER_HOOK",
+          "links": [26],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DenoiseSchedulerDetailerHookProvider"
+      },
+      "widgets_values": ["simple", 0.2],
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 22,
+      "type": "SelfAttentionGuidance",
+      "pos": {
+        "0": 1023,
+        "1": -90,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 315, "1": 82 },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [{ "name": "model", "type": "MODEL", "link": 44 }],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "SelfAttentionGuidance" },
+      "widgets_values": [0.5, 2]
+    },
+    {
+      "id": 24,
+      "type": "ControlNetLoader",
+      "pos": {
+        "0": 1108.7198486328125,
+        "1": 1436.720458984375,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 500.8695983886719, "1": 58 },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [49],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "ControlNetLoader" },
+      "widgets_values": ["control_v11p_sd15_openpose_fp16.safetensors"]
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 918,
+        "1": 369,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 320, "1": 100 },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [{ "name": "clip", "type": "CLIP", "link": 13 }],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [10],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "title": "Negative",
+      "properties": { "Node name for S&R": "CLIPTextEncode" },
+      "widgets_values": ["ugly, naked"],
+      "color": "#571a1a",
+      "bgcolor": "#6b2e2e"
+    },
+    {
+      "id": 2,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 828,
+        "1": 101,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 320, "1": 120 },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        { "name": "clip", "type": "CLIP", "link": 12, "slot_index": 0 }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [50],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "title": "Positive",
+      "properties": { "Node name for S&R": "CLIPTextEncode" },
+      "widgets_values": ["beautiful woman sitting on chair"],
+      "color": "#1a571a",
+      "bgcolor": "#2e6b2e"
+    },
+    {
+      "id": 25,
+      "type": "ControlNetApply",
+      "pos": {
+        "0": 1766.7198486328125,
+        "1": 1545.720458984375,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 317.4000244140625, "1": 98 },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        { "name": "conditioning", "type": "CONDITIONING", "link": 52 },
+        { "name": "control_net", "type": "CONTROL_NET", "link": 49 },
+        { "name": "image", "type": "IMAGE", "link": 48 }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [53],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "ControlNetApply" },
+      "widgets_values": [1]
+    },
+    {
+      "id": 26,
+      "type": "GyreLoopStart",
+      "pos": {
+        "0": 1036,
+        "1": 1245,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 210, "1": 26 },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [{ "name": "ANY", "type": "*", "link": 50 }],
+      "outputs": [
+        {
+          "name": "ANY",
+          "type": "*",
+          "links": [52],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "GyreLoopStart" }
+    },
+    {
+      "id": 27,
+      "type": "GyreLoopEnd",
+      "pos": {
+        "0": 1388,
+        "1": 1228,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 210, "1": 26 },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [{ "name": "ANY", "type": "*", "link": 53 }],
+      "outputs": [
+        {
+          "name": "ANY",
+          "type": "*",
+          "links": [54],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "GyreLoopEnd" }
+    },
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": {
+        "0": 670,
+        "1": 592,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 320, "1": 320 },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [55],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "LoadImage" },
+      "widgets_values": ["6xoex (1).png", "image"],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 9,
+      "type": "LoadImageMask",
+      "pos": {
+        "0": 654,
+        "1": 958,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 315, "1": 318 },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [57],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "LoadImageMask" },
+      "widgets_values": ["mask (2).png", "red", "image"]
+    },
+    {
+      "id": 29,
+      "type": "ResizeMask",
+      "pos": {
+        "0": 1140,
+        "1": 890,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 315, "1": 146 },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [{ "name": "mask", "type": "MASK", "link": 57 }],
+      "outputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [58],
+          "slot_index": 0,
+          "shape": 3
+        },
+        { "name": "width", "type": "INT", "links": null, "shape": 3 },
+        { "name": "height", "type": "INT", "links": null, "shape": 3 }
+      ],
+      "properties": { "Node name for S&R": "ResizeMask" },
+      "widgets_values": [512, 512, false]
+    },
+    {
+      "id": 23,
+      "type": "LoadImage",
+      "pos": {
+        "0": 1129,
+        "1": 1567,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 315, "1": 314 },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [48],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "LoadImage" },
+      "widgets_values": ["83e83d79-0084-4407-87c2-6cf655768a2c.png", "image"]
+    },
+    {
+      "id": 4,
+      "type": "CheckpointLoader|pysssss",
+      "pos": {
+        "0": 287,
+        "1": -29,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 386.4488830566406, "1": 223.23193359375 },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [44, 59],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [7, 12, 13],
+          "slot_index": 1,
+          "shape": 3
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [8],
+          "slot_index": 2,
+          "shape": 3
+        },
+        { "name": "STRING", "type": "STRING", "links": null, "shape": 3 }
+      ],
+      "properties": { "Node name for S&R": "CheckpointLoader|pysssss" },
+      "widgets_values": [
+        { "content": "epicrealism_v10-inpainting.safetensors", "image": null },
+        "[none]"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 15,
+      "type": "MaskDetailerPipe",
+      "pos": {
+        "0": 1701,
+        "1": 340,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 400, "1": 780 },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        { "name": "image", "type": "IMAGE", "link": 56 },
+        { "name": "mask", "type": "MASK", "link": 58 },
+        { "name": "basic_pipe", "type": "BASIC_PIPE", "link": 25 },
+        {
+          "name": "refiner_basic_pipe_opt",
+          "type": "BASIC_PIPE",
+          "link": null
+        },
+        { "name": "detailer_hook", "type": "DETAILER_HOOK", "link": 26 },
+        { "name": "scheduler_func_opt", "type": "SCHEDULER_FUNC", "link": null }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [35],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "cropped_refined",
+          "type": "IMAGE",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "cropped_enhanced_alpha",
+          "type": "IMAGE",
+          "links": null,
+          "shape": 6
+        },
+        {
+          "name": "basic_pipe",
+          "type": "BASIC_PIPE",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "refiner_basic_pipe_opt",
+          "type": "BASIC_PIPE",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": { "Node name for S&R": "MaskDetailerPipe" },
+      "widgets_values": [
+        512,
+        true,
+        768,
+        true,
+        709788903192577,
+        "randomize",
+        10,
+        4,
+        "dpmpp_2m",
+        "normal",
+        1,
+        40,
+        1.5,
+        10,
+        0.2,
+        1,
+        1,
+        true,
+        20,
+        false,
+        true
+      ],
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 28,
+      "type": "ImageResize+",
+      "pos": {
+        "0": 1123,
+        "1": 557,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": { "0": 315, "1": 218 },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [{ "name": "image", "type": "IMAGE", "link": 55 }],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [56],
+          "slot_index": 0,
+          "shape": 3
+        },
+        { "name": "width", "type": "INT", "links": null, "shape": 3 },
+        { "name": "height", "type": "INT", "links": null, "shape": 3 }
+      ],
+      "properties": { "Node name for S&R": "ImageResize+" },
+      "widgets_values": [512, 512, "nearest", "stretch", "always", 0]
+    }
+  ],
+  "links": [
+    [7, 4, 1, 7, 1, "CLIP"],
+    [8, 4, 2, 7, 2, "VAE"],
+    [10, 5, 0, 7, 4, "CONDITIONING"],
+    [12, 4, 1, 2, 0, "CLIP"],
+    [13, 4, 1, 5, 0, "CLIP"],
+    [25, 7, 0, 15, 2, "BASIC_PIPE"],
+    [26, 8, 0, 15, 4, "DETAILER_HOOK"],
+    [35, 15, 0, 18, 0, "IMAGE"],
+    [44, 4, 0, 22, 0, "MODEL"],
+    [48, 23, 0, 25, 2, "IMAGE"],
+    [49, 24, 0, 25, 1, "CONTROL_NET"],
+    [50, 2, 0, 26, 0, "*"],
+    [52, 26, 0, 25, 0, "CONDITIONING"],
+    [53, 25, 0, 27, 0, "*"],
+    [54, 27, 0, 7, 3, "CONDITIONING"],
+    [55, 1, 0, 28, 0, "IMAGE"],
+    [56, 28, 0, 15, 0, "IMAGE"],
+    [57, 9, 0, 29, 0, "MASK"],
+    [58, 29, 0, 15, 1, "MASK"],
+    [59, 4, 0, 7, 0, "MODEL"]
+  ],
+  "groups": [
+    {
+      "title": "controlnet[]",
+      "bounding": [1038, 1344, 1105, 592],
+      "color": "#3f789e",
+      "font_size": 24,
+      "locked": false
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": { "scale": 1, "offset": [141.60009765625, 63.20013427734375] },
+    "gyre": {
+      "lastModified": 1717281015554,
+      "lastModifiedReadable": "2024-06-01 22:30:15",
+      "workflowid": "yy21nzqst9",
+      "tags": ["Inpainting", "ControlNet"],
+      "combo_values": {
+        "schedule_for_cycle": ["simple"],
+        "control_net_name": [
+          "OpenPoseXL2.safetensors",
+          "bdsqlsz_controlllite_xl_depth.safetensors",
+          "bdsqlsz_controlllite_xl_dw_openpose.safetensors",
+          "bdsqlsz_controlllite_xl_sketch.safetensors",
+          "bdsqlsz_controlllite_xl_t2i-adapter_color_shuffle.safetensors",
+          "control_boxdepth_LooseControlfp16.safetensors",
+          "control_v11f1p_sd15_depth.pth",
+          "control_v11p_sd15_openpose_fp16.safetensors",
+          "t2i-adapter-canny-sdxl-1.0.fp16.safetensors",
+          "t2i-adapter-depth-midas-sdxl-1.0.fp16.safetensors",
+          "t2i-adapter-depth-zoe-sdxl-1.0.fp16.safetensors",
+          "t2i-adapter-lineart-sdxl-1.0.fp16.safetensors",
+          "t2i-adapter-openpose-sdxl-1.0.safetensors",
+          "t2i-adapter-sketch-sdxl-1.0.fp16.safetensors",
+          "t2iadapter_openpose_sd14v1.pth",
+          "t2iadapter_sketch_sd14v1.pth"
+        ],
+        "channel": ["alpha", "red", "green", "blue"],
+        "ckpt_name": [
+          {
+            "content": "awpainting_v13.safetensors",
+            "image": null,
+            "title": "awpainting_v13.safetensors"
+          },
+          {
+            "content": "dreamshaperXL_v2TurboDPMSDE.safetensors",
+            "image": null,
+            "title": "dreamshaperXL_v2TurboDPMSDE.safetensors"
+          },
+          {
+            "content": "epicrealism_v10-inpainting.safetensors",
+            "image": null,
+            "title": "epicrealism_v10-inpainting.safetensors"
+          },
+          {
+            "title": "flux",
+            "submenu": {
+              "options": [
+                {
+                  "content": "flux\\flux1-dev-bnb-nf4.safetensors",
+                  "image": null,
+                  "title": "flux1-dev-bnb-nf4.safetensors"
+                }
+              ],
+              "title": "flux"
+            }
+          },
+          {
+            "content": "Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors",
+            "image": null,
+            "title": "Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors"
+          },
+          {
+            "content": "realisticVisionV60B1_v51VAE.safetensors",
+            "image": null,
+            "title": "realisticVisionV60B1_v51VAE.safetensors"
+          },
+          {
+            "content": "sd-v1-5-inpainting.ckpt",
+            "image": null,
+            "title": "sd-v1-5-inpainting.ckpt"
+          },
+          {
+            "content": "sd_xl_base_1.0.safetensors",
+            "image": null,
+            "title": "sd_xl_base_1.0.safetensors"
+          },
+          {
+            "content": "sdxl_lightning_1step_x0.safetensors",
+            "image": null,
+            "title": "sdxl_lightning_1step_x0.safetensors"
+          },
+          {
+            "content": "sdxl_lightning_2step.safetensors",
+            "image": null,
+            "title": "sdxl_lightning_2step.safetensors"
+          },
+          {
+            "content": "sdxl_lightning_4step.safetensors",
+            "image": null,
+            "title": "sdxl_lightning_4step.safetensors"
+          },
+          {
+            "content": "sdxl_lightning_8step.safetensors",
+            "image": null,
+            "title": "sdxl_lightning_8step.safetensors"
+          },
+          {
+            "content": "sdxxxl_v30.safetensors",
+            "image": null,
+            "title": "sdxxxl_v30.safetensors"
+          },
+          {
+            "content": "v1-5-pruned-emaonly.ckpt",
+            "image": null,
+            "title": "v1-5-pruned-emaonly.ckpt"
+          }
+        ],
+        "example": ["[none]"],
+        "control_after_generate": [
+          "fixed",
+          "increment",
+          "decrement",
+          "randomize"
+        ],
+        "sampler_name": [
+          "euler",
+          "euler_cfg_pp",
+          "euler_ancestral",
+          "euler_ancestral_cfg_pp",
+          "heun",
+          "heunpp2",
+          "dpm_2",
+          "dpm_2_ancestral",
+          "lms",
+          "dpm_fast",
+          "dpm_adaptive",
+          "dpmpp_2s_ancestral",
+          "dpmpp_sde",
+          "dpmpp_sde_gpu",
+          "dpmpp_2m",
+          "dpmpp_2m_sde",
+          "dpmpp_2m_sde_gpu",
+          "dpmpp_3m_sde",
+          "dpmpp_3m_sde_gpu",
+          "ddpm",
+          "lcm",
+          "ipndm",
+          "ipndm_v",
+          "deis",
+          "ddim",
+          "uni_pc",
+          "uni_pc_bh2"
+        ],
+        "scheduler": [
+          "normal",
+          "karras",
+          "exponential",
+          "sgm_uniform",
+          "simple",
+          "ddim_uniform",
+          "beta",
+          "AYS SDXL",
+          "AYS SD1",
+          "AYS SVD",
+          "GITS[coeff=1.2]"
+        ],
+        "interpolation": [
+          "nearest",
+          "bilinear",
+          "bicubic",
+          "area",
+          "nearest-exact",
+          "lanczos"
+        ],
+        "method": ["stretch", "keep proportion", "fill / crop", "pad"],
+        "condition": [
+          "always",
+          "downscale if bigger",
+          "upscale if smaller",
+          "if bigger area",
+          "if smaller area"
+        ]
+      },
+      "license": "yes_commercial",
+      "virtualNodes": [],
+      "nodeWidgets": {
+        "1": [
+          {
+            "type": "combo",
+            "name": "image",
+            "value": "6xoex (1).png",
+            "options": { "values": [] },
+            "_real_value": "6xoex (1).png",
+            "last_y": 46
+          },
+          {
+            "type": "button",
+            "name": "upload",
+            "value": "image",
+            "options": {},
+            "label": "choose file to upload",
+            "serialize": false,
+            "last_y": 70
+          }
+        ],
+        "2": [
+          {
+            "type": "customtext",
+            "name": "text",
+            "value": "beautiful woman sitting on chair",
+            "element": {},
+            "options": { "hideOnZoom": true, "selectOn": ["focus", "click"] },
+            "dynamicPrompts": true,
+            "last_y": 26,
+            "computedHeight": 94,
+            "y": 26
+          }
+        ],
+        "3": [
+          {
+            "type": "combo",
+            "name": "ckpt_name",
+            "value": "sd-v1-5-inpainting.ckpt",
+            "options": {
+              "values": [
+                "Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors",
+                "awpainting_v13.safetensors",
+                "dreamshaperXL_v2TurboDPMSDE.safetensors",
+                "realisticVisionV60B1_v51VAE.safetensors",
+                "sd-v1-5-inpainting.ckpt",
+                "sd_xl_base_1.0.safetensors",
+                "sdxl_lightning_1step_x0.safetensors",
+                "sdxl_lightning_2step.safetensors",
+                "sdxl_lightning_4step.safetensors",
+                "sdxl_lightning_8step.safetensors",
+                "sdxxxl_v30.safetensors",
+                "v1-5-pruned-emaonly.ckpt"
+              ]
+            },
+            "last_y": 66
+          }
+        ],
+        "4": [
+          {
+            "type": "combo",
+            "name": "ckpt_name",
+            "value": {
+              "content": "epicrealism_v10-inpainting.safetensors",
+              "image": null
+            },
+            "options": {
+              "values": [
+                {
+                  "content": "awpainting_v13.safetensors",
+                  "image": null,
+                  "title": "awpainting_v13.safetensors"
+                },
+                {
+                  "content": "dreamshaperXL_v2TurboDPMSDE.safetensors",
+                  "image": null,
+                  "title": "dreamshaperXL_v2TurboDPMSDE.safetensors"
+                },
+                {
+                  "content": "epicrealism_v10-inpainting.safetensors",
+                  "image": null,
+                  "title": "epicrealism_v10-inpainting.safetensors"
+                },
+                {
+                  "title": "flux",
+                  "submenu": {
+                    "options": [
+                      {
+                        "content": "flux\\flux1-dev-bnb-nf4.safetensors",
+                        "image": null,
+                        "title": "flux1-dev-bnb-nf4.safetensors"
+                      }
+                    ],
+                    "title": "flux"
+                  }
+                },
+                {
+                  "content": "Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors",
+                  "image": null,
+                  "title": "Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors"
+                },
+                {
+                  "content": "realisticVisionV60B1_v51VAE.safetensors",
+                  "image": null,
+                  "title": "realisticVisionV60B1_v51VAE.safetensors"
+                },
+                {
+                  "content": "sd-v1-5-inpainting.ckpt",
+                  "image": null,
+                  "title": "sd-v1-5-inpainting.ckpt"
+                },
+                {
+                  "content": "sd_xl_base_1.0.safetensors",
+                  "image": null,
+                  "title": "sd_xl_base_1.0.safetensors"
+                },
+                {
+                  "content": "sdxl_lightning_1step_x0.safetensors",
+                  "image": null,
+                  "title": "sdxl_lightning_1step_x0.safetensors"
+                },
+                {
+                  "content": "sdxl_lightning_2step.safetensors",
+                  "image": null,
+                  "title": "sdxl_lightning_2step.safetensors"
+                },
+                {
+                  "content": "sdxl_lightning_4step.safetensors",
+                  "image": null,
+                  "title": "sdxl_lightning_4step.safetensors"
+                },
+                {
+                  "content": "sdxl_lightning_8step.safetensors",
+                  "image": null,
+                  "title": "sdxl_lightning_8step.safetensors"
+                },
+                {
+                  "content": "sdxxxl_v30.safetensors",
+                  "image": null,
+                  "title": "sdxxxl_v30.safetensors"
+                },
+                {
+                  "content": "v1-5-pruned-emaonly.ckpt",
+                  "image": null,
+                  "title": "v1-5-pruned-emaonly.ckpt"
+                }
+              ]
+            },
+            "last_y": 86
+          },
+          {
+            "type": "combo",
+            "name": "example",
+            "value": "[none]",
+            "options": { "values": ["[none]"] },
+            "last_y": 110,
+            "disabled": true
+          }
+        ],
+        "5": [
+          {
+            "type": "customtext",
+            "name": "text",
+            "value": "ugly, naked",
+            "element": {},
+            "options": { "hideOnZoom": true, "selectOn": ["focus", "click"] },
+            "dynamicPrompts": true,
+            "last_y": 26,
+            "computedHeight": 74,
+            "y": 26
+          }
+        ],
+        "6": [
+          {
+            "type": "number",
+            "name": "guide_size",
+            "value": 512,
+            "options": {
+              "min": 64,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 106
+          },
+          {
+            "type": "toggle",
+            "name": "guide_size_for",
+            "value": true,
+            "options": { "on": "mask bbox", "off": "crop region" },
+            "last_y": 130
+          },
+          {
+            "type": "number",
+            "name": "max_size",
+            "value": 768,
+            "options": {
+              "min": 64,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 154
+          },
+          {
+            "type": "toggle",
+            "name": "mask_mode",
+            "value": true,
+            "options": { "on": "masked only", "off": "whole" },
+            "last_y": 178
+          },
+          {
+            "type": "number",
+            "name": "seed",
+            "value": 91348195301351,
+            "options": {
+              "min": 0,
+              "max": 18446744073709552000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "linkedWidgets": [
+              {
+                "type": "combo",
+                "name": "control_after_generate",
+                "value": "randomize",
+                "options": {
+                  "values": ["fixed", "increment", "decrement", "randomize"],
+                  "serialize": false
+                },
+                "label": "control_after_generate",
+                "last_y": 226,
+                "__beforeQueued": null
+              }
+            ],
+            "last_y": 202
+          },
+          {
+            "type": "combo",
+            "name": "control_after_generate",
+            "value": "randomize",
+            "options": {
+              "values": ["fixed", "increment", "decrement", "randomize"],
+              "serialize": false
+            },
+            "label": "control_after_generate",
+            "last_y": 226,
+            "__beforeQueued": null
+          },
+          {
+            "type": "number",
+            "name": "steps",
+            "value": 10,
+            "options": {
+              "min": 1,
+              "max": 10000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 250
+          },
+          {
+            "type": "number",
+            "name": "cfg",
+            "value": 4,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 5,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 274
+          },
+          {
+            "type": "combo",
+            "name": "sampler_name",
+            "value": "dpmpp_2m",
+            "options": {
+              "values": [
+                "euler",
+                "euler_ancestral",
+                "heun",
+                "heunpp2",
+                "dpm_2",
+                "dpm_2_ancestral",
+                "lms",
+                "dpm_fast",
+                "dpm_adaptive",
+                "dpmpp_2s_ancestral",
+                "dpmpp_sde",
+                "dpmpp_sde_gpu",
+                "dpmpp_2m",
+                "dpmpp_2m_sde",
+                "dpmpp_2m_sde_gpu",
+                "dpmpp_3m_sde",
+                "dpmpp_3m_sde_gpu",
+                "ddpm",
+                "lcm",
+                "ddim",
+                "uni_pc",
+                "uni_pc_bh2"
+              ]
+            },
+            "last_y": 298
+          },
+          {
+            "type": "combo",
+            "name": "scheduler",
+            "value": "AYS SD1",
+            "options": {
+              "values": [
+                "normal",
+                "karras",
+                "exponential",
+                "sgm_uniform",
+                "simple",
+                "ddim_uniform",
+                "AYS SDXL",
+                "AYS SD1",
+                "AYS SVD"
+              ]
+            },
+            "last_y": 322
+          },
+          {
+            "type": "number",
+            "name": "denoise",
+            "value": 1,
+            "options": {
+              "min": 0.0001,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 346
+          },
+          {
+            "type": "number",
+            "name": "feather",
+            "value": 40,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 370
+          },
+          {
+            "type": "number",
+            "name": "crop_factor",
+            "value": 2,
+            "options": {
+              "min": 1,
+              "max": 10,
+              "step": 1,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 394
+          },
+          {
+            "type": "number",
+            "name": "drop_size",
+            "value": 10,
+            "options": {
+              "min": 1,
+              "max": 8192,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 418
+          },
+          {
+            "type": "number",
+            "name": "refiner_ratio",
+            "value": 0.2,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 5,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 442
+          },
+          {
+            "type": "number",
+            "name": "batch_size",
+            "value": 1,
+            "options": {
+              "min": 1,
+              "max": 100,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 466
+          },
+          {
+            "type": "number",
+            "name": "cycle",
+            "value": 1,
+            "options": {
+              "min": 1,
+              "max": 10,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 490
+          },
+          {
+            "type": "toggle",
+            "name": "inpaint_model",
+            "value": false,
+            "options": { "on": "enabled", "off": "disabled" },
+            "last_y": 514
+          },
+          {
+            "type": "number",
+            "name": "noise_mask_feather",
+            "value": 20,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 538
+          }
+        ],
+        "8": [
+          {
+            "type": "combo",
+            "name": "schedule_for_cycle",
+            "value": "simple",
+            "options": { "values": ["simple"] },
+            "last_y": 26
+          },
+          {
+            "type": "number",
+            "name": "target_denoise",
+            "value": 0.2,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 50
+          }
+        ],
+        "9": [
+          {
+            "type": "combo",
+            "name": "image",
+            "value": "mask (2).png",
+            "options": { "values": [] },
+            "_real_value": "mask (2).png",
+            "last_y": 26
+          },
+          {
+            "type": "combo",
+            "name": "channel",
+            "value": "red",
+            "options": { "values": ["alpha", "red", "green", "blue"] },
+            "last_y": 50
+          },
+          {
+            "type": "button",
+            "name": "upload",
+            "value": "image",
+            "options": {},
+            "label": "choose file to upload",
+            "serialize": false,
+            "last_y": 74
+          }
+        ],
+        "10": [
+          {
+            "type": "customtext",
+            "name": "text",
+            "value": "",
+            "element": {},
+            "options": { "hideOnZoom": true, "selectOn": ["focus", "click"] },
+            "inputEl": {},
+            "dynamicPrompts": true,
+            "last_y": 25.999972343444824,
+            "computedHeight": 74.00002765655518,
+            "y": 25.999972343444824
+          }
+        ],
+        "11": [
+          {
+            "type": "number",
+            "name": "seed",
+            "value": 103557349876679,
+            "options": {
+              "min": 0,
+              "max": 18446744073709552000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "linkedWidgets": [
+              {
+                "type": "combo",
+                "name": "control_after_generate",
+                "value": "randomize",
+                "options": {
+                  "values": ["fixed", "increment", "decrement", "randomize"],
+                  "serialize": false
+                },
+                "label": "control_after_generate",
+                "last_y": 110,
+                "__beforeQueued": null
+              }
+            ],
+            "last_y": 86
+          },
+          {
+            "type": "combo",
+            "name": "control_after_generate",
+            "value": "randomize",
+            "options": {
+              "values": ["fixed", "increment", "decrement", "randomize"],
+              "serialize": false
+            },
+            "label": "control_after_generate",
+            "last_y": 110,
+            "__beforeQueued": null
+          },
+          {
+            "type": "number",
+            "name": "steps",
+            "value": 10,
+            "options": {
+              "min": 1,
+              "max": 10000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 134
+          },
+          {
+            "type": "number",
+            "name": "cfg",
+            "value": 4,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 5,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 158
+          },
+          {
+            "type": "combo",
+            "name": "sampler_name",
+            "value": "dpmpp_2m_sde",
+            "options": {
+              "values": [
+                "euler",
+                "euler_ancestral",
+                "heun",
+                "heunpp2",
+                "dpm_2",
+                "dpm_2_ancestral",
+                "lms",
+                "dpm_fast",
+                "dpm_adaptive",
+                "dpmpp_2s_ancestral",
+                "dpmpp_sde",
+                "dpmpp_sde_gpu",
+                "dpmpp_2m",
+                "dpmpp_2m_sde",
+                "dpmpp_2m_sde_gpu",
+                "dpmpp_3m_sde",
+                "dpmpp_3m_sde_gpu",
+                "ddpm",
+                "lcm",
+                "ddim",
+                "uni_pc",
+                "uni_pc_bh2"
+              ]
+            },
+            "last_y": 182
+          },
+          {
+            "type": "combo",
+            "name": "scheduler",
+            "value": "AYS SD1",
+            "options": {
+              "values": [
+                "normal",
+                "karras",
+                "exponential",
+                "sgm_uniform",
+                "simple",
+                "ddim_uniform",
+                "AYS SDXL",
+                "AYS SD1",
+                "AYS SVD"
+              ]
+            },
+            "last_y": 206
+          },
+          {
+            "type": "number",
+            "name": "denoise",
+            "value": 0.4,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 230
+          },
+          {
+            "type": "combo",
+            "name": "noise_mode",
+            "value": "GPU(=A1111)",
+            "options": { "values": ["GPU(=A1111)", "CPU"] },
+            "last_y": 254
+          },
+          {
+            "type": "combo",
+            "name": "batch_seed_mode",
+            "value": "incremental",
+            "options": {
+              "values": [
+                "incremental",
+                "comfy",
+                "variation str inc:0.01",
+                "variation str inc:0.05"
+              ]
+            },
+            "last_y": 278
+          },
+          {
+            "type": "number",
+            "name": "variation_seed",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 18446744073709552000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 302
+          },
+          {
+            "type": "number",
+            "name": "variation_strength",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 326
+          }
+        ],
+        "13": [
+          {
+            "type": "number",
+            "name": "scale",
+            "value": 0.5,
+            "options": {
+              "min": -2,
+              "max": 5,
+              "step": 1,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 26
+          },
+          {
+            "type": "number",
+            "name": "blur_sigma",
+            "value": 2,
+            "options": {
+              "min": 0,
+              "max": 10,
+              "step": 1,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 50
+          }
+        ],
+        "15": [
+          {
+            "type": "number",
+            "name": "guide_size",
+            "value": 512,
+            "options": {
+              "min": 64,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 126
+          },
+          {
+            "type": "toggle",
+            "name": "guide_size_for",
+            "value": true,
+            "options": { "on": "mask bbox", "off": "crop region" },
+            "last_y": 150
+          },
+          {
+            "type": "number",
+            "name": "max_size",
+            "value": 768,
+            "options": {
+              "min": 64,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 174
+          },
+          {
+            "type": "toggle",
+            "name": "mask_mode",
+            "value": true,
+            "options": { "on": "masked only", "off": "whole" },
+            "last_y": 198
+          },
+          {
+            "type": "number",
+            "name": "seed",
+            "value": 709788903192577,
+            "options": {
+              "min": 0,
+              "max": 18446744073709552000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "linkedWidgets": [
+              {
+                "type": "combo",
+                "name": "control_after_generate",
+                "value": "randomize",
+                "options": {
+                  "values": ["fixed", "increment", "decrement", "randomize"],
+                  "serialize": false
+                },
+                "tooltip": "Allows the linked widget to be changed automatically, for example randomizing the noise seed.",
+                "label": "control_after_generate",
+                "last_y": 246
+              }
+            ],
+            "last_y": 222
+          },
+          null,
+          {
+            "type": "number",
+            "name": "steps",
+            "value": 10,
+            "options": {
+              "min": 1,
+              "max": 10000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 270
+          },
+          {
+            "type": "number",
+            "name": "cfg",
+            "value": 4,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 5,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 294
+          },
+          {
+            "type": "combo",
+            "name": "sampler_name",
+            "value": "dpmpp_2m",
+            "options": {
+              "values": [
+                "euler",
+                "euler_cfg_pp",
+                "euler_ancestral",
+                "euler_ancestral_cfg_pp",
+                "heun",
+                "heunpp2",
+                "dpm_2",
+                "dpm_2_ancestral",
+                "lms",
+                "dpm_fast",
+                "dpm_adaptive",
+                "dpmpp_2s_ancestral",
+                "dpmpp_sde",
+                "dpmpp_sde_gpu",
+                "dpmpp_2m",
+                "dpmpp_2m_sde",
+                "dpmpp_2m_sde_gpu",
+                "dpmpp_3m_sde",
+                "dpmpp_3m_sde_gpu",
+                "ddpm",
+                "lcm",
+                "ipndm",
+                "ipndm_v",
+                "deis",
+                "ddim",
+                "uni_pc",
+                "uni_pc_bh2"
+              ]
+            },
+            "last_y": 318
+          },
+          {
+            "type": "combo",
+            "name": "scheduler",
+            "value": "normal",
+            "options": {
+              "values": [
+                "normal",
+                "karras",
+                "exponential",
+                "sgm_uniform",
+                "simple",
+                "ddim_uniform",
+                "beta",
+                "AYS SDXL",
+                "AYS SD1",
+                "AYS SVD",
+                "GITS[coeff=1.2]"
+              ]
+            },
+            "last_y": 342
+          },
+          {
+            "type": "number",
+            "name": "denoise",
+            "value": 1,
+            "options": {
+              "min": 0.0001,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 366
+          },
+          {
+            "type": "number",
+            "name": "feather",
+            "value": 40,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 390
+          },
+          {
+            "type": "number",
+            "name": "crop_factor",
+            "value": 1.5,
+            "options": {
+              "min": 1,
+              "max": 10,
+              "step": 1,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 414
+          },
+          {
+            "type": "number",
+            "name": "drop_size",
+            "value": 10,
+            "options": {
+              "min": 1,
+              "max": 16384,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 438
+          },
+          {
+            "type": "number",
+            "name": "refiner_ratio",
+            "value": 0.2,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 5,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 462
+          },
+          {
+            "type": "number",
+            "name": "batch_size",
+            "value": 1,
+            "options": {
+              "min": 1,
+              "max": 100,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 486
+          },
+          {
+            "type": "number",
+            "name": "cycle",
+            "value": 1,
+            "options": {
+              "min": 1,
+              "max": 10,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 510
+          },
+          {
+            "type": "toggle",
+            "name": "inpaint_model",
+            "value": true,
+            "options": { "on": "enabled", "off": "disabled" },
+            "last_y": 534
+          },
+          {
+            "type": "number",
+            "name": "noise_mask_feather",
+            "value": 20,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 558
+          },
+          {
+            "type": "toggle",
+            "name": "bbox_fill",
+            "value": false,
+            "options": { "on": "enabled", "off": "disabled" },
+            "last_y": 582
+          },
+          {
+            "type": "toggle",
+            "name": "contour_fill",
+            "value": true,
+            "options": { "on": "enabled", "off": "disabled" },
+            "last_y": 606
+          }
+        ],
+        "16": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "combo",
+            "name": "interpolation",
+            "value": "nearest",
+            "options": {
+              "values": [
+                "nearest",
+                "bilinear",
+                "bicubic",
+                "area",
+                "nearest-exact",
+                "lanczos"
+              ]
+            },
+            "last_y": 114
+          },
+          {
+            "type": "toggle",
+            "name": "keep_proportion",
+            "value": false,
+            "options": {},
+            "last_y": 138
+          },
+          {
+            "type": "combo",
+            "name": "condition",
+            "value": "always",
+            "options": {
+              "values": ["always", "downscale if bigger", "upscale if smaller"]
+            },
+            "last_y": 162
+          },
+          {
+            "type": "number",
+            "name": "multiple_of",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 512,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 186
+          }
+        ],
+        "17": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 65.99998474121094
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 89.99998474121094
+          },
+          {
+            "type": "toggle",
+            "name": "keep_proportions",
+            "value": false,
+            "options": {},
+            "last_y": 113.99998474121094
+          }
+        ],
+        "18": [
+          {
+            "type": "text",
+            "name": "filename_prefix",
+            "value": "ComfyUI",
+            "options": {},
+            "last_y": 26
+          }
+        ],
+        "20": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 65.99996948242188
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 89.99996948242188
+          },
+          {
+            "type": "toggle",
+            "name": "keep_proportions",
+            "value": false,
+            "options": {},
+            "last_y": 113.99996948242188
+          }
+        ],
+        "21": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "combo",
+            "name": "interpolation",
+            "value": "nearest",
+            "options": {
+              "values": [
+                "nearest",
+                "bilinear",
+                "bicubic",
+                "area",
+                "nearest-exact",
+                "lanczos"
+              ]
+            },
+            "last_y": 114
+          },
+          {
+            "type": "toggle",
+            "name": "keep_proportion",
+            "value": false,
+            "options": {},
+            "last_y": 138
+          },
+          {
+            "type": "combo",
+            "name": "condition",
+            "value": "always",
+            "options": {
+              "values": ["always", "downscale if bigger", "upscale if smaller"]
+            },
+            "last_y": 162
+          },
+          {
+            "type": "number",
+            "name": "multiple_of",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 512,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 186
+          }
+        ],
+        "22": [
+          {
+            "type": "number",
+            "name": "scale",
+            "value": 0.5,
+            "options": {
+              "min": -2,
+              "max": 5,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 26
+          },
+          {
+            "type": "number",
+            "name": "blur_sigma",
+            "value": 2,
+            "options": {
+              "min": 0,
+              "max": 10,
+              "step": 1,
+              "round": 0.1,
+              "precision": 1
+            },
+            "last_y": 50
+          }
+        ],
+        "23": [
+          {
+            "type": "combo",
+            "name": "image",
+            "value": "83e83d79-0084-4407-87c2-6cf655768a2c.png",
+            "options": { "values": [] },
+            "_real_value": "83e83d79-0084-4407-87c2-6cf655768a2c.png",
+            "last_y": 46
+          },
+          {
+            "type": "button",
+            "name": "upload",
+            "value": "image",
+            "options": {},
+            "label": "choose file to upload",
+            "serialize": false,
+            "last_y": 70
+          }
+        ],
+        "24": [
+          {
+            "type": "combo",
+            "name": "control_net_name",
+            "value": "control_v11p_sd15_openpose_fp16.safetensors",
+            "options": {
+              "values": [
+                "OpenPoseXL2.safetensors",
+                "bdsqlsz_controlllite_xl_depth.safetensors",
+                "bdsqlsz_controlllite_xl_dw_openpose.safetensors",
+                "bdsqlsz_controlllite_xl_sketch.safetensors",
+                "bdsqlsz_controlllite_xl_t2i-adapter_color_shuffle.safetensors",
+                "control_boxdepth_LooseControlfp16.safetensors",
+                "control_v11f1p_sd15_depth.pth",
+                "control_v11p_sd15_openpose_fp16.safetensors",
+                "t2i-adapter-canny-sdxl-1.0.fp16.safetensors",
+                "t2i-adapter-depth-midas-sdxl-1.0.fp16.safetensors",
+                "t2i-adapter-depth-zoe-sdxl-1.0.fp16.safetensors",
+                "t2i-adapter-lineart-sdxl-1.0.fp16.safetensors",
+                "t2i-adapter-openpose-sdxl-1.0.safetensors",
+                "t2i-adapter-sketch-sdxl-1.0.fp16.safetensors",
+                "t2iadapter_openpose_sd14v1.pth",
+                "t2iadapter_sketch_sd14v1.pth"
+              ]
+            },
+            "last_y": 26
+          }
+        ],
+        "25": [
+          {
+            "type": "number",
+            "name": "strength",
+            "value": 1,
+            "options": {
+              "min": 0,
+              "max": 10,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 66
+          }
+        ],
+        "28": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "combo",
+            "name": "interpolation",
+            "value": "nearest",
+            "options": {
+              "values": [
+                "nearest",
+                "bilinear",
+                "bicubic",
+                "area",
+                "nearest-exact",
+                "lanczos"
+              ]
+            },
+            "last_y": 114
+          },
+          {
+            "type": "combo",
+            "name": "method",
+            "value": "stretch",
+            "options": {
+              "values": ["stretch", "keep proportion", "fill / crop", "pad"]
+            },
+            "last_y": 138
+          },
+          {
+            "type": "combo",
+            "name": "condition",
+            "value": "always",
+            "options": {
+              "values": [
+                "always",
+                "downscale if bigger",
+                "upscale if smaller",
+                "if bigger area",
+                "if smaller area"
+              ]
+            },
+            "last_y": 162
+          },
+          {
+            "type": "number",
+            "name": "multiple_of",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 512,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 186
+          }
+        ],
+        "29": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "toggle",
+            "name": "keep_proportions",
+            "value": false,
+            "options": {},
+            "last_y": 114
+          }
+        ],
+        "45": [
+          {
+            "type": "combo",
+            "name": "mode",
+            "value": "resize only",
+            "options": { "values": ["rescale", "resize"] },
+            "last_y": 66
+          },
+          {
+            "type": "combo",
+            "name": "supersample",
+            "value": 0,
+            "options": { "values": ["true", "false"] },
+            "last_y": 90
+          },
+          {
+            "type": "combo",
+            "name": "resampling",
+            "value": 0,
+            "options": {
+              "values": ["lanczos", "nearest", "bilinear", "bicubic"]
+            },
+            "last_y": 114
+          },
+          {
+            "type": "number",
+            "name": "rescale_factor",
+            "value": 0.5,
+            "options": {
+              "min": 0.01,
+              "max": 16,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 138
+          }
+        ],
+        "46": [
+          {
+            "type": "combo",
+            "name": "upscale_method",
+            "value": "nearest-exact",
+            "options": {
+              "values": [
+                "nearest-exact",
+                "bilinear",
+                "area",
+                "bicubic",
+                "bislerp"
+              ]
+            },
+            "last_y": 26
+          },
+          {
+            "type": "number",
+            "name": "width",
+            "value": 1024,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 50
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 1024,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 74
+          },
+          {
+            "type": "combo",
+            "name": "crop",
+            "value": "disabled",
+            "options": { "values": ["disabled", "center"] },
+            "last_y": 98
+          }
+        ],
+        "47": [
+          {
+            "type": "number",
+            "name": "seed",
+            "value": 728616809258269,
+            "options": {
+              "min": 0,
+              "max": 18446744073709552000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "linkedWidgets": [
+              {
+                "type": "combo",
+                "name": "control_after_generate",
+                "value": "randomize",
+                "options": {
+                  "values": ["fixed", "increment", "decrement", "randomize"],
+                  "serialize": false
+                },
+                "label": "control_after_generate",
+                "last_y": 110,
+                "__beforeQueued": null
+              }
+            ],
+            "last_y": 86
+          },
+          {
+            "type": "combo",
+            "name": "control_after_generate",
+            "value": "randomize",
+            "options": {
+              "values": ["fixed", "increment", "decrement", "randomize"],
+              "serialize": false
+            },
+            "label": "control_after_generate",
+            "last_y": 110,
+            "__beforeQueued": null
+          },
+          {
+            "type": "number",
+            "name": "steps",
+            "value": 5,
+            "options": {
+              "min": 1,
+              "max": 10000,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 134
+          },
+          {
+            "type": "number",
+            "name": "cfg",
+            "value": 8,
+            "options": {
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "round": 0.01,
+              "precision": 1
+            },
+            "last_y": 158
+          },
+          {
+            "type": "combo",
+            "name": "sampler_name",
+            "value": "dpmpp_3m_sde_gpu",
+            "options": {
+              "values": [
+                "euler",
+                "euler_ancestral",
+                "heun",
+                "heunpp2",
+                "dpm_2",
+                "dpm_2_ancestral",
+                "lms",
+                "dpm_fast",
+                "dpm_adaptive",
+                "dpmpp_2s_ancestral",
+                "dpmpp_sde",
+                "dpmpp_sde_gpu",
+                "dpmpp_2m",
+                "dpmpp_2m_sde",
+                "dpmpp_2m_sde_gpu",
+                "dpmpp_3m_sde",
+                "dpmpp_3m_sde_gpu",
+                "ddpm",
+                "lcm",
+                "ddim",
+                "uni_pc",
+                "uni_pc_bh2"
+              ]
+            },
+            "last_y": 182
+          },
+          {
+            "type": "combo",
+            "name": "scheduler",
+            "value": "simple",
+            "options": {
+              "values": [
+                "normal",
+                "karras",
+                "exponential",
+                "sgm_uniform",
+                "simple",
+                "ddim_uniform"
+              ]
+            },
+            "last_y": 206
+          },
+          {
+            "type": "number",
+            "name": "denoise",
+            "value": 0.5,
+            "options": {
+              "min": 0,
+              "max": 1,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 230
+          }
+        ],
+        "48": [
+          {
+            "type": "combo",
+            "name": "ckpt_name",
+            "value": "v1-5-pruned-emaonly.ckpt",
+            "options": {
+              "values": [
+                "Hyper-SDXL-1step-Unet-Comfyui.fp16.safetensors",
+                "awpainting_v13.safetensors",
+                "dreamshaperXL_v2TurboDPMSDE.safetensors",
+                "realisticVisionV60B1_v51VAE.safetensors",
+                "sd-v1-5-inpainting.ckpt",
+                "sd_xl_base_1.0.safetensors",
+                "sdxl_lightning_1step_x0.safetensors",
+                "sdxl_lightning_2step.safetensors",
+                "sdxl_lightning_4step.safetensors",
+                "sdxl_lightning_8step.safetensors",
+                "sdxxxl_v30.safetensors",
+                "v1-5-pruned-emaonly.ckpt"
+              ]
+            },
+            "last_y": 66
+          }
+        ],
+        "49": [
+          {
+            "type": "combo",
+            "name": "version",
+            "value": "SD 1.x",
+            "options": { "values": ["SDXL", "SD 1.x"] },
+            "last_y": 26
+          },
+          {
+            "type": "number",
+            "name": "upscale",
+            "value": 2,
+            "options": {
+              "min": 1,
+              "max": 2,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 50
+          }
+        ],
+        "54": [
+          {
+            "type": "number",
+            "name": "x",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "y",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "toggle",
+            "name": "resize_source",
+            "value": false,
+            "options": {},
+            "last_y": 114
+          }
+        ],
+        "56": [
+          {
+            "type": "number",
+            "name": "dilation",
+            "value": 0,
+            "options": {
+              "min": -512,
+              "max": 512,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 26
+          }
+        ],
+        "57": [
+          {
+            "type": "combo",
+            "name": "image",
+            "value": "Download (52) (2).png",
+            "options": { "values": [] },
+            "_real_value": "Download (52) (2).png",
+            "last_y": 46
+          },
+          {
+            "type": "button",
+            "name": "upload",
+            "value": "image",
+            "options": {},
+            "label": "choose file to upload",
+            "serialize": false,
+            "last_y": 70
+          }
+        ],
+        "58": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "combo",
+            "name": "interpolation",
+            "value": "nearest",
+            "options": {
+              "values": [
+                "nearest",
+                "bilinear",
+                "bicubic",
+                "area",
+                "nearest-exact",
+                "lanczos"
+              ]
+            },
+            "last_y": 114
+          },
+          {
+            "type": "toggle",
+            "name": "keep_proportion",
+            "value": false,
+            "options": {},
+            "last_y": 138
+          },
+          {
+            "type": "combo",
+            "name": "condition",
+            "value": "always",
+            "options": {
+              "values": ["always", "downscale if bigger", "upscale if smaller"]
+            },
+            "last_y": 162
+          },
+          {
+            "type": "number",
+            "name": "multiple_of",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 512,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 186
+          }
+        ],
+        "59": [
+          {
+            "type": "combo",
+            "name": "channel",
+            "value": "red",
+            "options": { "values": ["red", "green", "blue", "alpha"] },
+            "last_y": 26
+          }
+        ],
+        "60": [
+          {
+            "type": "number",
+            "name": "width",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "height",
+            "value": 512,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "combo",
+            "name": "interpolation",
+            "value": "nearest",
+            "options": {
+              "values": [
+                "nearest",
+                "bilinear",
+                "bicubic",
+                "area",
+                "nearest-exact",
+                "lanczos"
+              ]
+            },
+            "last_y": 114
+          },
+          {
+            "type": "toggle",
+            "name": "keep_proportion",
+            "value": false,
+            "options": {},
+            "last_y": 138
+          },
+          {
+            "type": "combo",
+            "name": "condition",
+            "value": "always",
+            "options": {
+              "values": ["always", "downscale if bigger", "upscale if smaller"]
+            },
+            "last_y": 162
+          },
+          {
+            "type": "number",
+            "name": "multiple_of",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 512,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 186
+          }
+        ],
+        "61": [
+          {
+            "type": "number",
+            "name": "x",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 66
+          },
+          {
+            "type": "number",
+            "name": "y",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 16384,
+              "step": 80,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 90
+          },
+          {
+            "type": "toggle",
+            "name": "resize_source",
+            "value": false,
+            "options": {},
+            "last_y": 114
+          }
+        ],
+        "63": [
+          {
+            "type": "combo",
+            "name": "channel",
+            "value": "red",
+            "options": { "values": ["red", "green", "blue", "alpha"] },
+            "last_y": 26
+          }
+        ],
+        "64": [
+          {
+            "type": "text",
+            "name": "filename_prefix",
+            "value": "ComfyUI",
+            "options": {},
+            "last_y": 26
+          }
+        ],
+        "66": [
+          {
+            "type": "number",
+            "name": "blur",
+            "value": 0,
+            "options": {
+              "min": 0,
+              "max": 1023,
+              "step": 10,
+              "round": 1,
+              "precision": 0
+            },
+            "last_y": 46
+          },
+          {
+            "type": "number",
+            "name": "factor",
+            "value": 1,
+            "options": {
+              "min": -10,
+              "max": 10,
+              "step": 0.1,
+              "round": 0.01,
+              "precision": 2
+            },
+            "last_y": 70
+          }
+        ],
+        "67": [
+          {
+            "type": "combo",
+            "name": "method",
+            "value": "wavelet",
+            "options": {
+              "values": [
+                "wavelet",
+                "adain",
+                "mkl",
+                "hm",
+                "reinhard",
+                "mvgd",
+                "hm-mvgd-hm",
+                "hm-mkl-hm"
+              ]
+            },
+            "last_y": 46
+          },
+          {
+            "type": "combo",
+            "name": "image_output",
+            "value": "Preview",
+            "options": { "values": ["Hide", "Preview", "Save", "Hide/Save"] },
+            "last_y": 70
+          },
+          {
+            "type": "easyHidden",
+            "name": "save_prefix",
+            "value": "ComfyUI",
+            "options": {},
+            "last_y": 94
+          }
+        ],
+        "69": [
+          {
+            "type": "combo",
+            "name": "method",
+            "value": "wavelet",
+            "options": {
+              "values": [
+                "wavelet",
+                "adain",
+                "mkl",
+                "hm",
+                "reinhard",
+                "mvgd",
+                "hm-mvgd-hm",
+                "hm-mkl-hm"
+              ]
+            },
+            "last_y": 46
+          },
+          {
+            "type": "combo",
+            "name": "image_output",
+            "value": "Preview",
+            "options": { "values": ["Hide", "Preview", "Save", "Hide/Save"] },
+            "last_y": 70
+          },
+          {
+            "type": "easyHidden",
+            "name": "save_prefix",
+            "value": "ComfyUI",
+            "options": {},
+            "last_y": 94
+          }
+        ]
+      },
+      "mappings": {
+        "1": [{ "fromField": "mergedImage", "toField": "image", "toIndex": 0 }],
+        "2": [{ "fromField": "prompt", "toField": "text", "toIndex": 0 }],
+        "5": [
+          { "fromField": "negativePrompt", "toField": "text", "toIndex": 0 }
+        ],
+        "9": [{ "fromField": "mask", "toField": "image", "toIndex": 0 }],
+        "15": [{ "fromField": "seed", "toField": "seed", "toIndex": 4 }],
+        "18": [
+          {
+            "fromField": "resultImage",
+            "toField": "filename_prefix",
+            "toIndex": 0
+          }
+        ],
+        "23": [
+          {
+            "fromField": "controlnet[].image",
+            "toField": "image",
+            "toIndex": 0
+          }
+        ]
+      },
+      "forms": {
+        "default": {
+          "elements": [
+            {
+              "name": "number_images",
+              "type": "slider",
+              "label": "Number images",
+              "options": [],
+              "default": 1,
+              "min": 1,
+              "max": 4,
+              "step": 1
+            },
+            {
+              "name": "advanced_options",
+              "type": "advanced_options",
+              "label": "",
+              "options": [],
+              "default": ""
+            },
+            {
+              "name": "seed",
+              "type": "text",
+              "label": "Seed",
+              "options": [],
+              "default": "",
+              "placeholder": "Empty = Random"
+            }
+          ]
+        }
+      },
+      "selected_combo_values": [],
+      "models": [
+        {
+          "path": "controlnet/control_v11p_sd15_openpose_fp16.safetensors",
+          "URL": "https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11p_sd15_openpose_fp16.safetensors"
+        },
+        {
+          "path": "checkpoints/epicrealism_v10-inpainting.safetensors",
+          "URL": "https://civitai.com/api/download/models/95864"
+        }
+      ],
+      "description": "still using 512x512 max. needs hires fix. also support for other ControlNet models is missing. Only Pose at the moment.",
+      "presetType": "workflow",
+      "presetWorkflowId": "rmnw3pq7cw"
+    }
+  },
+  "version": 0.4
+}

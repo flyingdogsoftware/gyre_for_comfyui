@@ -451,7 +451,18 @@ console.log("MAINAPP")
             }
         }
     }
-
+    function getCircularReplacer() {
+    const seen = new WeakSet()
+        return (key, value) => {
+        if (typeof value === "object" && value !== null) {
+            if (seen.has(value)) {
+                return;
+            }
+            seen.add(value);
+        }
+        return value;
+        }
+    }
 
     async function saveWorkflow() {
     //    console.log("saveWorkflow");
@@ -471,13 +482,14 @@ console.log("MAINAPP")
             if (!$metadata.nodeWidgets) $metadata.nodeWidgets={}
             // remove image list from values
             if  (_node && _node.widgets!=void 0) {
-                let newwidgets = JSON.parse(JSON.stringify(_node.widgets));
+                let newwidgets = JSON.parse(JSON.stringify(_node.widgets, getCircularReplacer()))
                 newwidgets.forEach((el) => {
-                    if (el.name == 'image') {
+                    if (el && el.name == 'image') {
                         el.options.values = [];
                     }
                 })
                 $metadata.nodeWidgets[node.id] = newwidgets;
+                console.log(node,newwidgets)
             }
          //   node.widgets=_node.widgets
         }

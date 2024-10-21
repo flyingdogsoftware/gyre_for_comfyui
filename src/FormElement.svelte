@@ -169,6 +169,13 @@
         <!-- svelte-ignore a11y-missing-attribute -->
         Internal File for plugins
     {/if}
+    {#if element.type==="anchor"} 
+        <label for={element.name} class="file_label">{element.label}:</label>
+        <!-- svelte-ignore a11y-missing-attribute -->
+        9 directions Anchor Grid
+    {/if}
+
+
     {#if element.type==="drop_layers"} 
         <label for={element.name} class="layer_drop_layers">{element.label}:</label>
             {#each Array(parseInt(element.num_layers)) as _, i}
@@ -253,7 +260,7 @@
 <div class="element-properties" >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="formClose" on:click={closeProperties}>X</div>
-    {#if element.type !== 'layer_image' &&   element.type !== 'file' && element.type !== 'text_output' && element.type!=="advanced_options"  && element.type!=="custom" && element.type!=="magnifier" && element.type!=="drop_layers"} 
+    {#if element.type !== 'layer_image' &&   element.type !== 'file' && element.type !== 'text_output' && element.type!=="advanced_options"  && element.type!=="custom" && element.type!=="magnifier" && element.type!=="drop_layers" } 
         <div class="formLine" >
             <label for="label">Label:</label>
             <input type="text" name="label" value={element.label} on:input={(e) => updateElement({ label: e.target.value })} />

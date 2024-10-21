@@ -135,5 +135,11 @@
         "label": "File",
         "default": ""
     }            
-
+    ,
+    {
+        "name": "anchor",
+        "type": "anchor",
+        "label": "Anchor",
+        "default": "center"
+    }    
 ]
