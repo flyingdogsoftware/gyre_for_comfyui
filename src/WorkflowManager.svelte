@@ -44,7 +44,6 @@
     function onMouseDown() {
         moving = true;
     }
-console.log("MAINAPP")
     function onMouseMove(e) {
         if (moving) {
             left += e.movementX;
@@ -92,14 +91,70 @@ console.log("MAINAPP")
 
 
     function addExternalLoadListener() {
+
+        let lastLoadedFileName = null; // Variable to store the last loaded file name
+        let lastModifiedTimestamp = null; // Variable to store the last modified timestamp
+
+        // Hook into handleFile to capture the file name and lastModified timestamp
+        const originalHandleFile = window.app.handleFile;
+
+        window.app.handleFile = async function(file) {
+            if (file) {
+                lastLoadedFileName = file.name; // Store the file name
+                lastModifiedTimestamp = file.lastModified; // Store the last modified timestamp
+            }
+            return await originalHandleFile.apply(this, arguments);
+        };
+
+        // Hook into loadGraphData to process the workflow and file details
+        const originalLoadGraphData = window.app.loadGraphData;
+
+        window.app.loadGraphData = function(graph,something=true,noCallback=false) {
+            console.log("noCallback",noCallback)
+            originalLoadGraphData.apply(this, arguments)
+            if (!noCallback)  myCustomCallback(graph, lastLoadedFileName, lastModifiedTimestamp);
+        };
+
+        function myCustomCallback(g, fileName, lastModified) {
+            if (!fileName) return
+            console.log("Gyre: loading ",fileName)
+            new Date(lastModified).toDateString()
+            let fixedfilename = fileName.replace(".json","")
+            fixedfilename = getAvailableFileName(fixedfilename)
+            let graph = window.app.graph.serialize()
+            graph.name = fixedfilename
+            graph.lastModified = lastModified
+            if (!graph.extra?.workspace_info) graph.extra.workspace_info = []
+            graph.extra.workspace_info.name = fixedfilename
+            graph.extra.workspace_info.lastModified = lastModified
+            graph.extra.workspace_info.lastModifiedReadable = new Date(lastModified).toISOString().split('T')[0];
+            if (graph?.extra?.gyre) {
+                    graph.gyre = graph?.extra?.gyre;
+                }
+            if (!graph.extra.gyre) {
+                graph.extra.gyre = {};
+            }
+            graph.extra.gyre.lastModified = lastModified;
+            graph.extra.gyre.lastModifiedReadable = new Date(lastModified).toISOString().split('T')[0];
+            loadedworkflow = graph;
+            loadWorkflow(graph)
+
+            // Add your custom logic here
+        }
+
+return
+/*
         const fileInput = document.getElementById("comfy-file-input");
-        const fileInputListener = async () => {
+        console.log("fileInput",fileInput)
+        const fileInputListener = async (event) => {
+            console.log("CHANGE LISTENER",fileInput.files,event.target.files)
             if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
                 await new Promise(r => setTimeout(r, 500));
                 new Date(fileInput.files[0].lastModified).toDateString()
                 let fixedfilename = fileInput.files[0].name.replace(".json","");
                 fixedfilename = getAvalableFileName(fixedfilename);
-
+console.log("Filename",fixedfilename)
                 let graph = window.app.graph.serialize();
                 graph.name = fixedfilename;
                 graph.lastModified = fileInput.files[0].lastModified
@@ -120,9 +175,9 @@ console.log("MAINAPP")
                 loadWorkflow(graph);
             }
         };
-        fileInput?.addEventListener("change", fileInputListener);
+        fileInput?.addEventListener("change", fileInputListener);*/
     }
-    function getAvalableFileName(name) {
+    function getAvailableFileName(name) {
         if (!name) return 'new'
         return name   
     }
@@ -390,8 +445,8 @@ console.log("MAINAPP")
                 current = $workflowdebugList.find((el) => {
                     return el.name == workflow.name;
                 })
-                let wf = JSON.parse(current.json);
-                window.app.loadGraphData(wf);
+                let wf = JSON.parse(current.json)
+                window.app.loadGraphData(wf,true,true)
                 state="errorlogs"
                 return;
             }
@@ -412,12 +467,12 @@ console.log("MAINAPP")
 
                 if(!wf) wf = JSON.parse(workflow.json);
                 if (!wf.name && name) wf.name = name;
-                window.app.loadGraphData(wf);
+                window.app.loadGraphData(wf,true,true);
                 //window.app.loadGraphData(workflow);
             } else {
                 wf = JSON.parse(current.json);
                 if (!wf.name && name) wf.name = name;
-                window.app.loadGraphData(wf);
+                window.app.loadGraphData(wf,true,true);
             }
 
         state="properties"
@@ -433,7 +488,7 @@ console.log("MAINAPP")
 //        console.log(workflow)
         let parser=new ComfyUIPreparser(workflow)
         await parser.execute(parser.getTestData())
-        window.app.loadGraphData(workflow);
+        window.app.loadGraphData(workflow,true,true);
         $metadata=workflow.extra.gyre
     }
     function showStructure() {
